@@ -1,0 +1,40 @@
+{
+  "name": "portail-tutorat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server/index.js",
+  "contributors": [
+    {
+      "name": "Legot Quentin",
+      "email": "legotquentin@gmail.com",
+      "url": "https://github.com/quentinlegot"
+    },
+    {
+      "name": "Perrouault Océane",
+      "url": "https://github.com/princessesAya"
+    },
+    {
+      "name": "Murray Daniel",
+      "url": "https://github.com/ClearwaterTM"
+    },
+    {
+      "name": "Aubry Joshua"
+    }
+  ],
+  "scripts": {
+    "start": "node src/server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quentinlegot/portail-tutorat.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quentinlegot/portail-tutorat/issues"
+  },
+  "homepage": "https://github.com/quentinlegot/portail-tutorat#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
