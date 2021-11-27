@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/quentinlegot/portail-tutorat#readme",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.1"
   }
 }
