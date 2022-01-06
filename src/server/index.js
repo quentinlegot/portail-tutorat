@@ -4,12 +4,12 @@ import e from 'express'
 import dotenv from 'dotenv'
 import { Router } from './router.js'
 
+dotenv.config()
 const port = process.env.port
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const router = new Router(dirname)
 const app = e()
-dotenv.config()
 
 app.set('view engine', 'ejs')
 app.set('views', path.resolve(dirname, "views"))

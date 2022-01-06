@@ -1,41 +1,43 @@
 import * as path from 'path'
+import './controller/controller.js'
+import Controller from './controller/controller.js'
 
 export class Router {
+
+    controller = new Controller()
 
     constructor(dirname) {
         this.dirname = dirname
     }
 
+    /**
+     * 
+     * @param {Express.core.Express} app 
+     * @param {Express} express
+     */
     route(app, express) {
         app.use('/static', express.static(path.resolve(this.dirname, "static")))
         .get('/', (req, res) => {
-            // accueil
-            res.status(200).render('index', {})
+            this.controller.index(req, res)
         })
         .get('/search', (req, res) => {
-            // page de recherche
-            res.status(200).render('search', {})
+            this.controller.search(req, res)
         })
         .get('/signup', (req, res) => {
-            // page d'inscription
-            res.status(200).render('signup', {})
+            this.controller.signup(req, res)
         })
         .get('/account', (req, res) => {
-            // page d'information de compte
-            res.status(200).render('account', {})
+            this.controller.account(req, res)
         })
         .get('/create', (req, res) => {
-            // page création tutorat
-            res.status(200).render('createTutorat', {})
+            this.controller.createTutorat(req, res)
         })
         .get('/yourTutorat', (req, res) => {
-            // page vos tutorats
-            res.status(200).render('yourTutorat', {})
+            this.controller.yourTutorat(req, res)
         })
         .get('/signin', (req, res) => {
-            // page de connexion
-            res.status(200).render('signin', {})
-        x})
+            this.controller.signin(req, res)
+        })
 }
 
 }
