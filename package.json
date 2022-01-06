@@ -1,9 +1,9 @@
 {
   "name": "portail-tutorat",
   "version": "1.0.0",
-  "description": "",
+  "description": "a Web site that allows the creation of profiles and searching for persons offering private tutoring.",
   "main": "src/server/index.js",
-  "contributors": [
+  "maintainers": [
     {
       "name": "Legot Quentin",
       "email": "legotquentin@gmail.com",
@@ -18,7 +18,9 @@
       "url": "https://github.com/ClearwaterTM"
     },
     {
-      "name": "Aubry Joshua"
+      "name": "Aubry Joshua",
+
+      "url": "https://github.com/FruitDelaPassion"
     }
   ],
   "scripts": {
@@ -38,6 +40,6 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
-    "express": "^4.17.1"
+    "express": "^4.17.2"
   }
 }
