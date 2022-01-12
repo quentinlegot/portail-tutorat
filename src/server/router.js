@@ -1,10 +1,9 @@
 import * as path from 'path'
-import './controller/controller.js'
-import Controller from './controller/controller.js'
+import Root from './controller/root.js'
 
 export class Router {
 
-    controller = new Controller()
+    controller = new Root()
 
     constructor(dirname) {
         this.dirname = dirname
@@ -26,14 +25,20 @@ export class Router {
         .get('/signup', (req, res) => {
             this.controller.signup(req, res)
         })
-        .get('/account', (req, res) => {
-            this.controller.account(req, res)
+        .get('/user', (req, res) => {
+            res.redirect('/user/account')
         })
-        .get('/create', (req, res) => {
-            this.controller.createTutorat(req, res)
+        .get('/user/account', (req, res) => {
+            this.controller.user.account(req, res)
         })
-        .get('/yourTutorat', (req, res) => {
-            this.controller.yourTutorat(req, res)
+        .get('/user/tutorat', (req, res) => {
+            res.redirect('/user/tutorat/list')
+        })
+        .get('/user/tutorat/list', (req, res) => {
+            this.controller.user.tutorat(req, res)
+        })
+        .get('/user/tutorat/create', (req, res) => {
+            this.controller.user.createTutorat(req, res)
         })
         .get('/signin', (req, res) => {
             this.controller.signin(req, res)

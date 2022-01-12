@@ -1,6 +1,8 @@
+import User from'./user.js'
 
+export default class Root {
 
-export default class Controller {
+    user = new User()
 
     /**
      * Accueil
@@ -36,33 +38,6 @@ export default class Controller {
      */
     signin(req, res) {
         res.status(200).render('signin', {})
-    }
-
-    /**
-     * page d'information de compte
-     * @param {*} req 
-     * @param {*} res 
-     */
-    account(req, res) {
-        res.status(200).render('account', {})
-    }
-
-    /**
-     * page création tutorat
-     * @param {*} req 
-     * @param {*} res 
-     */
-    createTutorat(req, res) {
-        res.status(200).render('createTutorat', {})
-    }
-
-    /**
-     * page vos tutorats
-     * @param {*} req 
-     * @param {*} res 
-     */
-    yourTutorat(req, res) {
-        res.status(200).render('yourTutorat', {})
     }
 
 }
