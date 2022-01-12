@@ -15,7 +15,7 @@ export class Router {
      * @param {Express} express
      */
     route(app, express) {
-        app.use('/static', express.static(path.resolve(this.dirname, "static")))
+        app.use('/static', express.static(path.resolve(this.dirname, "..", "static")))
         .get('/', (req, res) => {
             this.controller.index(req, res)
         })
