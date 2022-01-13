@@ -1,7 +1,7 @@
 import * as path from 'path'
 import Root from './controller/root.js'
 
-export class Router {
+export default class Router {
 
     controller = new Root()
 
