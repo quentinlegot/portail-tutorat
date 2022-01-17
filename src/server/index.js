@@ -27,7 +27,7 @@ connection.connect(err => {
     }
 })
 
-const router = new Router(dirname, )
+const router = new Router(dirname, connection)
 const app = e()
 
 app.set('view engine', 'ejs')

@@ -3,10 +3,11 @@ import Root from './controller/root.js'
 
 export default class Router {
 
-    controller = new Root()
 
-    constructor(dirname) {
+    constructor(dirname, connection) {
         this.dirname = dirname
+        this.connection = connection
+        this.controller = new Root(connection)
     }
 
     /**
@@ -16,6 +17,8 @@ export default class Router {
      */
     route(app, express) {
         app.use('/static', express.static(path.resolve(this.dirname, "..", "static")))
+        .use(express.urlencoded({ extended: true }))
+        .use(express.json())
         .get('/', (req, res) => {
             this.controller.index(req, res)
         })
@@ -26,13 +29,13 @@ export default class Router {
             this.controller.signup(req, res)
         })
         .get('/user', (req, res) => {
-            res.redirect('/user/account')
+            res.redirect(301, '/user/account')
         })
         .get('/user/account', (req, res) => {
             this.controller.user.account(req, res)
         })
         .get('/user/tutorat', (req, res) => {
-            res.redirect('/user/tutorat/list')
+            res.redirect(301, '/user/tutorat/list')
         })
         .get('/user/tutorat/list', (req, res) => {
             this.controller.user.tutorat(req, res)
@@ -42,6 +45,9 @@ export default class Router {
         })
         .get('/signin', (req, res) => {
             this.controller.signin(req, res)
+        })
+        .post('/signin', (req, res) => {
+            this.controller.signinForm(req, res)
         })
 }
 
