@@ -1,4 +1,19 @@
 <%- include('header', {title: "Page d'inscription"}) %>
 <h1>Page d'inscription</h1>
-<p>Contenu de la page</p>
+<form method="post">
+    <label for="email">Votre adresse mail:</label><br />
+    <input type="email" name="email" id="email"><br />
+    <label for="confirmEmail">Confirmez votre adresse mail:</label><br />
+    <input type="email" name="confirmEmail" id="confirmEmail"><br />
+    <label for="firstName">Prénom: </label><br />
+    <input type="text" name="firstName" id="firstName"><br />
+    <label for="lastName">Nom: </label><br />
+    <input type="text" name="lastName" id="lastName"><br />
+    <label for="nickname">Votre Pseudonyme: </label><br />
+    <input type="text" name="nickname" id="nickname"><br />
+    <label for="password">Mot de passe:</label><br />
+    <input type="password" name="password" id="password"><br />
+    <label for="confirmPassword">Confirmez votre mot de passe: </label><br />
+    <input type="password" name="confirmPassword" id="confirmPassword"><br />
+</form>
 <%- include('footer') %>

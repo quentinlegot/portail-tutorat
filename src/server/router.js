@@ -27,9 +27,6 @@ export default class Router {
         .get('/search', (req, res) => {
             this.controller.search(req, res)
         })
-        .get('/signup', (req, res) => {
-            this.controller.signup(req, res)
-        })
         .get('/user', (req, res) => {
             res.redirect(301, '/user/account')
         })
@@ -53,6 +50,12 @@ export default class Router {
         })
         .get('/disconnect', (req, res) => {
             this.controller.disconnect(req, res)
+        })
+        .get('/signup', (req, res) => {
+            this.controller.signup(req, res)
+        })
+        .post('/signup', (req, res) => {
+            this.controller.signupForm(req, res)
         })
 }
 

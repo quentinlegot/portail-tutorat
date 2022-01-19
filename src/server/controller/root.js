@@ -40,6 +40,10 @@ export default class Root {
         res.status(200).render('signup', {})
     }
 
+    signupForm(req, res) {
+        res.status(501).send('501: Not Implemented yet')
+    }
+
     /**
      * page de connexion
      * @param {*} req 
