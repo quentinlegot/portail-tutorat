@@ -17,7 +17,9 @@ export default class Root {
      * @param {*} res 
      */
     index(req, res) {
-        res.status(200).render('index', {})
+        let disconnect = req.session.disconnect
+        req.session.disconnect = false
+        res.status(200).render('index', { disconnect })
     }
 
     /**
@@ -44,7 +46,10 @@ export default class Root {
      * @param {*} res 
      */
     signin(req, res) {
-        res.status(200).render('signin', {session: req.session.user, error: req.session.error})
+        let error = req.session.error
+        req.session.error = ""
+        res.status(200).render('signin', {session: req.session.user, error})
+       
     }
 
     signinForm(req, res) {
@@ -74,6 +79,12 @@ export default class Root {
             req.session.error = "Veuillez insérer un email et un mot de passe"
             res.redirect(302, "/signin")
         }
+    }
+
+    disconnect(req, res) {
+        req.session.user = undefined
+        req.session.disconnect = true
+        res.redirect(302, '/')
     }
 
 }

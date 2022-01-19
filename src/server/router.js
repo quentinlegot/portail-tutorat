@@ -51,6 +51,9 @@ export default class Router {
         .post('/signin', (req, res) => {
             this.controller.signinForm(req, res)
         })
+        .get('/disconnect', (req, res) => {
+            this.controller.disconnect(req, res)
+        })
 }
 
 }

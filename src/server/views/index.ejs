@@ -1,4 +1,7 @@
 <%- include('header', {title: "Page d'accueil"}) %>
 <h1>Page d'accueil</h1>
+<% if(disconnect === true) { %>
+    <div id="message">Vous avez été déconnecté</div>
+<% } %>
 <p>Contenu de la page d'accueil</p>
 <%- include('footer') %>
