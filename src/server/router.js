@@ -1,5 +1,6 @@
 import * as path from 'path'
 import Root from './controller/root.js'
+import session from 'express-session'
 
 export default class Router {
 
@@ -19,6 +20,7 @@ export default class Router {
         app.use('/static', express.static(path.resolve(this.dirname, "..", "static")))
         .use(express.urlencoded({ extended: true }))
         .use(express.json())
+        .use(session({ secret: "a secret key", resave: false, saveUninitialized: true }))
         .get('/', (req, res) => {
             this.controller.index(req, res)
         })

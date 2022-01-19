@@ -3,12 +3,18 @@
 <p>Contenu de la page</p>
 <%=error%>
 </body>
-<form method="post" action="?">
-    <label for="email">Votre adresse email:</label><br />
-    <input type="text" name="email" id="email"><br />
-    <label for="password">Votre mot de passe:</label><br />
-    <input type="password" name="password" id="password"><br />
-    <button type="submit">Se connecter</button>
-</form>
+    <% if(session === undefined ) { %>
+        <form method="post" action="?">
+            <label for="email">Votre adresse email:</label><br />
+            <input type="text" name="email" id="email"><br />
+            <label for="password">Votre mot de passe:</label><br />
+            <input type="password" name="password" id="password"><br />
+            <button type="submit">Se connecter</button>
+        </form>
+    <% } else { %>
+        Vous êtes déjà connecté en tant que <%=session.nickname %>
+    <% } %>
+
+
 
 <%- include('footer') %>
