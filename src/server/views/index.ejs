@@ -1,7 +1,33 @@
 <%- include('header', {title: "Page d'accueil"}) %>
-<h1>Page d'accueil</h1>
+
+<header>
+    <div id="baseline">
+        <h1>Portail-Tutorat.com</h1>
+        <h2>Inscrivez vous à des Tutorat sur ce site</h2>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec nibh vitae erat efficitur faucibus. Duis tincidunt, ex in mattis viverra.</p>
+    
+        <ul>
+            <li>Connexion</li>
+            <li>Inscription</li>
+        </ul>
+    </div>
+    
+    
+</header>
+
 <% if(disconnect === true) { %>
     <div id="message">Vous avez été déconnecté</div>
 <% } %>
-<p>Contenu de la page d'accueil</p>
+
+
+<div id="grid">
+    <h1>Présentation de nos services</h1>
+    <p>J'aime Quentin :)</p>
+
+    <img class="gif"
+        src="https://c.tenor.com/35jYii1JKYYAAAAM/alisae-ff14.gif"
+        alt="ouis">
+</div>
+
 <%- include('footer') %>

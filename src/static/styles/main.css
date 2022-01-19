@@ -1,3 +1,32 @@
 body {
-    margin: 0;
+    margin: 2px;
+}
+
+ul#list {
+    list-style: none;
+    text-align: center;
+}
+
+
+ul#list li {
+    display: inline-block;
+    background-color: chocolate;
+} 
+
+header {
+    background-color: #E5E9F2;
+    height: 400px;
+}
+
+#baseline {
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+#grid {
+    display: grid;
+	width: 100%;
+	grid-template-columns: 500px 1fr 1fr;
+	gap: 20px 5px;
 }
