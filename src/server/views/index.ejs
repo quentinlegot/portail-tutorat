@@ -16,8 +16,8 @@
     
 </header>
 
-<% if(disconnect === true) { %>
-    <div id="message">Vous avez été déconnecté</div>
+<% if(message) { %>
+    <div id="message"><%=message%></div>
 <% } %>
 
 
