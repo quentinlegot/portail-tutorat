@@ -1,6 +1,8 @@
 import * as path from 'path'
 import Root from './controller/root.js'
 import session from 'express-session'
+import logging from 'express-logging'
+import logops from 'logops'
 
 export default class Router {
 
@@ -17,7 +19,8 @@ export default class Router {
      * @param {Express} express
      */
     route(app, express) {
-        app.use('/static', express.static(path.resolve(this.dirname, "..", "static")))
+        app.use(logging(logops))
+        .use('/static', express.static(path.resolve(this.dirname, "..", "static")))
         .use(express.urlencoded({ extended: true }))
         .use(express.json())
         .use(session({ secret: "a secret key", resave: false, saveUninitialized: true }))
