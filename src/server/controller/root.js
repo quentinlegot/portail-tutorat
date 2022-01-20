@@ -37,11 +37,38 @@ export default class Root {
      * @param {*} res 
      */
     signup(req, res) {
-        res.status(200).render('signup', {})
+        let error = req.session.error
+        req.session.error = undefined
+        res.status(200).render('signup', {error})
     }
 
     signupForm(req, res) {
-        res.status(501).send('501: Not Implemented yet')
+        let hasGivenAllElements = true
+        let elements = [ "email", "confirmEmail", "firstName", "lastName", "nickname", "password", "confirmPassword"]
+        for(let el of elements) {
+            if(req.body[el] === undefined) {
+                hasGivenAllElements = false
+                break
+            }
+        }
+        if(hasGivenAllElements === true) {
+            if(req.body.email === req.body.confirmEmail) {
+                if(req.body.password === req.body.confirmPassword) {
+                    res.status(501).send('501: Not Implemented yet')
+                } else {
+                    req.session.error = "Votre mot depasse n'est pas identique"
+                    res.redirect(302, "/signup")
+                }
+                
+            } else {
+                req.session.error = "Votre adresse mail n'est pas identique"
+                res.redirect(302, "/signup")
+            }
+            
+        } else {
+            req.session.error = "Veuillez remplir tout les champs de saisie"
+            res.redirect(302, "/signup")
+        }
     }
 
     /**
@@ -60,7 +87,7 @@ export default class Root {
         if(req.body.email !== undefined && req.body.password !== undefined) {
             this.connection.query("SELECT id, nickname, email, password, prenom, nom FROM account WHERE email= " + mysql.escape(req.body.email), function (err, results, fields) {
                 if(err) {
-                    req.session.error = "Uneerreur inconnue est survenu: " + err
+                    req.session.error = "Une erreur inconnue est survenu: " + err
                     res.redirect(302, "/signin")
                 } else {
                     if (Object.keys(results).length === 0) {
