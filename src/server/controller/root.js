@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 export default class Root {
 
     user = new User()
-
+    saltRounds = 10
     
     constructor(connection) {
         this.connection = connection
@@ -17,9 +17,9 @@ export default class Root {
      * @param {*} res 
      */
     index(req, res) {
-        let disconnect = req.session.disconnect
-        req.session.disconnect = false
-        res.status(200).render('index', { disconnect })
+        let message = req.session.message
+        req.session.message = undefined
+        res.status(200).render('index', {message})
     }
 
     /**
@@ -37,11 +37,85 @@ export default class Root {
      * @param {*} res 
      */
     signup(req, res) {
-        res.status(200).render('signup', {})
+        let error = req.session.error
+        req.session.error = undefined
+        res.status(200).render('signup', {error})
     }
 
     signupForm(req, res) {
-        res.status(501).send('501: Not Implemented yet')
+        let hasGivenAllElements = true
+        let elements = [ "email", "confirmEmail", "firstName", "lastName", "nickname", "password", "confirmPassword"]
+        for(let el of elements) {
+            if(req.body[el] === undefined) {
+                hasGivenAllElements = false
+                break
+            }
+        }
+        if(hasGivenAllElements === true) {
+            if(req.body.email === req.body.confirmEmail) {
+                if(req.body.password === req.body.confirmPassword) {
+                    this.connection.query("SELECT nickname, email FROM account WHERE nickname="+ mysql.escape(req.body.nickname) + " OR email="+ mysql.escape(req.body.email), (err, results, fields) => {
+                        if(err) {
+                            req.session.error = "Une erreur interne est survenue"
+                            console.error(err)
+                            res.redirect(302, "/signup")
+                        } else if(Object.keys(results).length === 0) {
+                            bcrypt.genSalt(this.saltRounds, (err, salt) => {
+                                bcrypt.hash(req.body.password, salt, (err, hash) => {
+                                    if(err) {
+                                        req.session.error = "Une erreur interne est survenue"
+                                        console.error(err)
+                                        res.redirect(302, "/signup")
+                                    } else {
+                                        this.connection.query("INSERT INTO account (nickname, email, password, prenom, nom) VALUE (?, ?, ?, ?, ?)", [req.body.nickname, req.body.email, hash, req.body.firstName, req.body.lastName], (err, results) => {
+                                            if(err) {
+                                                req.session.error = "Une erreur interne est survenue"
+                                                console.error(err)
+                                                res.redirect(302, "/signup")
+                                            } else {
+                                                this.connection.query("SELECT id, nickname, email, password, prenom, nom FROM account WHERE id= ?", [results.insertId], (err, results) => {
+                                                    if(err) {
+                                                        req.session.error = "Inscription réussie"
+                                                        res.redirect(302, "/signin")
+                                                    } else {
+                                                        req.session.message = "Inscription réussie"
+                                                        req.session.user = results[0]
+                                                        res.redirect(302, "/")
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+                        } else {
+                            for(el of results) {
+                                if(el.email === req.body.email) {
+                                    req.session.error = "Cette adresse mail est déjà enregistrée dans notre base de données"
+                                    res.redirect(302, "/signup")
+                                    break
+                                } else if (el.password === req.body.password) {
+                                    req.session.error = "Ce pseudonyme n'est pas disponibles"
+                                    res.redirect(302, "/signup")
+                                    break
+                                }
+                            }
+                        }
+                    })
+                } else {
+                    req.session.error = "Votre mot depasse n'est pas identique"
+                    res.redirect(302, "/signup")
+                }
+                
+            } else {
+                req.session.error = "Votre adresse mail n'est pas identique"
+                res.redirect(302, "/signup")
+            }
+            
+        } else {
+            req.session.error = "Veuillez remplir tout les champs de saisie"
+            res.redirect(302, "/signup")
+        }
     }
 
     /**
@@ -58,9 +132,9 @@ export default class Root {
 
     signinForm(req, res) {
         if(req.body.email !== undefined && req.body.password !== undefined) {
-            this.connection.query("SELECT id, nickname, email, password, prenom, nom FROM account WHERE email= " + mysql.escape(req.body.email), function (err, results, fields) {
+            this.connection.query("SELECT id, nickname, email, password, prenom, nom FROM account WHERE email= " + mysql.escape(req.body.email), (err, results, fields) => {
                 if(err) {
-                    req.session.error = "Uneerreur inconnue est survenu: " + err
+                    req.session.error = "Une erreur inconnue est survenu: " + err
                     res.redirect(302, "/signin")
                 } else {
                     if (Object.keys(results).length === 0) {
@@ -87,7 +161,7 @@ export default class Root {
 
     disconnect(req, res) {
         req.session.user = undefined
-        req.session.disconnect = true
+        req.session.message = "Vous avez été déconnecté"
         res.redirect(302, '/')
     }
 
