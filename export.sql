@@ -30,7 +30,7 @@ CREATE TABLE `account` (
   `prenom` varchar(255) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`,`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,8 +39,40 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'Quentinooouuuuuu','qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot');
+INSERT INTO `account` VALUES (1,'Quentinooouuuuuu','qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot'),(4,'quentin','quentin@example.com','$2b$10$x0FjifvZBCSI20/qW/CYUu6y4U/e23EcTbfDgGlRE7OdLQu99cv7O','Quentin','Legot');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tutorat`
+--
+
+DROP TABLE IF EXISTS `tutorat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tutorat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `proposed_by` int(11) DEFAULT NULL,
+  `tags` text DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `place` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `proposed_by` (`proposed_by`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`),
+  CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tutorat`
+--
+
+LOCK TABLES `tutorat` WRITE;
+/*!40000 ALTER TABLE `tutorat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tutorat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +84,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-19 21:55:56
+-- Dump completed on 2022-01-20 23:09:37
