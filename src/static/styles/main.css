@@ -1,17 +1,63 @@
+@font-face {
+    font-family: lato;
+    src: url("/static/fonts/Lato-Regular.ttf");
+}
+
 body {
-    margin: 2px;
+    margin: 0px;
+    color: #8190A5;
+    font-family: lato;
 }
 
 ul#list {
     list-style: none;
-    text-align: center;
 }
 
 
 ul#list li {
     display: inline-block;
-    background-color: chocolate;
+    padding-left: 25px;
+    padding-right: 25px;
 } 
+
+
+ul#list a {
+    color:  #47525E;
+}
+
+
+li#compte {
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    float: right;
+    margin-right: 1em;
+}
+
+a #compte {
+    color: white;
+}
+
+ul#list2 {
+    list-style: none;
+}
+
+ul#list2 li {
+    display: inline-block;
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin: 0 10px 10px 0;
+
+}
+
+#list2 a {
+    color: white;
+}
 
 header {
     background-color: #E5E9F2;
@@ -20,13 +66,32 @@ header {
 
 #baseline {
     position: relative;
-    top:50%;
+    top: 50%;
+    left: 5%;
+    width: fit-content;
     transform: translateY(-50%);
+
+    line-height: 1em;
 }
 
 #grid {
     display: grid;
-	width: 100%;
-	grid-template-columns: 500px 1fr 1fr;
-	gap: 20px 5px;
+    width: fit-content;
+    position: relative;
+    top: 10%;
+	left: 11%;
+    transform: translateY(40%);
+	grid-template-columns: 500px 1fr;
+	gap: 20px 10em;
+
+    text-align: justify;
+}
+
+h1,h2 {
+    color: #47525E;
+}
+
+.test {
+    position: relative;
+    transform: translateY(-20%);
 }
