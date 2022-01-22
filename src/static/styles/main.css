@@ -82,7 +82,7 @@ header {
 	left: 11%;
     transform: translateY(40%);
 	grid-template-columns: 500px 1fr;
-	gap: 20px 10em;
+	gap: 20em;
 
     text-align: justify;
 }
