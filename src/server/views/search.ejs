@@ -4,26 +4,33 @@
     <h1>Tutorat(s) proposés</h1>
 </div>
 
-<div id="grid2">
-    <div>
-        <h2>Tutorat Mathématique</h2>
-        <h3><p>Proposé par MicheMiche</p></h3>
-        <h3><p>email</p></h3>
-    </div>
-
-    <div>
-        <h2>Description :</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
-    
-        <h2>Horaires :</h2>
-        <p>18h-19h</p>
-    </div>
-
-    <div>
-        <ul>
-            <li id="inscris">Je m'inscris</li>
-        </ul>
-    </div>
-
-</div>
+<% if (fatal) { %>
+ <%=fatal%>
+<% } else { %>
+    <% for(tutorat of tutorats) {
+        let date = new Date(tutorat.date) %>
+        <div id="grid2">
+            <div>
+                <h2>Tutorat <%=tutorat.tags%></h2>
+                <h3><p>Proposé par <%=tutorat.proposed_by%></p></h3>
+                <h3><p>email</p></h3>
+            </div>
+        
+            <div>
+                <h2>Description :</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
+            
+                <h2>Horaires :</h2>
+                <p>Le <%=date.getDay()%>-<%=date.getMonth()%>-<%=date.getFullYear()%> <%=tutorat.price%></p>
+            </div>
+        
+            <div>
+                <ul>
+                    <li id="inscris">Je m'inscris</li>
+                </ul>
+            </div>
+        
+        </div>
+    <% } %>
+<% } %>
 <%- include('footer')%>

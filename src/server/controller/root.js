@@ -1,6 +1,7 @@
 import User from './user.js'
 import mysql from 'mysql'
 import bcrypt from 'bcrypt'
+import logops from 'logops'
 
 export default class Root {
 
@@ -28,7 +29,15 @@ export default class Root {
      * @param {*} res 
      */
     search(req, res) {
-        res.status(200).render('search', {})
+        this.connection.query("SELECT * FROM tutorat where customer_id IS NULL AND date > DATE(NOW());", (err, results) => {
+            if(err) {
+                logops.error(err)
+                res.status(200).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}})
+                return
+            }
+            res.status(200).render('search', {fatal: false, tutorats: results})
+        })
+        
     }
 
     /**
@@ -57,20 +66,20 @@ export default class Root {
                     this.connection.query("SELECT nickname, email FROM account WHERE nickname="+ mysql.escape(req.body.nickname) + " OR email="+ mysql.escape(req.body.email), (err, results, fields) => {
                         if(err) {
                             req.session.error = "Une erreur interne est survenue"
-                            console.error(err)
+                            logops.error(err)
                             res.redirect(302, "/signup")
                         } else if(Object.keys(results).length === 0) {
                             bcrypt.genSalt(this.saltRounds, (err, salt) => {
                                 bcrypt.hash(req.body.password, salt, (err, hash) => {
                                     if(err) {
                                         req.session.error = "Une erreur interne est survenue"
-                                        console.error(err)
+                                        logops.error(err)
                                         res.redirect(302, "/signup")
                                     } else {
                                         this.connection.query("INSERT INTO account (nickname, email, password, prenom, nom) VALUE (?, ?, ?, ?, ?)", [req.body.nickname, req.body.email, hash, req.body.firstName, req.body.lastName], (err, results) => {
                                             if(err) {
                                                 req.session.error = "Une erreur interne est survenue"
-                                                console.error(err)
+                                                logops.error(err)
                                                 res.redirect(302, "/signup")
                                             } else {
                                                 this.connection.query("SELECT id, nickname, email, password, prenom, nom FROM account WHERE id= ?", [results.insertId], (err, results) => {
