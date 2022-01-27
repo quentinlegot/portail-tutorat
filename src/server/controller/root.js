@@ -29,7 +29,7 @@ export default class Root {
      * @param {*} res 
      */
     search(req, res) {
-        this.connection.query("SELECT * FROM tutorat where customer_id IS NULL AND date > DATE(NOW());", (err, results) => {
+        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account where customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW());", (err, results) => {
             if(err) {
                 logops.error(err)
                 res.status(200).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}})

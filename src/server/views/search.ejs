@@ -8,12 +8,15 @@
  <%=fatal%>
 <% } else { %>
     <% for(tutorat of tutorats) {
-        let date = new Date(tutorat.date) %>
+        let startdate = new Date(tutorat.startdate) 
+        let hoursDuration = Math.floor(tutorat.duration / 60)
+        let minuteDuration = tutorat.duration - hoursDuration * 60
+        %>
         <div id="grid2">
             <div>
                 <h2>Tutorat <%=tutorat.tags%></h2>
-                <h3><p>Proposé par <%=tutorat.proposed_by%></p></h3>
-                <h3><p>email</p></h3>
+                <h3><p>Proposé par <%=tutorat.nickname%></p></h3>
+                <h3><p><%=tutorat.email%></p></h3>
             </div>
         
             <div>
@@ -21,7 +24,8 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
             
                 <h2>Horaires :</h2>
-                <p>Le <%=date.getDay()%>-<%=date.getMonth()%>-<%=date.getFullYear()%> <%=tutorat.price%></p>
+                <p>Le <%=("0" + startdate.getDay()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
+                    pour une durée de <%=hoursDuration%>h<%=minuteDuration%>m au prix de <%=tutorat.price%>€</p>
             </div>
         
             <div>

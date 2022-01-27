@@ -55,7 +55,8 @@ CREATE TABLE `tutorat` (
   `proposed_by` int(11) DEFAULT NULL,
   `tags` text DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `startdate` datetime DEFAULT NULL,
+  `duration` smallint(5) unsigned DEFAULT NULL,
   `price` float DEFAULT NULL,
   `place` text DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -63,7 +64,7 @@ CREATE TABLE `tutorat` (
   KEY `customer_id` (`customer_id`),
   CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`),
   CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,6 +73,7 @@ CREATE TABLE `tutorat` (
 
 LOCK TABLES `tutorat` WRITE;
 /*!40000 ALTER TABLE `tutorat` DISABLE KEYS */;
+INSERT INTO `tutorat` VALUES (1,1,'maths',NULL,'2022-02-26 12:30:00',120,10,'Caen'),(2,1,'maths',NULL,'2022-02-26 08:30:00',120,15,'Rouen');
 /*!40000 ALTER TABLE `tutorat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -84,4 +86,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-20 23:09:37
+-- Dump completed on 2022-01-27 14:11:47
