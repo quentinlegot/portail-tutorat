@@ -25,7 +25,7 @@
             
                 <h2>Horaires :</h2>
                 <p>Le <%=("0" + startdate.getDay()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
-                    pour une durée de <%=hoursDuration%>h<%=minuteDuration%>m au prix de <%=tutorat.price%>€</p>
+                    pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
         
             <div>
