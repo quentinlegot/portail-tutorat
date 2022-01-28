@@ -1,0 +1,14 @@
+#profil {
+    margin-left: 10%;
+}
+
+#photo {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+
+    text-align: justify;
+}
+
+h3 {
+    text-align: right;
+}
