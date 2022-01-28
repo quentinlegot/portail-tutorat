@@ -29,15 +29,26 @@ export default class Root {
      * @param {*} res 
      */
     search(req, res) {
-        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account where customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW());", (err, results) => {
+        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW());", (err, results) => {
             if(err) {
                 logops.error(err)
-                res.status(200).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}})
+                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}})
                 return
             }
             res.status(200).render('search', {fatal: false, tutorats: results})
         })
         
+    }
+
+    showTutoraDetail(req, res) {
+        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND tutorat.id=" + mysql.escape(req.params.id) +";", (err, results) => {
+            if(err) {
+                logops.error(err)
+                res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})
+                return
+            }
+            res.status(200).render('tutorat/detail', {fatal: false, tutorats: results})
+        })
     }
 
     /**

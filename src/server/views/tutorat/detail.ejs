@@ -1,0 +1,18 @@
+<%
+let title = "" 
+if(tutorats.length === 0 ) {
+    title = "Aucun tutorat disponible à cette adresse"
+} else {
+    title = tutorats[0].tags + " par " + tutorats[0].nickname
+}%>
+<%- include('../header', {title: title, style: "detail"}) %>
+<% if(fatal) { %>
+    <div class="error_message"><%=fatal%></div>
+<% } else { 
+    const tutorat = tutorats[0]
+    %>
+    <h1>Tutorat <%=tutorat.tags%></h1>
+    <h3>Proposé par <%=tutorat.nickname%></h3>
+    <%=JSON.stringify(tutorat)%>
+<% } %>
+<%- include('../footer') %>

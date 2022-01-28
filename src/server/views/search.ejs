@@ -5,7 +5,7 @@
 </div>
 
 <% if (fatal) { %>
- <%=fatal%>
+ <div class="error_message"><%=fatal%></div>
 <% } else { %>
     <% for(tutorat of tutorats) {
         let startdate = new Date(tutorat.startdate) 
