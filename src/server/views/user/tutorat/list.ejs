@@ -1,4 +1,40 @@
 <%- include('../../header', {title: "Vos tutorats", style: "user/tutorat/list"}) %>
-<h1>Page vos tutorats</h1>
-<p>Contenu de la page</p>
+<h1>Vos tutorats</h1>
+
+<div id="tutorat_enregistre">
+    <h2>Vos Tutorats enregistrés :</h1>
+
+    <ul id="formu">
+        <li>
+            <select name="trier" id="trier-select">
+                <option value="" disabled selected>Trier</option>
+                <option value="oui">oui</option>
+            </select>
+        </li>
+    </ul>
+</div>
+   
+<div id="tutorat">
+    <div>
+        <h1>Tutorat Exemple</h2>
+        <h3><p>Proposé par</p></h3>
+        <h3><p>email</p></h3>
+    </div>
+           
+    <div>
+        <h2>Description :</h2>
+            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
+               
+        <h2>Horaires :</h2>
+            <p class="description">21h-20h</p>
+    </div>
+           
+    <div class="jesaispas">
+        <ul>
+            <li id="modifier">Modifier</li>
+        </ul>
+    </div>
+           
+</div>
+
 <%- include('../../footer') %>

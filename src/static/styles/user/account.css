@@ -1,14 +1,32 @@
 #profil {
-    margin-left: 10%;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    margin-top: 4%;
+    border-top: 1px solid #8492A6;
 }
 
 #photo {
     display: grid;
     grid-template-columns: 350px 1fr;
 
+    border-left: 1px solid #8492A6;
+    padding-top: 5%;
+    padding-left: 4%;
     text-align: justify;
 }
 
-h3 {
-    text-align: right;
+#infos {
+    width: 450px;
+}
+
+ul#modifier {
+    list-style: none;
+    text-align: center;
+}
+
+ul#modifier li{
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 8px;
+    width: 150px;
 }

@@ -3,6 +3,10 @@
     src: url("/static/fonts/Lato-Regular.ttf");
 }
 
+nav {
+    border-bottom: 2px solid#E5E9F2;
+}
+
 body {
     margin: 0px;
     color: #8190A5;
@@ -34,6 +38,7 @@ li#compte {
     padding-right: 20px;
     float: right;
     margin-right: 1em;
+    
 }
 
 a #compte {
@@ -62,6 +67,8 @@ ul#list2 li {
 header {
     background-color: #E5E9F2;
     height: 400px;
+    top: -21px;
+    position: relative;
 }
 
 #baseline {

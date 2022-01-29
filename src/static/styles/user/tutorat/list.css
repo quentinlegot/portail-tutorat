@@ -1,0 +1,46 @@
+h1,h2,h3 {
+    text-align: center;
+}
+
+#tutorat {
+    background-color: #D7D7D7;
+    display: grid;
+    grid-template-columns: 300px 1fr 1fr;
+    gap: 10%;
+}
+
+.description {
+    text-align: center;
+    color: #1C1C1C;
+}
+
+
+.jesaispas {
+    align-self: center;
+}
+
+li#modifier {
+    text-align: center;
+    list-style: none;
+    padding: 3%;
+    width: 120px;
+    border: 2px solid #47525E;
+    border-radius: 5px;
+}
+
+#tutorat_enregistre {
+    display: grid;
+    grid-template-columns: 400px 200px;
+    gap: 100px;
+    border-top: 1px solid #8492A6;
+    padding-bottom: 2%;
+}
+
+
+ul#formu {
+    list-style: none;
+    text-align: center;
+    padding-top: 5%;
+}
+
+
