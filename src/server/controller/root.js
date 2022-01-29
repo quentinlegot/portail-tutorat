@@ -29,19 +29,32 @@ export default class Root {
      * @param {*} res 
      */
     search(req, res) {
-        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW());", (err, results) => {
+        this.connection.query("SELECT tutorat.*, account.nickname, account.email, tags.content as tags " + 
+        "FROM tutorat, account, tags WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + this.categorieFilter(req) + ";"+ 
+        "SELECT * FROM tags;",
+         (err, results) => {
             if(err) {
                 logops.error(err)
-                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}})
+                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}, tags: {}, selectedCategorie: ""})
                 return
             }
-            res.status(200).render('search', {fatal: false, tutorats: results})
+            res.status(200).render('search', {fatal: false, tutorats: results[0], tags: results[1], selectedCategorie: req.query.categorie ? req.query.categorie : ""})
         })
-        
+    }
+
+    categorieFilter(req) {
+        if(req.query.categorie) {
+            const id = parseInt(req.query.categorie)
+            if(!Number.isNaN(id)) {
+                return " AND tags_id=" + mysql.escape(id)
+            }
+            return ""
+        }
+        return ""
     }
 
     showTutoraDetail(req, res) {
-        this.connection.query("SELECT tutorat.*, account.nickname, account.email FROM tutorat, account WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND tutorat.id=" + mysql.escape(req.params.id) +";", (err, results) => {
+        this.connection.query("SELECT tutorat.*, account.nickname, account.email, tags.content as tags FROM tutorat, account, tags WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", (err, results) => {
             if(err) {
                 logops.error(err)
                 res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})

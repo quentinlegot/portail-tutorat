@@ -44,6 +44,30 @@ INSERT INTO `account` VALUES (1,'Quentinooouuuuuu','qlegot@gmail.com','$2b$10$NX
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tags`
+--
+
+DROP TABLE IF EXISTS `tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(75) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tags`
+--
+
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO `tags` VALUES (1,'Mathématique'),(2,'Langues'),(3,'Informatique'),(4,'Autres'),(5,'Physique'),(6,'Chimie');
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tutorat`
 --
 
@@ -53,7 +77,8 @@ DROP TABLE IF EXISTS `tutorat`;
 CREATE TABLE `tutorat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `proposed_by` int(11) DEFAULT NULL,
-  `tags` text DEFAULT NULL,
+  `tags_id` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `startdate` datetime DEFAULT NULL,
   `duration` smallint(5) unsigned DEFAULT NULL,
@@ -62,8 +87,10 @@ CREATE TABLE `tutorat` (
   PRIMARY KEY (`id`),
   KEY `proposed_by` (`proposed_by`),
   KEY `customer_id` (`customer_id`),
+  KEY `tags_id` (`tags_id`),
   CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`),
-  CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`)
+  CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`),
+  CONSTRAINT `tutorat_ibfk_3` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -73,7 +100,7 @@ CREATE TABLE `tutorat` (
 
 LOCK TABLES `tutorat` WRITE;
 /*!40000 ALTER TABLE `tutorat` DISABLE KEYS */;
-INSERT INTO `tutorat` VALUES (1,1,'maths',NULL,'2022-02-26 12:30:00',120,10,'Caen'),(2,1,'maths',NULL,'2022-02-26 08:30:00',120,15,'Rouen');
+INSERT INTO `tutorat` VALUES (1,1,1,NULL,NULL,'2022-02-26 12:30:00',120,10,'Caen'),(2,1,3,NULL,NULL,'2022-02-26 08:30:00',120,15,'Rouen');
 /*!40000 ALTER TABLE `tutorat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -86,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-27 14:11:47
+-- Dump completed on 2022-01-29 17:20:57

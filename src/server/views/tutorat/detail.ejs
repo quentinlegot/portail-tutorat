@@ -12,7 +12,8 @@ if(tutorats.length === 0 ) {
     const tutorat = tutorats[0]
     %>
     <h1>Tutorat <%=tutorat.tags%></h1>
-    <h3>Proposé par <%=tutorat.nickname%></h3>
+    <h3>Proposé par <%=tutorat.nickname%><small>&lt<%=tutorat.email%>&gt</small></h3>
+
     <%=JSON.stringify(tutorat)%>
 <% } %>
 <%- include('../footer') %>
