@@ -4,6 +4,39 @@
     <h1>Tutorat(s) proposés</h1>
 </div>
 
+<ul id="formu">
+    <li>
+        <select name="categorie" id="categorie-select">
+            <option value="" disabled selected>Catégorie</option>
+            <option value="langue">Langues</option>
+            <option value="mathematiques">Mathématiques</option>
+            <option value="chimie">Chimie</option>
+            <option value="physique">Physique</option>
+        </select>
+    </li>
+    <li>
+        <select name="horaires" id="horaires-select">
+            <option value="" disabled selected>Horaires</option>
+            <option value="langue">15h-16h</option>
+        </select>
+    </li>
+    <li>
+        <select name="adresses" id="adresses-select">
+            <option value="" disabled selected>Adresses</option>
+            <option value="langue">oui</option>
+        </select>
+    </li>
+    <li>
+        <select name="ordre" id="ordre-select">
+            <option value="" disabled selected>Ordre</option>
+            <option value="prix">Prix</option>
+            <option value="proximité">Proximité</option>
+            <option value="durée">Durée</option>
+        </select>
+    </li>
+</ul>
+
+
 <% if (fatal) { %>
  <div class="error_message"><%=fatal%></div>
 <% } else { %>
@@ -12,6 +45,7 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
         %>
+
         <div id="grid2">
             <div>
                 <h2>Tutorat <%=tutorat.tags%></h2>
@@ -28,7 +62,7 @@
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
         
-            <div>
+            <div class="jesaispas">
                 <ul>
                     <li id="inscris">Je m'inscris</li>
                 </ul>
