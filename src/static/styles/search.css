@@ -1,5 +1,5 @@
 .tutorat {
-    padding-top: 2px;
+    padding-top: 2%;
     padding-bottom: 2px;
 }
 
@@ -22,7 +22,9 @@ h1,h2,h3 {
 li#inscris {
     list-style: none;
     margin-left: 10%;
-    padding: 2%;
+    padding: 3%;
+    padding-right: 5%;
+    padding-left: 5%;
     width: fit-content;
     border: 2px solid #47525E;
     border-radius: 5px;
@@ -51,5 +53,15 @@ select {
     border: 2px solid #47525E;
     border-radius: 5px;
     width: 100px;
+}
 
+#nom {
+    padding-top: 7%;
+}
+
+select {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 185px;
+    height: 38px;
 }
