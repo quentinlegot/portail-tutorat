@@ -7,11 +7,10 @@
 <ul id="formu">
     <li>
         <select name="categorie" id="categorie-select">
-            <option value="" disabled selected>Catégorie</option>
-            <option value="langue">Langues</option>
-            <option value="mathematiques">Mathématiques</option>
-            <option value="chimie">Chimie</option>
-            <option value="physique">Physique</option>
+            <option value="0">Catégorie</option>
+            <% for(tag of tags) { %>
+                <option value="<%=tag.id%>" <% if(!Number.isNaN(selectedCategorie) && selectedCategorie === tags.id) %>><%=tag.content%></option>
+            <% } %>
         </select>
     </li>
     <li>
@@ -71,4 +70,5 @@
         </div>
     <% } %>
 <% } %>
+<script src="/static/scripts/search.js"></script>
 <%- include('footer')%>

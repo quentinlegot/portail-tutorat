@@ -16,7 +16,8 @@ let connection = mysql.createConnection({
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USERNAME,
     password: process.env.MYSQL_PASSWORD,
-    charset: "utf8"
+    charset: "utf8",
+    multipleStatements: true
 })
 
 connection.connect(err => {
