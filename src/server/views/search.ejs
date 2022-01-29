@@ -4,41 +4,39 @@
     <h1>Tutorat(s) proposés</h1>
 </div>
 
-<ul id="formu">
-    <li>
-        <select name="categorie" id="categorie-select">
-            <option value="0">Catégorie</option>
-            <% for(tag of tags) { %>
-                <option value="<%=tag.id%>" <% if(!Number.isNaN(selectedCategorie) && selectedCategorie === tags.id) %>><%=tag.content%></option>
-            <% } %>
-        </select>
-    </li>
-    <li>
-        <select name="horaires" id="horaires-select">
-            <option value="" disabled selected>Horaires</option>
-            <option value="langue">15h-16h</option>
-        </select>
-    </li>
-    <li>
-        <select name="adresses" id="adresses-select">
-            <option value="" disabled selected>Adresses</option>
-            <option value="langue">oui</option>
-        </select>
-    </li>
-    <li>
-        <select name="ordre" id="ordre-select">
-            <option value="" disabled selected>Ordre</option>
-            <option value="prix">Prix</option>
-            <option value="proximité">Proximité</option>
-            <option value="durée">Durée</option>
-        </select>
-    </li>
-</ul>
-
-
 <% if (fatal) { %>
  <div class="error_message"><%=fatal%></div>
 <% } else { %>
+    <ul id="formu">
+        <li>
+            <select name="categorie" id="categorie-select">
+                <option value="0">Catégorie</option>
+                <% for(tag of tags) { %>
+                    <option value="<%=tag.id%>" <% if(!Number.isNaN(selectedCategorie) && selectedCategorie === tag.id) { %>selected<% } %>><%=tag.content%></option>
+                <% } %>
+            </select>
+        </li>
+        <li>
+            <select name="horaires" id="horaires-select">
+                <option value="" disabled selected>Horaires</option>
+                <option value="langue">15h-16h</option>
+            </select>
+        </li>
+        <li>
+            <select name="adresses" id="adresses-select">
+                <option value="" disabled selected>Adresses</option>
+                <option value="langue">oui</option>
+            </select>
+        </li>
+        <li>
+            <select name="ordre" id="ordre-select">
+                <option value="0">Ordre</option>
+                <option value="1" <% if(!Number.isNaN(selectedOrder) && selectedOrder === 1) {%>selected<% } %>>Prix</option>
+                <option value="2" <% if(!Number.isNaN(selectedOrder) && selectedOrder === 2) {%>selected<% } %>>Proximité</option>
+                <option value="3" <% if(!Number.isNaN(selectedOrder) && selectedOrder === 3) {%>selected<% } %>>Durée</option>
+            </select>
+        </li>
+    </ul>
     <% for(tutorat of tutorats) {
         let startdate = new Date(tutorat.startdate) 
         let hoursDuration = Math.floor(tutorat.duration / 60)

@@ -7,6 +7,12 @@ export default class Root {
 
     user = new User()
     saltRounds = 10
+    order_filter = { 
+        0: "", 
+        1: "ORDER BY PRICE ASC",
+        2: "ORDER BY place",
+        3: "ORDER BY DURATION ASC"
+    }
     
     constructor(connection) {
         this.connection = connection
@@ -30,15 +36,19 @@ export default class Root {
      */
     search(req, res) {
         this.connection.query("SELECT tutorat.*, account.nickname, account.email, tags.content as tags " + 
-        "FROM tutorat, account, tags WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + this.categorieFilter(req) + ";"+ 
+        "FROM tutorat, account, tags "+ 
+        "WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + 
+        this.categorieFilter(req) + " " + this.orderFilter(req) + ";"+ 
         "SELECT * FROM tags;",
          (err, results) => {
             if(err) {
                 logops.error(err)
-                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: {}, tags: {}, selectedCategorie: ""})
+                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
                 return
             }
-            res.status(200).render('search', {fatal: false, tutorats: results[0], tags: results[1], selectedCategorie: req.query.categorie ? req.query.categorie : ""})
+            res.status(200).render('search', {fatal: false, tutorats: results[0], tags: results[1], 
+                selectedCategorie: req.query.categorie ? parseInt(req.query.categorie) : "", 
+                selectedOrder: req.query.order ? parseInt(req.query.order) : ""})
         })
     }
 
@@ -47,6 +57,17 @@ export default class Root {
             const id = parseInt(req.query.categorie)
             if(!Number.isNaN(id)) {
                 return " AND tags_id=" + mysql.escape(id)
+            }
+            return ""
+        }
+        return ""
+    }
+
+    orderFilter(req) {
+        if(req.query.order) {
+            const id = parseInt(req.query.order)
+            if(!Number.isNaN(id) && id in this.order_filter) {
+                return this.order_filter[id]
             }
             return ""
         }

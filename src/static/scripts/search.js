@@ -1,6 +1,7 @@
 const categorieSelect = document.querySelector("#categorie-select");
+const orderSelect = document.querySelector("#ordre-select");
 
-const filter = {"categorie": categorieSelect };
+const filter = {"categorie": categorieSelect, "order": orderSelect };
 
 let filterChange = () => {
     let url = window.location.origin + window.location.pathname + "?";
@@ -13,3 +14,4 @@ let filterChange = () => {
 };
 
 categorieSelect.addEventListener("change", filterChange);
+orderSelect.addEventListener("change", filterChange)
