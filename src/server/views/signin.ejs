@@ -1,22 +1,33 @@
 <%- include('header', {title: "Page de connexion", style: "signin"}) %>
-<h1>Connectez-vous</h1>
-<%=error%>
+
+<div id="page_connexion">
+    <h1>Connexion</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec nibh vitae...</p>
+
+    <%=error%>
 </body>
-    <% if(session === undefined ) { %>
-        <form method="post" action="?">
-            <label for="email">Votre adresse email:</label><br />
-            <input type="text" name="email" id="email"><br />
-            <label for="password">Votre mot de passe:</label><br />
-            <input type="password" name="password" id="password"><br />
-            <button type="submit">Se connecter</button>
-        </form>
-    <% } else { %>
-        Vous êtes déjà connecté en tant que <%=session.nickname %>
-        <p>
-            <a href="/disconnect"><button>Déconnexion</button></a>
-        </p>
-    <% } %>
+        <% if(session === undefined ) { %>
+            <form method="post" action="?">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="email" id="email" placeholder="Email"></td></tr>
+                            <tr><td><input type="password" name="password" id="password" placeholder="Mot de Passe"></td></tr>
+                            <tr><td><button type="submit">Connexion</button></td></tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        <% } else { %>
+            Vous êtes déjà connecté en tant que <%=session.nickname %>
+            <p>
+                <a href="/disconnect"><button>Déconnexion</button></a>
+            </p>
+        <% } %>
 
+    <p>Mot de passe oublié ?</p>
 
+</div>
 
 <%- include('footer') %>

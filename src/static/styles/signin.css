@@ -1,0 +1,26 @@
+#page_connexion {
+    text-align: center;
+}
+
+input {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 180px;
+    height: 30px;
+}
+
+table {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-spacing: 3px;
+}
+
+button {
+    width: 180px;
+    height: 30px;
+    background-color: #47525E;
+    border: 1px solid #47525E;
+    border-radius: 5px;
+    color: white;
+}
