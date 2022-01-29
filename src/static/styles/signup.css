@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+}
+
+#formulaire {
+    border-top: 1px solid #8492A6;
+    padding: 3%;
+}
+
+button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 2%;
+}
+
+input {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 180px;
+    height: 30px;
+}
+
+table {
+    border-spacing: 10px;
+}

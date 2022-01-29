@@ -9,6 +9,19 @@ h1,h2,h3 {
     gap: 10%;
 }
 
+ul#nouveau_tutorat {
+    list-style: none;
+    text-align: center;
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 8px;
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 3%;
+}
+
 .description {
     text-align: center;
     color: #1C1C1C;
@@ -36,11 +49,8 @@ li#modifier {
     padding-bottom: 2%;
 }
 
-
 ul#formu {
     list-style: none;
     text-align: center;
     padding-top: 5%;
 }
-
-

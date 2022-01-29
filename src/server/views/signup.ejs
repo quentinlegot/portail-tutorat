@@ -1,21 +1,32 @@
 <%- include('header', {title: "Page d'inscription", style: "signup"}) %>
-<h1>Page d'inscription</h1>
+
+<h1>Inscription</h1>
+
 <%=error%>
-<form method="post">
-    <label for="email">Votre adresse mail:</label><br />
-    <input type="email" name="email" id="email"><br />
-    <label for="confirmEmail">Confirmez votre adresse mail:</label><br />
-    <input type="email" name="confirmEmail" id="confirmEmail"><br />
-    <label for="firstName">Prénom: </label><br />
-    <input type="text" name="firstName" id="firstName"><br />
-    <label for="lastName">Nom: </label><br />
-    <input type="text" name="lastName" id="lastName"><br />
-    <label for="nickname">Votre Pseudonyme: </label><br />
-    <input type="text" name="nickname" id="nickname"><br />
-    <label for="password">Mot de passe:</label><br />
-    <input type="password" name="password" id="password"><br />
-    <label for="confirmPassword">Confirmez votre mot de passe: </label><br />
-    <input type="password" name="confirmPassword" id="confirmPassword"><br />
-    <button type="submit">Confirmer</button>
-</form>
+<div id="formulaire">
+    <form method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="email"><h3 style="display: inline;">Adresse mail :</h3></label></td>
+                    <td><input type="email" name="email" id="email" placeholder="Email"></td></tr>
+                    <tr><td><label for="confirmEmail"><h3 style="display: inline;">Confirmez votre adresse mail :</h3></label></td>
+                    <td><input type="email" name="confirmEmail" id="confirmEmail"></td></tr>
+                    <tr><td><label for="firstName"><h3 style="display: inline;">Votre Nom / Prénom :</h3></label></td>
+                    <td><input type="text" name="lastName" id="lastName" placeholder="Nom"></td>
+                    <td><input type="text" name="firstName" id="firstName" placeholder="Prénom"></td></tr>
+                    <tr><td><label for="nickname"><h3 style="display: inline;">Votre Pseudonyme :</h3></label></td>
+                    <td><input type="text" name="nickname" id="nickname"></td></tr>
+                    <tr><td><label for="password"><h3 style="display: inline;">Mot de passe :</h3></label></td>
+                    <td><input type="password" name="password" id="password" placeholder="Mot de Passe"></td></tr>
+                    <tr><td><label for="confirmPassword"><h3 style="display: inline;">Confirmez votre mot de passe :</h3></label></td>
+                    <td><input type="password" name="confirmPassword" id="confirmPassword"></td></tr>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">Confirmer</button>
+    </form>
+</div>
+
+
 <%- include('footer') %>
