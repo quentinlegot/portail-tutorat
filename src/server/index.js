@@ -7,7 +7,7 @@ import mysql from 'mysql'
 import { exit } from 'process'
 
 dotenv.config()
-const port = process.env.port
+const port = process.env.APP_PORT
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 let connection = mysql.createConnection({
