@@ -55,17 +55,6 @@ export default class User{
      createTutorat(req, res) {
         res.status(200).render('user/tutorat/create', {})
     }
-	
-	 /**
-     * page voir tutorat
-     * @param {*} req 
-     * @param {*} res 
-     */
-     viewTutorat(req, res) {
-
-	 }
-		
-        //res.status(200).render('user/tutorat/view', {})
 
 
 }

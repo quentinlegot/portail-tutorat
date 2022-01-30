@@ -48,9 +48,6 @@ export default class Router {
         .get('/user/tutorat/create', (req, res) => {
             this.controller.user.createTutorat(req, res)
         })
-		.get('/user/tutorat/view', (req, res) => {
-            this.controller.user.viewTutorat(req, res)
-        })
         .get('/signin', (req, res) => {
             this.controller.signin(req, res)
         })
