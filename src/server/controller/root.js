@@ -5,7 +5,7 @@ import logops from 'logops'
 
 export default class Root {
 
-    user = new User()
+    user = new User(this.connection)
     saltRounds = 10
     order_filter = { 
         0: "", 
@@ -16,6 +16,7 @@ export default class Root {
     
     constructor(connection) {
         this.connection = connection
+		this.user.connection = this.connection
     }
 
     /**
