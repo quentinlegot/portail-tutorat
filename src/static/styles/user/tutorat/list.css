@@ -45,8 +45,7 @@ li#modifier {
 
 #tutorat_enregistre {
     display: grid;
-    grid-template-columns: 400px 200px;
-    gap: 100px;
+    grid-template-columns: 25vw 45vw;
     border-top: 1px solid #8492A6;
     padding-bottom: 2%;
 }
@@ -54,7 +53,7 @@ li#modifier {
 ul#formu {
     list-style: none;
     text-align: center;
-    padding-top: 5%;
+    padding-top: 2%;
 }
 
 select {

@@ -3,6 +3,10 @@
     src: url("/static/fonts/Lato-Regular.ttf");
 }
 
+* {
+    box-sizing: border-box;
+}
+
 nav {
     border-bottom: 2px solid#E5E9F2;
 }
@@ -74,7 +78,7 @@ header {
 #baseline {
     position: relative;
     top: 50%;
-    left: 5%;
+    margin-left: 5%;
     width: fit-content;
     transform: translateY(-50%);
 
@@ -89,7 +93,7 @@ header {
 	left: 11%;
     transform: translateY(40%);
 	grid-template-columns: 500px 1fr;
-	column-gap: 15vw;
+	column-gap: 17vw;
     row-gap: 125px;
     text-align: justify;
 }
