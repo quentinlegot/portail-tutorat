@@ -1,7 +1,7 @@
-<%- include('../../header', {title: "Vos tutorats", style: "search"}) %>
+<%- include('../../header', {title: "Voir un tutorat", style: "user/tutorat/view"}) %>
 
 
-<h1>Vos tutorats</h1>
+<h1>Voir vos tutorats</h1>
 
 <% for (tutorat of resultList)
 {
@@ -18,20 +18,10 @@
         
             <div>
                 <h2>Description :</h2>
-                <p class="description"><%=tutorat.description%></p>
+                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
             
                 <h2>Horaires :</h2>
                 <p class="description">Le <%=("0" + startdate.getDay()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
-			
-			<div class="jesaispas">
-                <ul>
-					<a class="view" href="/tutorat/<%=tutorat.id%>">Détails</a>
-					<a class="delete" href="./delete/<%=tutorat.id%>">Supprimer</a>
-					<a class="modify" href="./modify/<%=tutorat.id%>">Modifier</a>
-                </ul>
-            </div>
-			
-		</div>
 <% } %>

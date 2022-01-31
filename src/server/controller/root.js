@@ -5,7 +5,7 @@ import logops from 'logops'
 
 export default class Root {
 
-    user = new User()
+    user = new User(this.connection)
     saltRounds = 10
     order_filter = { 
         0: "", 
@@ -16,6 +16,7 @@ export default class Root {
     
     constructor(connection) {
         this.connection = connection
+		this.user.connection = this.connection
     }
 
     /**
@@ -74,6 +75,11 @@ export default class Root {
         return ""
     }
 
+    /**
+     * Page affichant en détail les informations d'un tutorat
+     * @param {*} req 
+     * @param {*} res 
+     */
     showTutoraDetail(req, res) {
         this.connection.query("SELECT tutorat.*, account.nickname, account.email, tags.content as tags FROM tutorat, account, tags WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", (err, results) => {
             if(err) {
