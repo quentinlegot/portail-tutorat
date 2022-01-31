@@ -7,6 +7,7 @@ h1,h2,h3 {
     display: grid;
     grid-template-columns: 300px 1fr 1fr;
     gap: 10%;
+    margin-bottom: 2%;
 }
 
 ul#nouveau_tutorat {
@@ -40,6 +41,7 @@ li#modifier {
     border: 2px solid #47525E;
     border-radius: 5px;
 }
+
 
 #tutorat_enregistre {
     display: grid;

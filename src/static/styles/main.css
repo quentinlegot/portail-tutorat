@@ -89,9 +89,16 @@ header {
 	left: 11%;
     transform: translateY(40%);
 	grid-template-columns: 500px 1fr;
-	gap: 20em;
-
+	column-gap: 15vw;
+    row-gap: 125px;
     text-align: justify;
+}
+
+@media screen and (max-width: 1230px) {
+    #grid{
+        grid-template-columns: 500px;
+    }
+    
 }
 
 h1,h2 {

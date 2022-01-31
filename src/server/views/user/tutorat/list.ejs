@@ -1,7 +1,23 @@
-<%- include('../../header', {title: "Vos tutorats", style: "search"}) %>
-
+<%- include('../../header', {title: "Vos tutorats", style: "user/tutorat/list"}) %>
 
 <h1>Vos tutorats</h1>
+
+<ul id="nouveau_tutorat">
+    <li id="nouveau_tutorat">Nouveau Tutorat</li>
+</ul>
+
+<div id="tutorat_enregistre">
+    <h2>Vos Tutorats enregistrés :</h1>
+
+    <ul id="formu">
+        <li>
+            <select name="trier" id="trier-select">
+                <option value="" disabled selected>Trier</option>
+                <option value="oui">oui</option>
+            </select>
+        </li>
+    </ul>
+</div>
 
 <% for (tutorat of resultList)
 {
@@ -9,8 +25,8 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
 %>
-        <div id="grid2">
-            <div id="nom">
+        <div id="tutorat">
+            <div id="tutorat_exemple">
                 <h2>Tutorat <%=tutorat.content%></h2>
                 <h3><p>Proposé par <%=tutorat.prenom%></p></h3>
                 <h3><p><%=tutorat.place%></p></h3>
