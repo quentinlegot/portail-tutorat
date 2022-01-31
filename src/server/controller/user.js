@@ -25,26 +25,18 @@ export default class User{
      * @param {*} res 
      */
     tutorat(req, res) {
-		console.log("Viewing tutorat list.");
-		console.log(req.session.user.id);
-		//console.log(this.connection);
 		
-		
-		this.connection.query(("SELECT * FROM account,tutorat,tags WHERE proposed_by = account.id AND proposed_by = " + req.session.user.id + " AND tags.id = tags_id;"),
-		(err, results) => {
+		this.connection.query("SELECT tutorat.*, account.nickname, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id ORDER BY tutorat.startdate DESC;",
+        (err, results) => {
             if(err) {
                 logops.error(err)
-                res.status(500).render('search', {fatal: "Erreur lors d'execution SQL"})
+                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
                 return
-            }
-			else
-			{
-				console.log(results)
+            } else {
 				res.status(200).render('user/tutorat/list', {resultList: results})
 			}
-		}
-		
-		);
+        }
+        );
     }
 
     /**
@@ -52,7 +44,7 @@ export default class User{
      * @param {*} req 
      * @param {*} res 
      */
-     createTutorat(req, res) {
+    createTutorat(req, res) {
         res.status(200).render('user/tutorat/create', {})
     }
 

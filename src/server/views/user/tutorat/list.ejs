@@ -1,7 +1,7 @@
-<%- include('../../header', {title: "Voir un tutorat", style: "search"}) %>
+<%- include('../../header', {title: "Vos tutorats", style: "search"}) %>
 
 
-<h1>Voir vos tutorats</h1>
+<h1>Vos tutorats</h1>
 
 <% for (tutorat of resultList)
 {
@@ -27,7 +27,7 @@
 			
 			<div class="jesaispas">
                 <ul>
-					<a class="view" href="./view/<%=tutorat.id%>">Voir plus de détails</a>
+					<a class="view" href="/tutorat/<%=tutorat.id%>">Détails</a>
 					<a class="delete" href="./delete/<%=tutorat.id%>">Supprimer</a>
 					<a class="modify" href="./modify/<%=tutorat.id%>">Modifier</a>
                 </ul>
