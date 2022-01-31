@@ -25,18 +25,22 @@ export default class User{
      * @param {*} res 
      */
     tutorat(req, res) {
-		
-		this.connection.query("SELECT tutorat.*, account.nickname, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id ORDER BY tutorat.startdate DESC;",
-        (err, results) => {
-            if(err) {
-                logops.error(err)
-                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
-                return
-            } else {
-				res.status(200).render('user/tutorat/list', {resultList: results})
-			}
+		if(typeof session !== 'undefined') {
+            this.connection.query("SELECT tutorat.*, account.nickname, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id ORDER BY tutorat.startdate DESC;",
+            (err, results) => {
+                if(err) {
+                    logops.error(err)
+                    res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
+                    return
+                } else {
+				    res.status(200).render('user/tutorat/list', {resultList: results})
+			    }
+            });
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
         }
-        );
+		
     }
 
     /**

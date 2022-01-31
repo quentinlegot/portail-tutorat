@@ -1,4 +1,4 @@
-<%- include('header', {title: "Page d'accueil", style: "index"}) %>
+<%- include('header', {title: "Page d'accueil", style: "index", session}) %>
 
 <header>
     <div id="baseline">
@@ -8,8 +8,10 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec nibh vitae erat efficitur faucibus. Duis tincidunt, ex in mattis viverra.</p>
     
         <ul id="list2">
-            <li id="login-button">Connexion</li>
-            <a href="/signup"><li>Inscription</li></a>
+            <% if(session === undefined ) { %>
+                <li id="login-button">Connexion</li>
+                <a href="/signup"><li>Inscription</li></a>
+            <% } %>
         </ul>
     </div>
     

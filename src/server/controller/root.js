@@ -27,7 +27,7 @@ export default class Root {
     index(req, res) {
         let message = req.session.message
         req.session.message = undefined
-        res.status(200).render('index', {message})
+        res.status(200).render('index', {message, session: req.session.user})
     }
 
     /**
@@ -204,7 +204,7 @@ export default class Root {
                         bcrypt.compare(req.body.password, results[0].password).then(value => {
                             if(value === true) {
                                 req.session.user = results[0]
-                                res.redirect(302, "/")
+                                res.redirect(302, "/signin")
                             } else {
                                 req.session.error = "Mot de passe non reconnu"
                                 res.redirect(302, "/signin")
