@@ -1,33 +1,33 @@
-<%- include('header', {title: "Page de connexion", style: "signin"}) %>
-
-<div id="page_connexion">
-    <h1>Connexion</h1>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec nibh vitae...</p>
-
-    <%=error%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page de connexion</title>
+        <meta charset="utf8" />
+        <link rel="stylesheet" href="/static/styles/main.css" />
+        <link rel="stylesheet" href="/static/styles/signin.css" />
+    </head>
+    <body>
+        <div class="contener">
+            <div id="page_connexion" class="center">
+                <h1>Connexion</h1>
+                <%=error%>
+                <% if(session === undefined ) { %>
+                    <form method="post" action="?">
+                        <table>
+                            <tbody>
+                                <tr><td><input type="text" name="email" id="email" placeholder="Email"></td></tr>
+                                <tr><td><input type="password" name="password" id="password" placeholder="Mot de Passe"></td></tr>
+                                <tr><td><button type="submit">Connexion</button></td></tr>
+                            </tbody>
+                        </table>
+                    </form>
+                <% } else { %>
+                    <p>Vous êtes déjà connecté en tant que <%=session.nickname %></p>
+                    <p><a href="/disconnect"><button>Déconnexion</button></a></p>
+                <% } %>
+                <p>Mot de passe oublié ?</p>
+            </div>
+        </div>
+        
 </body>
-        <% if(session === undefined ) { %>
-            <form method="post" action="?">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" name="email" id="email" placeholder="Email"></td></tr>
-                            <tr><td><input type="password" name="password" id="password" placeholder="Mot de Passe"></td></tr>
-                            <tr><td><button type="submit">Connexion</button></td></tr>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        <% } else { %>
-            Vous êtes déjà connecté en tant que <%=session.nickname %>
-            <p>
-                <a href="/disconnect"><button>Déconnexion</button></a>
-            </p>
-        <% } %>
-
-    <p>Mot de passe oublié ?</p>
-
-</div>
-
-<%- include('footer') %>
+</html>

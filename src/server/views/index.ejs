@@ -8,7 +8,7 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec nibh vitae erat efficitur faucibus. Duis tincidunt, ex in mattis viverra.</p>
     
         <ul id="list2">
-            <a href="/signin"><li>Connexion</li></a>
+            <li id="login-button">Connexion</li>
             <a href="/signup"><li>Inscription</li></a>
         </ul>
     </div>
@@ -32,4 +32,4 @@
     <img class="test" src="https://zupimages.net/up/22/03/f0n2.png">
 </div>
 
-<%- include('footer') %>
+<%- include('footer', {script: "index"}) %>

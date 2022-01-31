@@ -44,11 +44,11 @@ a #compte {
     color: white;
 }
 
-ul#list2 {
+#list2 {
     list-style: none;
 }
 
-ul#list2 li {
+#list2 li {
     display: inline-block;
     background-color: #47525E;
     border-radius: 5px;
@@ -59,8 +59,9 @@ ul#list2 li {
 
 }
 
-#list2 a {
+#list2 a, #list2 li {
     color: white;
+    cursor: pointer;
 }
 
 header {
@@ -100,4 +101,48 @@ h1,h2 {
 .test {
     position: relative;
     transform: translateY(-20%);
+}
+
+#fullscreen {
+    display: none;
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+#fullscreen-content {
+    position: relative;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 65%;
+    height: 60%;
+}
+
+/*
+Appliquer cette class au body quand fullscreen est affiché
+*/
+.fullscreen {
+    overflow: hidden;
+}
+
+#fullscreen-close {
+    font-size: 46px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    color: white;
+    cursor: pointer;
+    width: fit-content;
+}
+
+#fullscreen-iframe {
+    position:relative;
+    width: 100%;
+    height:100%;
 }
