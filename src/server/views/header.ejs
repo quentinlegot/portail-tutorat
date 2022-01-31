@@ -12,7 +12,9 @@
           <a href="/"><li>Accueil</li></a>
           <a href="/search"><li>Rechercher</li></a>
           <a href="/user/tutorat/list"><li>Vos Tutorats</li></a>
+          <% if(typeof session !== 'undefined') { %>
           <a href="/user"><li id="compte">Compte</li></a>
+          <% } %>
       </ul>
   </nav>
   <div id="fullscreen">

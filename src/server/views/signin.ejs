@@ -24,6 +24,9 @@
                 <% } else { %>
                     <p>Vous êtes déjà connecté en tant que <%=session.nickname %></p>
                     <p><a href="/disconnect"><button>Déconnexion</button></a></p>
+                    <script >
+                        window.parent.postMessage("connected", window.parent);
+                    </script>
                 <% } %>
                 <p>Mot de passe oublié ?</p>
             </div>
