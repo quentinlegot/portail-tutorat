@@ -11,6 +11,7 @@ if(tutorats.length === 0 ) {
 <% } else { 
     const tutorat = tutorats[0]
     %>
+    <div id="detail">
     <h1>Tutorat <%=tutorat.tags%></h1>
     <h3>Proposé par <%=tutorat.nickname%><small>&lt<%=tutorat.email%>&gt</small></h3>
     <p><%=tutorat.description%></p>
@@ -29,6 +30,7 @@ if(tutorats.length === 0 ) {
             <li>Je réserve</li>
         </ul>
     <% } %>
+    </div>
 
 <% } %>
 <%- include('../footer') %>
