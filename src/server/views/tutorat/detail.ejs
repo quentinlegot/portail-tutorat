@@ -14,22 +14,21 @@ if(tutorats.length === 0 ) {
     <h1>Tutorat <%=tutorat.tags%></h1>
     <h3>Proposé par <%=tutorat.nickname%><small>&lt<%=tutorat.email%>&gt</small></h3>
     <p><%=tutorat.description%></p>
-    <p>Horaire : <%=tutorat.startdate%></p>
-    <p>Durée : <%=tutorat.duration%></p>
-    <p>Prix : <%=tutorat.price%></p>
-    <p>Lieu : <%=tutorat.place%></p>
+    <p><h4 style="display: inline;">Horaire :</h4> <%=tutorat.startdate%></p>
+    <p><h4 style="display: inline;">Durée :</h4> <%=tutorat.duration%></p>
+    <p><h4 style="display: inline;">Prix :</h4> <%=tutorat.price%></p>
+    <p><h4 style="display: inline;">Lieu :</h4> <%=tutorat.place%></p>
     
     <% if(session.id === tutorat.proposed_by) { %>
-        <ul>
+        <ul id="button">
             <li>Modifier</li>
             <li>Supprimer</li>
         </ul>
     <% } else { %>
-        <ul>
+        <ul id="button">
             <li>Je réserve</li>
         </ul>
     <% } %>
 
-    <%=JSON.stringify(tutorat)%>
 <% } %>
 <%- include('../footer') %>

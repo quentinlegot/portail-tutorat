@@ -1,3 +1,18 @@
 body {
     margin-left: 2vw;
 }
+
+h1 {
+    text-decoration: underline;
+}
+
+#button li {
+    list-style: none;
+    display: inline-block;
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+}
