@@ -25,7 +25,7 @@ export default class User{
      * @param {*} res 
      */
     tutorat(req, res) {
-		if(typeof session !== 'undefined') {
+		if(typeof req.session.user !== 'undefined') {
             this.connection.query("SELECT tutorat.*, account.nickname, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id ORDER BY tutorat.startdate DESC;",
             (err, results) => {
                 if(err) {
