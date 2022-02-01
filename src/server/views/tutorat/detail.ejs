@@ -5,7 +5,7 @@ if(tutorats.length === 0 ) {
 } else {
     title = tutorats[0].tags + " par " + tutorats[0].nickname
 }%>
-<%- include('../header', {title: title, style: "detail"}) %>
+<%- include('../header', {title: title, style: "tutorat/detail"}) %>
 <% if(fatal) { %>
     <div class="error_message"><%=fatal%></div>
 <% } else { 
@@ -13,6 +13,22 @@ if(tutorats.length === 0 ) {
     %>
     <h1>Tutorat <%=tutorat.tags%></h1>
     <h3>Proposé par <%=tutorat.nickname%><small>&lt<%=tutorat.email%>&gt</small></h3>
+    <p><%=tutorat.description%></p>
+    <p>Horaire : <%=tutorat.startdate%></p>
+    <p>Durée : <%=tutorat.duration%></p>
+    <p>Prix : <%=tutorat.price%></p>
+    <p>Lieu : <%=tutorat.place%></p>
+    
+    <% if(session.id === tutorat.proposed_by) { %>
+        <ul>
+            <li>Modifier</li>
+            <li>Supprimer</li>
+        </ul>
+    <% } else { %>
+        <ul>
+            <li>Je réserve</li>
+        </ul>
+    <% } %>
 
     <%=JSON.stringify(tutorat)%>
 <% } %>

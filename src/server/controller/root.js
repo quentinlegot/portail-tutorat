@@ -87,7 +87,7 @@ export default class Root {
                 res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})
                 return
             }
-            res.status(200).render('tutorat/detail', {fatal: false, tutorats: results})
+            res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
         })
     }
 
