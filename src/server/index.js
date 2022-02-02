@@ -9,7 +9,7 @@ import logops from 'logops';
 
 logops.setLevel('INFO')
 dotenv.config()
-const port = process.env.port
+const port = process.env.PORT
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 let connection = mysql.createPool({
