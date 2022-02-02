@@ -5,28 +5,51 @@ import dotenv from 'dotenv'
 import Router from './router.js'
 import mysql from 'mysql'
 import { exit } from 'process'
+import logops from 'logops';
 
+logops.setLevel('INFO')
 dotenv.config()
 const port = process.env.port
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
-let connection = mysql.createConnection({
+let connection = mysql.createPool({
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USERNAME,
     password: process.env.MYSQL_PASSWORD,
     charset: "utf8",
-    multipleStatements: true
+    multipleStatements: true, 
+    connectionLimit: 100
 })
 
-connection.connect(err => {
+/* let handleDisconnect = () => {
+    connection.on('error', (err) => {
+        if (!err.fatal) {
+            return
+        }
+
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+            throw err
+        }
+
+        logops.info('Re-connecting lost connection: ' + err.stack)
+
+        connection = mysql.createConnection(connection.config)
+        handleDisconnect(connection)
+        connection.connect()
+    })
+} */
+
+/* connection.connect(err => {
     if(err) {
         console.error('Cannot connect to database')
         console.error(err)
         exit(1)
     }
-})
+}) */
+
+
 
 const router = new Router(dirname, connection)
 const app = e()
