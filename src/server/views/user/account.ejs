@@ -22,14 +22,14 @@
         <img src="/static/images/profil.png">
 
         <div>
-            <h2>Nom :</h2>
-            <h2>Prénom :</h2> 
+            <h2>Nom: <%=session.nom%></h2>
+            <h2>Prénom: <%=session.nom%></h2> 
             <h2>Diplôme<h2>
             <h2>Âge</h2>
         </div>
 
         <div id="infos">
-            <h2>Adresse Email : user.name@gmail.com</h2>
+            <h2>Adresse Email : <%=session.email%></h2>
     
             <h2>Téléphone : 1-800-676-2775</h2>
         
@@ -37,7 +37,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
         
             <ul id="modifier">
-                <li>Modifier Profil</li>
+                <li>Modifier le profil</li>
             </ul>
     
         </div>
