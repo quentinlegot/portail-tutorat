@@ -50,5 +50,13 @@ export default class User{
         res.status(200).render('user/tutorat/create', {session: req.session.user})
     }
 
+    modifyTutorat(req ,res) {
+        res.status(200).render('user/tutorat/modify', {session: req.session.user})
+    }
+
+    deleteTutorat(req, res) {
+        res.status(200).render('user/tutorat/modify', {session: req.session.user})
+    }
+
 
 }
