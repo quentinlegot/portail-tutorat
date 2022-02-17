@@ -61,6 +61,7 @@ router.route(app, e)
 
 const server = app.listen(port, () => {
     console.log('Server listening to port ' + port + " and dir " + dirname)
+    console.log("Press Ctrl-C to close the server")
 })
 
 
