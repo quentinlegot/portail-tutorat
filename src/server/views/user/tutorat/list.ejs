@@ -5,6 +5,9 @@
 <ul id="nouveau_tutorat">
     <li id="nouveau_tutorat">Nouveau Tutorat</li>
 </ul>
+<% if(message) {%>
+<%=message%>
+<% } %>
 
 <div id="tutorat_enregistre">
     <h2>Vos Tutorats enregistrés :</h1>
@@ -37,7 +40,7 @@
                 <p class="description"><%=tutorat.description%></p>
             
                 <h2>Horaires :</h2>
-                <p class="description">Le <%=("0" + startdate.getDay()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
+                <p class="description">Le <%=startdate.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
 			

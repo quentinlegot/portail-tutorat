@@ -81,14 +81,22 @@ export default class Root {
      * @param {*} res 
      */
     showTutoraDetail(req, res) {
-        this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM tutorat, account, tags WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", (err, results) => {
-            if(err) {
-                logops.error(err)
-                res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})
-                return
-            }
-            res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
-        })
+        if(typeof req.session.user !== 'undefined') {
+            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM tutorat, account, tags "+
+            "WHERE (customer_id IS NULL OR customer_id = " + mysql.escape(req.session.user.id) + " OR proposed_by = " + mysql.escape(req.session.user.id) + ") AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", 
+            (err, results) => {
+                if(err) {
+                    logops.error(err)
+                    res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})
+                    return
+                }
+                res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+        
     }
 
     /**
