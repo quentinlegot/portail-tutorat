@@ -54,6 +54,9 @@ export default class Router {
         .get('/user/tutorat/delete/:id', (req, res) => {
             this.controller.user.deleteTutorat(req, res)
         })
+        .get('/user/tutorat/confirm/delete/:id', (req, res) => {
+            this.controller.user.confirmDelete(req, res)
+        })
         .get('/signin', (req, res) => {
             this.controller.signin(req, res)
         })
