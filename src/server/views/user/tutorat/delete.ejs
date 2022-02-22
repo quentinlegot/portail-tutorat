@@ -1,4 +1,4 @@
-<%- include('../../header', {title: "Supprimer un tutorat", style: "tutorat/detail", session}) %>
+<%- include('../../header', {title: "Supprimer un tutorat", style: "user/tutorat/delete", session}) %>
 <h1>Suppression du tutorat</h1>
 <% if(fatal) { %>
     <div class="error_message"><%=fatal%></div>
@@ -28,9 +28,7 @@
         <p><h4 style="display: inline;">Prix :</h4> <%=tutorat.price%>€</p>
         <p><h4 style="display: inline;">Lieu :</h4> <%=tutorat.place%></p>
     </div>
-    <ul id="button">
-        <a href="/user/tutorat/confirm/delete/<%=tutorat.id%>"><li style="background-color: red;color:white;">Supprimer</li></a>
-    </ul>
+    <form method="post" action="/user/tutorat/confirm/delete/<%=tutorat.id%>"><button type="submit" class="delete-btn">Supprimer</button></form>
 <% } %> 
 
 

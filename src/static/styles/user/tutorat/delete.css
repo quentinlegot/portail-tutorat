@@ -1,0 +1,10 @@
+.delete-btn {
+    background-color: red;
+    list-style: none;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 8px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: white;
+}
