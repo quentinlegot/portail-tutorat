@@ -89,7 +89,7 @@ export default class MySQL {
 
     isAccountAlreadyExist(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT email FROM account WHERE email="+ mysql.escape(req.body.email), (err, results) => {
+            this.connection.query("SELECT * FROM account WHERE email=?", [req.body.email], (err, results) => {
                 if(err) {
                     reject(err)
                     return
@@ -97,7 +97,7 @@ export default class MySQL {
                 if(Object.keys(results).length === 0) {
                     resolve(false)
                 } else {
-                    resolve(true)
+                    resolve(results)
                 }
             })
         })

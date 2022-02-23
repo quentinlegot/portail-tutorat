@@ -1,11 +1,16 @@
 import mysql from 'mysql'
 import logops from 'logops'
+import MySQL from '../model/mysql.js'
 
 export default class User{
 	
+    /**
+     * connection sql a revoir
+     * @param {MySQL} connection 
+     */
 	constructor(connection)
 	{
-        this.connection = connection
+        this.connection = connection.connection
 	}
 
     /**

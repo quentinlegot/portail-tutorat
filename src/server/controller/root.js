@@ -4,16 +4,13 @@ import bcrypt from 'bcrypt'
 import logops from 'logops'
 
 export default class Root {
-
-    user = new User(this.connection)
     
     /**
-     * 
      * @param {mysql} connection 
      */
     constructor(connection) {
         this.connection = connection
-		this.user.connection = this.connection
+		this.user = new User(this.connection)
     }
 
     /**
@@ -149,26 +146,25 @@ export default class Root {
 
     signinForm(req, res) {
         if(req.body.email !== undefined && req.body.password !== undefined) {
-            this.connection.query("SELECT id, email, password, prenom, nom FROM account WHERE email= " + mysql.escape(req.body.email), (err, results, fields) => {
-                if(err) {
-                    req.session.error = "Une erreur inconnue est survenu: " + err
-                    res.redirect(302, "/signin")
+            this.connection.isAccountAlreadyExist(req).then((results) => {
+                if(results !== false) {
+                    bcrypt.compare(req.body.password, results[0].password).then(value => {
+                        if(value === true) {
+                            req.session.user = results[0]
+                            res.redirect(302, "/signin")
+                        } else {
+                            req.session.error = "Mot de passe non reconnu"
+                            res.redirect(302, "/signin")
+                        }
+                    })
                 } else {
-                    if (Object.keys(results).length === 0) {
-                        req.session.error = "Aucun compte existant avec cette adresse mail"
-                        res.redirect(302, "/signin")
-                    } else {
-                        bcrypt.compare(req.body.password, results[0].password).then(value => {
-                            if(value === true) {
-                                req.session.user = results[0]
-                                res.redirect(302, "/signin")
-                            } else {
-                                req.session.error = "Mot de passe non reconnu"
-                                res.redirect(302, "/signin")
-                            }
-                        })
-                    }
+                    req.session.error = "Aucun compte existant avec cette adresse mail"
+                    res.redirect(302, "/signin")
                 }
+            }).catch(err => {
+                logops.error(err)
+                req.session.error = "Une erreur inconnue est survenue"
+                res.redirect(302, "/signin")
             })
         } else {
             req.session.error = "Veuillez insérer un email et un mot de passe"
