@@ -13,19 +13,19 @@
         </select></p>
 
         <p><label for="description">Description: </label></p>
-        <p><textarea id="description" name="description"></textarea></p>
+        <p><textarea id="description" name="description" required></textarea></p>
 
         <p><label for="datetime">Date et horaire de votre tutorat: </label></p>
-        <p><input type="datetime-local" name="datetime" id="datetime"></p>
+        <p><input type="datetime-local" name="datetime" id="datetime" required></p>
         
-        <p><label for="time">Durée du tutorat: </label></p>
-        <p><input type="time" name="time" id="time"></p>
+        <p><label for="duration">Durée du tutorat: </label></p>
+        <p><input type="time" name="duration" id="duration" required></p>
 
         <p><label for="price">Prix du tutorat: </label></p>
-        <p><input type="number" min="1" step="0.5" name="price" id="price"></p>
+        <p><input type="number" min="1" step="0.5" name="price" id="price" required></p>
         
         <p><label for="place">Lieu du tutorat: </label></p>
-        <p><input type="text" name="place" id="place"></p>
+        <p><input type="text" name="place" id="place" required></p>
 </form>
 </div>
 <%- include('../../footer') %>

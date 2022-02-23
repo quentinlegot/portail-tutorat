@@ -67,7 +67,40 @@ export default class User{
     }
 
     confirmCreation(req, res) {
-        
+        if(typeof req.session.user !== 'undefined') {
+            let hasGivenAllElements = true
+            let elements = ["tags", "description", "datetime", "duration", "price", "place"]
+            for(let el of elements) {
+                if(req.body[el] === undefined) {
+                    hasGivenAllElements = false
+                    break
+                }
+            }
+            if(hasGivenAllElements === true) {
+                if(Number.isInteger(req.body["tags"])) {
+                    let durationDate = new Date(req.body["duration"])
+                    let duration = durationDate.getHours() * 60 + durationDate.getMinutes()
+                    this.connection.query("INSERT INTO tutorat(proposed_by, tags_id, description, customer_id, startdate, duration, price, place) VALUE (?, ?, ?, NULL, ?, ?, ?, ?);", 
+                    [req.session.user.id, parseInt(req.body["tags"]), req.body["description"], duration, req.body["price"], req.body["place"]], (err, result) => {
+                        if(err) {
+                            req.session.message = "Une erreur inconnue est survenue"
+                            res.redirect(302, "/user/tutorat/create")
+                            return
+                        }
+                        
+                    })
+                } else {
+                    req.session.message = "Une entrée fournie est incorrecte"
+                    res.redirect(302, "/uer/tutorat/create")
+                }
+            } else {
+            req.session.message = "Veuillez remplir tout les champs de saisie"
+            res.redirect(302, "/uer/tutorat/create")
+            }
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
     }
 
     /**

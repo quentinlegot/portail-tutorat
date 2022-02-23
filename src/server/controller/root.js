@@ -1,5 +1,5 @@
 import User from './user.js'
-import mysql from 'mysql'
+import mysql from '../model/mysql'
 import bcrypt from 'bcrypt'
 import logops from 'logops'
 
@@ -7,13 +7,11 @@ export default class Root {
 
     user = new User(this.connection)
     saltRounds = 10
-    order_filter = { 
-        0: "", 
-        1: "ORDER BY PRICE ASC",
-        2: "ORDER BY place",
-        3: "ORDER BY DURATION ASC"
-    }
     
+    /**
+     * 
+     * @param {mysql} connection 
+     */
     constructor(connection) {
         this.connection = connection
 		this.user.connection = this.connection
@@ -36,7 +34,7 @@ export default class Root {
      * @param {*} res 
      */
     search(req, res) {
-        this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags " + 
+        /* this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags " + 
         "FROM tutorat, account, tags " + 
         "WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + 
         this.categorieFilter(req) + " " + this.orderFilter(req) + ";"+ 
@@ -50,29 +48,12 @@ export default class Root {
             res.status(200).render('search', {fatal: false, tutorats: results[0], tags: results[1], 
                 selectedCategorie: req.query.categorie ? parseInt(req.query.categorie) : "", 
                 selectedOrder: req.query.order ? parseInt(req.query.order) : "", session: req.session.user})
+        }) */
+        this.connection.searchList(req).then(() => {
+
+        }).catch((err) => {
+            
         })
-    }
-
-    categorieFilter(req) {
-        if(req.query.categorie) {
-            const id = parseInt(req.query.categorie)
-            if(!Number.isNaN(id)) {
-                return " AND tags_id=" + mysql.escape(id)
-            }
-            return ""
-        }
-        return ""
-    }
-
-    orderFilter(req) {
-        if(req.query.order) {
-            const id = parseInt(req.query.order)
-            if(!Number.isNaN(id) && id in this.order_filter) {
-                return this.order_filter[id]
-            }
-            return ""
-        }
-        return ""
     }
 
     /**
@@ -82,7 +63,8 @@ export default class Root {
      */
     showTutoraDetail(req, res) {
         if(typeof req.session.user !== 'undefined') {
-            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM tutorat, account, tags "+
+            this.connection.searchList
+            /* this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM tutorat, account, tags "+
             "WHERE (customer_id IS NULL OR customer_id = " + mysql.escape(req.session.user.id) + " OR proposed_by = " + mysql.escape(req.session.user.id) + ") AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", 
             (err, results) => {
                 if(err) {
@@ -91,7 +73,7 @@ export default class Root {
                     return
                 }
                 res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
-            })
+            }) */
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
             res.redirect(302, "/")

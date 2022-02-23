@@ -3,24 +3,15 @@ import { fileURLToPath } from 'url';
 import e from 'express'
 import dotenv from 'dotenv'
 import Router from './router.js'
-import mysql from 'mysql'
 import logops from 'logops';
+import mysql from  './model/mysql'
 
 logops.setLevel('INFO')
 dotenv.config()
 const port = process.env.PORT
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
-let connection = mysql.createPool({
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    charset: "utf8",
-    multipleStatements: true, 
-    connectionLimit: 100
-})
+const connection = mysql()
 
 const router = new Router(dirname, connection)
 const app = e()
