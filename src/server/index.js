@@ -4,14 +4,14 @@ import e from 'express'
 import dotenv from 'dotenv'
 import Router from './router.js'
 import logops from 'logops';
-import mysql from  './model/mysql'
+import mysql from  './model/mysql.js'
 
 logops.setLevel('INFO')
 dotenv.config()
 const port = process.env.PORT
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const connection = mysql()
+const connection = new mysql()
 
 const router = new Router(dirname, connection)
 const app = e()
@@ -37,14 +37,7 @@ function close() {
             console.log('Server closed')
         }
         console.log('Closing mysql connection...')
-        connection.end(err => {
-            if(err) {
-                console.error(err)
-                console.error("A fatal error occured while closing mysql connection")
-            } else {
-                console.log('mysql connection closed')
-            }
-        })
+        connection.closeConnection()
     })
 }
 
