@@ -50,12 +50,24 @@ export default class User{
      */
     createTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {
+            this.connection.query('SELECT * FROM tags', (err, result) => {
+                if(err) {
+                    logops(err)
+                    res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: "Une erreur inconnue est survenue", tags: {}})
+                    return;
+                }
+                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: false, tags: result})
 
-            res.status(200).render('user/tutorat/create', {session: req.session.user})
+
+            })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
             res.redirect(302, "/")
         }
+    }
+
+    confirmCreation(req, res) {
+        
     }
 
     /**

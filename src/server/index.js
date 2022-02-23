@@ -4,7 +4,6 @@ import e from 'express'
 import dotenv from 'dotenv'
 import Router from './router.js'
 import mysql from 'mysql'
-import { exit } from 'process'
 import logops from 'logops';
 
 logops.setLevel('INFO')
@@ -23,44 +22,16 @@ let connection = mysql.createPool({
     connectionLimit: 100
 })
 
-/* let handleDisconnect = () => {
-    connection.on('error', (err) => {
-        if (!err.fatal) {
-            return
-        }
-
-        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-            throw err
-        }
-
-        logops.info('Re-connecting lost connection: ' + err.stack)
-
-        connection = mysql.createConnection(connection.config)
-        handleDisconnect(connection)
-        connection.connect()
-    })
-} */
-
-/* connection.connect(err => {
-    if(err) {
-        console.error('Cannot connect to database')
-        console.error(err)
-        exit(1)
-    }
-}) */
-
-
-
 const router = new Router(dirname, connection)
 const app = e()
 
 app.set('view engine', 'ejs')
 app.set('views', path.resolve(dirname, "views"))
 
-router.route(app, e)
+router.route(app, e, process.env.SESSION_SECRET)
 
 const server = app.listen(port, () => {
-    console.log('Server listening to port ' + port + " and dir " + dirname)
+    console.log('Server listening to port ' + port)
     console.log("Press Ctrl-C to close the server")
 })
 

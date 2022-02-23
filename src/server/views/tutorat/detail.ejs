@@ -3,7 +3,7 @@ let title = ""
 if(tutorats.length === 0 ) {
     title = "Aucun tutorat disponible à cette adresse"
 } else {
-    title = tutorats[0].tags + " par " + tutorats[0].nickname
+    title = tutorats[0].tags + " par " + tutorats[0].nom
 }%>
 <%- include('../header', {title: title, style: "tutorat/detail"}) %>
 <% if(fatal) { %>

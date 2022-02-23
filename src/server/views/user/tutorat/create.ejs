@@ -1,4 +1,31 @@
-<%- include('../../header', { title: "Créer un tutorat", style: "user/tutorat/create" }) %>
-<h1>Créer un tutorat</h1>
-<p>Contenu de la page</p>
+<%- include('../../header', { title: "Proposez un nouveau tutorat", style: "user/tutorat/create" }) %>
+<h1>Proposez un nouveau tutorat</h1>
+<% if (fatal) { %>
+ <div class="error_message"><%= fatal %></div>
+<% } %>
+<div id="content">
+    <form method="post" id="create-tutorat-grid">
+        <p><label for="tags">Catégorie de votre tutorat: </label></p>
+        <p><select name="tags" id="tags">
+            <% for(tag of tags) { %>
+                <option value="<%=tag.id%>"><%=tag.content%></option>
+            <% } %>
+        </select></p>
+
+        <p><label for="description">Description: </label></p>
+        <p><textarea id="description" name="description"></textarea></p>
+
+        <p><label for="datetime">Date et horaire de votre tutorat: </label></p>
+        <p><input type="datetime-local" name="datetime" id="datetime"></p>
+        
+        <p><label for="time">Durée du tutorat: </label></p>
+        <p><input type="time" name="time" id="time"></p>
+
+        <p><label for="price">Prix du tutorat: </label></p>
+        <p><input type="number" min="1" step="0.5" name="price" id="price"></p>
+        
+        <p><label for="place">Lieu du tutorat: </label></p>
+        <p><input type="text" name="place" id="place"></p>
+</form>
+</div>
 <%- include('../../footer') %>

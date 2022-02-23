@@ -1,0 +1,6 @@
+#create-tutorat-grid {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 5vw;
+    padding: 5px;
+}

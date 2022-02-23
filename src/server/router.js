@@ -48,6 +48,9 @@ export default class Router {
         .get('/user/tutorat/create', (req, res) => {
             this.controller.user.createTutorat(req, res)
         })
+        .post('/user/tutorat/create', (req, res) => {
+            this.controller.user.confirmCreation(req, res)
+        })
         .get('/user/tutorat/modify/:id', (req, res) => {
             this.controller.user.modifyTutorat(req, res)
         })
