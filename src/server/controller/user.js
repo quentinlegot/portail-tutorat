@@ -1,13 +1,18 @@
 import mysql from 'mysql'
 import logops from 'logops'
+import MySQL from '../model/mysql.js'
 import fetch from 'node-fetch'
 import { TimeInDuration, TwoDigitDate } from '../models/Tools.js'
 
 export default class User{
 	
+    /**
+     * connection sql a revoir
+     * @param {MySQL} connection 
+     */
 	constructor(connection)
 	{
-        this.connection = connection
+        this.connection = connection.connection
 	}
 
     /**
@@ -71,7 +76,7 @@ export default class User{
     confirmCreation(req, res) {
         if(typeof req.session.user !== 'undefined') {
             let hasGivenAllElements = true
-            let elements = ["tags", "description", "datetime", "time", "price", "place"]
+            let elements = ["tags", "description", "datetime", "duration", "price", "place"]
             for(let el of elements) {
                 if(req.body[el] === undefined) {
                     hasGivenAllElements = false
@@ -80,7 +85,7 @@ export default class User{
             }
             if(hasGivenAllElements === true) {
                 let startdate = new Date(req.body["datetime"])
-                let duration = TimeInDuration(req.body["time"])
+                let duration = TimeInDuration(req.body["duration"])
                 if(duration === 0) {
                     req.session.message = "La durée du tutorat donnée n'est pas correcte"
                     res.redirect(302, "/user/tutorat/create")
@@ -113,7 +118,6 @@ export default class User{
                     })
                 })
             }
-            
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
             res.redirect(302, "/")
