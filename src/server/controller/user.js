@@ -1,6 +1,8 @@
 import mysql from 'mysql'
 import logops from 'logops'
 import MySQL from '../model/mysql.js'
+import fetch from 'node-fetch'
+import { TimeInDuration, TwoDigitDate } from '../models/Tools.js'
 
 export default class User{
 	
@@ -82,25 +84,39 @@ export default class User{
                 }
             }
             if(hasGivenAllElements === true) {
-                if(Number.isInteger(req.body["tags"])) {
-                    let durationDate = new Date(req.body["duration"])
-                    let duration = durationDate.getHours() * 60 + durationDate.getMinutes()
-                    this.connection.query("INSERT INTO tutorat(proposed_by, tags_id, description, customer_id, startdate, duration, price, place) VALUE (?, ?, ?, NULL, ?, ?, ?, ?);", 
-                    [req.session.user.id, parseInt(req.body["tags"]), req.body["description"], duration, req.body["price"], req.body["place"]], (err, result) => {
-                        if(err) {
-                            req.session.message = "Une erreur inconnue est survenue"
+                let startdate = new Date(req.body["datetime"])
+                let duration = TimeInDuration(req.body["duration"])
+                if(duration === 0) {
+                    req.session.message = "La durée du tutorat donnée n'est pas correcte"
+                    res.redirect(302, "/user/tutorat/create")
+                    return
+                }
+                let geolocation = null
+                const place = req.body["place"]
+                fetch(`https://nominatim.openstreetmap.org/search?q=${place}&format=json&polygon=1&addressdetails=1`)
+                .then(response => {
+                    response.json().then(response => {
+                        if(response.length === 0 ) {
+                            req.session.message = "La localisation donnée n'est pas correcte"
                             res.redirect(302, "/user/tutorat/create")
                             return
+                        } else {
+                            geolocation = `${response[0].lat},${response[0].lon}`
+                            let date = `${startdate.getFullYear()}-${TwoDigitDate(startdate.getMonth())}-${TwoDigitDate(startdate.getDay())} ${TwoDigitDate(startdate.getHours())}:${TwoDigitDate(startdate.getMinutes())}`
+                            this.connection.query("INSERT INTO tutorat (proposed_by, tags_id, description, customer_id, startdate, duration, price, place, geolocation) VALUE(?, ?, ?, NULL, ?,?, ?, ?, ?)",
+                            [req.session.user.id, req.body["tags"], req.body["description"], date, duration, req.body["price"], req.body["place"], geolocation], (err, results) => {
+                                if(err) {
+                                    logops.error(err)
+                                    req.session.message = "Une erreur inconnue est survenue"
+                                    res.redirect(302, "/user/tutorat/create")
+                                    return
+                                }
+                                res.redirect(302, `/tutorat/${results.insertId}`)
+                                return
+                            })
                         }
-                        
                     })
-                } else {
-                    req.session.message = "Une entrée fournie est incorrecte"
-                    res.redirect(302, "/uer/tutorat/create")
-                }
-            } else {
-            req.session.message = "Veuillez remplir tout les champs de saisie"
-            res.redirect(302, "/uer/tutorat/create")
+                })
             }
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"

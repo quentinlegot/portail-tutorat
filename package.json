@@ -44,6 +44,7 @@
     "express-logging": "^1.1.1",
     "express-session": "^1.17.2",
     "logops": "^2.1.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.2.1"
   }
 }
