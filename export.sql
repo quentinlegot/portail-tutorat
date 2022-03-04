@@ -29,7 +29,7 @@ CREATE TABLE `account` (
   `prenom` varchar(255) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot'),(4,'quentin@example.com','$2b$10$x0FjifvZBCSI20/qW/CYUu6y4U/e23EcTbfDgGlRE7OdLQu99cv7O','Quentin','Legot'),(5,'quentin2@example.com','$2b$10$KCuBaYInkUxAcH1315IxHuIL83IeGKnS8vfpghkN5kSq4wg7Olkpy','Quentin','Legot');
+INSERT INTO `account` VALUES (1,'qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot'),(4,'quentin@example.com','$2b$10$x0FjifvZBCSI20/qW/CYUu6y4U/e23EcTbfDgGlRE7OdLQu99cv7O','Quentin','Legot'),(5,'quentin2@example.com','$2b$10$KCuBaYInkUxAcH1315IxHuIL83IeGKnS8vfpghkN5kSq4wg7Olkpy','Quentin','Legot'),(6,'quentin3@example.com','$2b$10$YGUi8AVJQe93NxERv8xHhecyAM51Zxw0NTSS0LInqZ6qoG4U8RZO.','Quentin','Legot');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,14 +75,15 @@ DROP TABLE IF EXISTS `tutorat`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tutorat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `proposed_by` int(11) DEFAULT NULL,
+  `proposed_by` int(11) NOT NULL,
   `tags_id` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `description` text NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
-  `startdate` datetime DEFAULT NULL,
-  `duration` smallint(5) unsigned DEFAULT NULL,
-  `price` float DEFAULT NULL,
-  `place` text DEFAULT NULL,
+  `startdate` datetime NOT NULL,
+  `duration` smallint(5) unsigned NOT NULL,
+  `price` float NOT NULL,
+  `place` text NOT NULL,
+  `geolocation` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `proposed_by` (`proposed_by`),
   KEY `customer_id` (`customer_id`),
@@ -90,7 +91,7 @@ CREATE TABLE `tutorat` (
   CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`),
   CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`),
   CONSTRAINT `tutorat_ibfk_3` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +100,7 @@ CREATE TABLE `tutorat` (
 
 LOCK TABLES `tutorat` WRITE;
 /*!40000 ALTER TABLE `tutorat` DISABLE KEYS */;
-INSERT INTO `tutorat` VALUES (1,1,1,'Tutorat de mathématique, niveau collège',NULL,'2022-02-26 12:30:00',120,10,'Caen'),(2,1,3,'Tutorat d\'informatique, niveau L1/ DUT 1',NULL,'2022-02-26 08:30:00',180,15,'Rouen'),(3,4,1,'Tutorat de mathématique plus spécialement algèbre linéaire pour des étudiants de licences informatique et/ou mathématiques',NULL,'2022-01-29 17:55:09',90,12,'Bordeaux');
+INSERT INTO `tutorat` VALUES (2,1,3,'Tutorat d\'informatique, niveau L1/ DUT 1',NULL,'2022-02-26 08:30:00',180,15,'Rouen',NULL),(3,4,1,'Tutorat de mathématique plus spécialement algèbre linéaire pour des étudiants de licences informatique et/ou mathématiques',NULL,'2022-01-29 17:55:09',90,12,'Bordeaux',NULL),(4,1,1,'dqdqd',NULL,'2022-02-04 14:00:00',6000,5,'111 Rue de la délivrande 14000 Caen','49.195374650000005,-0.360186240287916'),(5,1,1,'dqdqdq',NULL,'2022-02-03 15:00:00',12000,10,'111 Rue de la délivrande 14000 Caen','49.195374650000005,-0.360186240287916');
 /*!40000 ALTER TABLE `tutorat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -112,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-17 14:33:34
+-- Dump completed on 2022-03-04 23:53:01
