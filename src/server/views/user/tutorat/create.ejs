@@ -4,28 +4,29 @@
  <div class="error_message"><%= fatal %></div>
 <% } %>
 <div id="content">
+    <%=console.log(previous)%>
     <form method="post" id="create-tutorat-grid">
         <p><label for="tags">Catégorie de votre tutorat: </label></p>
         <p><select name="tags" id="tags">
             <% for(tag of tags) { %>
-                <option value="<%=tag.id%>"><%=tag.content%></option>
+                <option value="<%=tag.id%>" <% if(previous?.tags==tag.id) { %>selected<% } %>><%=tag.content%></option>
             <% } %>
         </select></p>
 
         <p><label for="description">Description: </label></p>
-        <p><textarea id="description" name="description" required></textarea></p>
+        <p><textarea id="description" name="description" required><%=previous?.description%></textarea></p>
 
         <p><label for="datetime">Date et horaire de votre tutorat: </label></p>
-        <p><input type="datetime-local" name="datetime" id="datetime" required></p>
+        <p><input type="datetime-local" name="datetime" id="datetime" value="<%=previous?.datetime%>" required></p>
         
         <p><label for="duration">Durée du tutorat: </label></p>
-        <p><input type="time" name="duration" id="duration" required></p>
+        <p><input type="time" name="duration" id="duration" value="<%=previous?.duration%>" required></p>
 
         <p><label for="price">Prix du tutorat: </label></p>
-        <p><input type="number" min="1" step="0.5" name="price" id="price" required></p>
+        <p><input type="number" min="1" step="0.5" name="price" id="price" value="<%=previous?.price%>" required></p>
         
         <p><label for="place">Lieu du tutorat: </label></p>
-        <p><input type="text" name="place" id="place" required></p>
+        <p><input type="text" name="place" id="place" value="<%=previous?.place%>"vrequired></p>
 
         <p><button type="submit">Valider</button></p>
 </form>
