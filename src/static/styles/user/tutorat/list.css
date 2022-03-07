@@ -2,10 +2,10 @@ h1,h2,h3 {
     text-align: center;
 }
 
-#tutorat {
+.tutorat {
     background-color: #D7D7D7;
     display: grid;
-    grid-template-columns: 300px 1fr 1fr;
+    grid-template-columns: 400px 3fr 2fr;
     gap: 10%;
     margin-bottom: 2%;
 }
@@ -23,14 +23,34 @@ ul#nouveau_tutorat {
     margin-top: 3%;
 }
 
+#nouveau_tutorat a {
+    color: white;
+    text-decoration: none;
+}
+
 .description {
     text-align: center;
     color: #1C1C1C;
 }
 
 
-.jesaispas {
+.modif_tutorat {
     align-self: center;
+}
+
+.modif_tutorat a {
+    color: white;
+    text-decoration: none;
+}
+
+.modif_tutorat li {
+    list-style: none;
+    text-align: center;
+    background-color: #8c8282;
+    border-radius: 5px;
+    padding: 8px;
+    width: 12em;
+    margin: 2px;
 }
 
 li#modifier {
@@ -43,14 +63,14 @@ li#modifier {
 }
 
 
-#tutorat_enregistre {
+.tutorat_enregistre {
     display: grid;
     grid-template-columns: 25vw 45vw;
     border-top: 1px solid #8492A6;
     padding-bottom: 2%;
 }
 
-ul#formu {
+ul.formu {
     list-style: none;
     text-align: center;
     padding-top: 2%;
@@ -63,6 +83,6 @@ select {
     height: 38px;
 }
 
-#tutorat_exemple {
+.tutorat_exemple {
     padding-top: 7%;
 }

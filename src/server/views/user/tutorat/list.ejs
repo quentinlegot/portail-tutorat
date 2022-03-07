@@ -3,16 +3,16 @@
 <h1>Vos tutorats</h1>
 
 <ul id="nouveau_tutorat">
-    <a href="/user/tutorat/create"><li id="nouveau_tutorat">Nouveau Tutorat</li></a>
+    <a href="/user/tutorat/create"><li>Nouveau Tutorat</li></a>
 </ul>
 <% if(message) {%>
 <%=message%>
 <% } %>
 
-<div id="tutorat_enregistre">
+<div class="tutorat_enregistre">
     <h2>Vos Tutorats enregistrés :</h1>
 
-    <ul id="formu">
+    <ul class="formu">
         <li>
             <select name="trier" id="trier-select">
                 <option value="" disabled selected>Trier</option>
@@ -28,8 +28,8 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
 %>
-        <div id="tutorat">
-            <div id="tutorat_exemple">
+        <div class="tutorat">
+            <div class="tutorat_exemple">
                 <h2>Tutorat <%=tutorat.content%></h2>
                 <h3><p>Proposé par <%=tutorat.nom%></p></h3>
                 <h3><p><%=tutorat.place%></p></h3>
@@ -44,11 +44,11 @@
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
 			
-			<div class="jesaispas">
+			<div class="modif_tutorat">
                 <ul>
-					<a class="view" href="/tutorat/<%=tutorat.id%>">Détails</a>
-					<a class="delete" href="./delete/<%=tutorat.id%>">Supprimer</a>
-					<a class="modify" href="./modify/<%=tutorat.id%>">Modifier</a>
+					<li><a class="view" href="/tutorat/<%=tutorat.id%>">Détails</a></li>
+					<li><a class="delete" href="./delete/<%=tutorat.id%>">Supprimer</a></li>
+					<li><a class="modify" href="./modify/<%=tutorat.id%>">Modifier</a></li>
                 </ul>
             </div>
 			
