@@ -121,4 +121,30 @@ export default class MySQL {
         })
     }
 
+    showUserTutorats(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = ? AND tags.id = tags_id ORDER BY tutorat.startdate DESC;", [req.session.user.id],
+            (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+        
+    }
+
+    getTags() {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT * FROM tags", (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
+
 }

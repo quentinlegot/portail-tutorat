@@ -2,7 +2,7 @@ import mysql from 'mysql'
 import logops from 'logops'
 import MySQL from '../model/mysql.js'
 import fetch from 'node-fetch'
-import { TimeInDuration, TwoDigitDate } from '../models/Tools.js'
+import { TimeInDuration, TwoDigitDate } from '../model/Tools.js'
 
 export default class User{
 	
@@ -12,7 +12,8 @@ export default class User{
      */
 	constructor(connection)
 	{
-        this.connection = connection.connection
+        this.mysql = connection
+        this.connection = connection.connection // deprecated
 	}
 
     /**
@@ -31,18 +32,14 @@ export default class User{
      */
     tutorat(req, res) {
 		if(typeof req.session.user !== 'undefined') {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id ORDER BY tutorat.startdate DESC;",
-            (err, results) => {
-                if(err) {
-                    logops.error(err)
-                    res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
-                    return
-                } else {
-                    let message = req.session.message
-                    req.session.message = undefined
-				    res.status(200).render('user/tutorat/list', {resultList: results, session: req.session.user, message})
-			    }
-            });
+            this.mysql.showUserTutorats(req).then(results => {
+                let message = req.session.message
+                req.session.message = undefined
+                res.status(200).render('user/tutorat/list', {resultList: results, session: req.session.user, message})
+            }).catch(err => {
+                logops.error(err)
+                res.status(500).render('search', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité"})
+            })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
             res.redirect(302, "/")
@@ -57,15 +54,11 @@ export default class User{
      */
     createTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {
-            this.connection.query('SELECT * FROM tags', (err, result) => {
-                if(err) {
-                    logops(err)
-                    res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: "Une erreur inconnue est survenue", tags: {}})
-                    return;
-                }
-                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: false, tags: result})
-
-
+            this.mysql.getTags().then(results => {
+                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: false, tags: results})
+            }).catch(err => {
+                logops(err)
+                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: "Une erreur inconnue est survenue", tags: {}})
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
