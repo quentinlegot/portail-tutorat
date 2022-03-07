@@ -7,7 +7,7 @@
      */
 export function TimeInDuration(time) { 
     let strs = time.split(":")
-    if(strs.length === 2 && Number.isInteger(strs[0]) && Number.isInteger(strs[1])) {
+    if(strs.length === 2 && !Number.isNaN(strs[0]) && !Number.isNaN(strs[1])) {
         return parseInt(strs[0]) * 60 + parseInt(strs[1])
     } else {
         return 0

@@ -147,4 +147,31 @@ export default class MySQL {
         })
     }
 
+    insertNewTutorat(req, date, duration, geolocation) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("INSERT INTO tutorat (proposed_by, tags_id, description, customer_id, startdate, duration, price, place, geolocation) VALUE(?, ?, ?, NULL, ?,?, ?, ?, ?)", 
+            [req.session.user.id, req.body["tags"], req.body["description"], date, duration, req.body["price"], req.body["place"], geolocation], (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
+
+    getTutoratToDelete(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference FROM tutorat, account, tags "+
+            "WHERE tutorat.proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id AND tutorat.id = " + mysql.escape(req.params.id) + " AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;",
+            (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
 }
