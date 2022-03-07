@@ -1,11 +1,11 @@
-#profil {
+.profil {
     display: grid;
     grid-template-columns: 300px 1fr;
     margin-top: 4%;
     border-top: 1px solid #8492A6;
 }
 
-#photo {
+.photo {
     display: grid;
     grid-template-columns: 350px 1fr;
 
@@ -15,7 +15,7 @@
     text-align: justify;
 }
 
-#infos {
+.infos {
     width: 450px;
 }
 

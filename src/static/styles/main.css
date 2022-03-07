@@ -17,6 +17,10 @@ body {
     font-family: lato;
 }
 
+.center {
+    text-align: center;
+}
+
 ul#list {
     list-style: none;
 }

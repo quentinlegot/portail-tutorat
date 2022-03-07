@@ -1,8 +1,14 @@
 #detail {
     margin-left: 2vw;
+    margin-right: 2vw;
+    padding-left: 2vw;
+    padding-bottom: 2vw;
+    border-radius: 5px;
+    background-color: #dedcd7;
 }
 
 h1 {
+    padding-top: 1vw;
     text-decoration: underline;
 }
 

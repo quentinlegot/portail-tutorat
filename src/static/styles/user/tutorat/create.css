@@ -1,6 +1,57 @@
+#content {
+    margin-left: 2em;
+    margin-right: 2em;
+    border-radius: 5px;
+    background-color: #dedcd7;
+}
+
+h1 {
+    text-align: center;
+}
+
 #create-tutorat-grid {
-    display:grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 20em 20em;
     margin: 5vw;
     padding: 5px;
+    justify-content: center;
+}
+
+label {
+    font-size: 20px;
+    color: black;
+}
+
+input {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 180px;
+    height: 30px;
+}
+
+select {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 180px;
+    height: 30px;
+}
+
+textarea {
+    border: 1px solid #8492A6;
+    border-radius: 5px;
+    width: 180px;
+    height: 75px;
+}
+
+button {
+    margin-top: 2%;
+    width: 120px;
+    height: 30px;
+    background-color: #8c8282;
+    border: 1px solid #8c8282;
+    border-radius: 5px;
+    color: white;
+    position: relative;
+    left: 20em;
+    cursor: pointer;
 }
