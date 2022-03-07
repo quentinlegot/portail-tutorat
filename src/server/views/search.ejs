@@ -37,6 +37,9 @@
             </select>
         </li>
     </ul>
+    <% if(tutorats.length === 0) { %>
+        <div class="center">Aucun tutorat disponible pour vos critères</div>
+    <% } %>
     <% for(tutorat of tutorats) {
         let startdate = new Date(tutorat.startdate) 
         let hoursDuration = Math.floor(tutorat.duration / 60)

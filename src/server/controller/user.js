@@ -32,7 +32,7 @@ export default class User{
      */
     tutorat(req, res) {
 		if(typeof req.session.user !== 'undefined') {
-            mysql.showUserTutorats(req).then(results => {
+            this.mysql.showUserTutorats(req).then(results => {
                 let message = req.session.message
                 req.session.message = undefined
                 res.status(200).render('user/tutorat/list', {resultList: results, session: req.session.user, message})
