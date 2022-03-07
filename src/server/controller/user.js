@@ -87,29 +87,22 @@ export default class User{
                 let geolocation = null
                 const place = req.body["place"]
                 fetch(`https://nominatim.openstreetmap.org/search?q=${place}&format=json&polygon=1&addressdetails=1`)
-                .then(response => {
-                    response.json().then(response => {
-                        if(response.length === 0 ) {
-                            req.session.message = "La localisation donnée n'est pas correcte"
+                .then(response => response.json().then(response => {
+                    if(response.length === 0 ) {
+                        req.session.message = "La localisation donnée n'est pas correcte"
+                        res.redirect(302, "/user/tutorat/create")
+                    } else {
+                        geolocation = `${response[0].lat},${response[0].lon}`
+                        let date = `${startdate.getFullYear()}-${TwoDigitDate(startdate.getMonth())}-${TwoDigitDate(startdate.getDay())} ${TwoDigitDate(startdate.getHours())}:${TwoDigitDate(startdate.getMinutes())}`
+                        this.mysql.insertNewTutorat(req, date, duration, geolocation).then(results => {
+                            res.redirect(302, `/tutorat/${results.insertId}`)
+                        }).catch(err => {
+                            logops.error(err)
+                            req.session.message = "Une erreur inconnue est survenue"
                             res.redirect(302, "/user/tutorat/create")
-                            return
-                        } else {
-                            geolocation = `${response[0].lat},${response[0].lon}`
-                            let date = `${startdate.getFullYear()}-${TwoDigitDate(startdate.getMonth())}-${TwoDigitDate(startdate.getDay())} ${TwoDigitDate(startdate.getHours())}:${TwoDigitDate(startdate.getMinutes())}`
-                            this.connection.query("INSERT INTO tutorat (proposed_by, tags_id, description, customer_id, startdate, duration, price, place, geolocation) VALUE(?, ?, ?, NULL, ?,?, ?, ?, ?)",
-                            [req.session.user.id, req.body["tags"], req.body["description"], date, duration, req.body["price"], req.body["place"], geolocation], (err, results) => {
-                                if(err) {
-                                    logops.error(err)
-                                    req.session.message = "Une erreur inconnue est survenue"
-                                    res.redirect(302, "/user/tutorat/create")
-                                    return
-                                }
-                                res.redirect(302, `/tutorat/${results.insertId}`)
-                                return
-                            })
-                        }
-                    })
-                })
+                        })
+                    }
+                }))
             }
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
@@ -138,17 +131,13 @@ export default class User{
      */
     deleteTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference FROM tutorat, account, tags "+
-            "WHERE tutorat.proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id AND tutorat.id = " + mysql.escape(req.params.id) + " AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;",
-            (err, result) => {
-                if(err) {
-                    res.status(200).render('user/tutorat/delete', {tutorats: {}, fatal: "Une erreur interne est survenue", session: req.session.user})
-                    logops.error(err)
-                    return
-                }
+            this.mysql.getTutoratToDelete(req).then(result => {
                 let message = req.session.message
                 req.session.message = undefined
                 res.status(200).render('user/tutorat/delete', {tutorats: result, fatal: message, session: req.session.user})
+            }).catch(err => {
+                res.status(200).render('user/tutorat/delete', {tutorats: {}, fatal: "Une erreur interne est survenue", session: req.session.user})
+                logops.error(err)
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"

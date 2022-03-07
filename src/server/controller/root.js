@@ -85,37 +85,46 @@ export default class Root {
         if(hasGivenAllElements === true) {
             if(req.body.email === req.body.confirmEmail) {
                 if(req.body.password === req.body.confirmPassword) {
-                    this.connection.isAccountAlreadyExist(req).then((v) => {
-                        if(v === false) {
-                            bcrypt.genSalt(this.saltRounds, (err, salt) => {
-                                bcrypt.hash(req.body.password, salt, (err, hash) => {
-                                    if(err) {
-                                        req.session.error = "Une erreur interne est survenue"
-                                        logops.error(err)
-                                        res.redirect(302, "/signup")
-                                    } else {
-                                        this.connection.createAccount(req, hash).then((results) => {
-                                            req.session.message = "Inscription réussie"
-                                            req.session.user = results[0]
-                                            res.redirect(302, "/")
-                                        }).catch(err => {
-                                            req.session.error = "Une erreur interne est survenue"
-                                            logops.error(err)
-                                            res.redirect(302, "/signup")
+                    if(req.body.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+                        if(req.body.password.length >= 5) {
+                            this.connection.isAccountAlreadyExist(req).then((v) => {
+                                if(v === false) {
+                                    bcrypt.genSalt(this.saltRounds, (_err, salt) => {
+                                        bcrypt.hash(req.body.password, salt, (err, hash) => {
+                                            if(err) {
+                                                req.session.error = "Une erreur interne est survenue"
+                                                logops.error(err)
+                                                res.redirect(302, "/signup")
+                                            } else {
+                                                this.connection.createAccount(req, hash).then((results) => {
+                                                    req.session.message = "Inscription réussie"
+                                                    req.session.user = results[0]
+                                                    res.redirect(302, "/")
+                                                }).catch(err => {
+                                                    req.session.error = "Une erreur interne est survenue"
+                                                    logops.error(err)
+                                                    res.redirect(302, "/signup")
+                                                })
+                                            }
                                         })
-                                    }
-                                })
+                                    })
+                                } else {
+                                    req.session.error = "Cette adresse mail est déjà enregistrée dans notre base de données"
+                                    res.redirect(302, "/signup")
+                                } 
+                            }).catch((err) => {
+                                req.session.error = "Une erreur interne est survenue"
+                                logops.error(err)
+                                res.redirect(302, "/signup")
                             })
                         } else {
-                            req.session.error = "Cette adresse mail est déjà enregistrée dans notre base de données"
+                            req.session.error = "Votre mot de passe n'est pas assez long"
                             res.redirect(302, "/signup")
-                        }
-                        
-                    }).catch((err) => {
-                        req.session.error = "Une erreur interne est survenue"
-                        logops.error(err)
+                        } 
+                    } else {
+                        req.session.error = "Votre adresse mail est dans un format incorrect"
                         res.redirect(302, "/signup")
-                    })
+                    }
                 } else {
                     req.session.error = "Votre mot depasse n'est pas identique"
                     res.redirect(302, "/signup")
