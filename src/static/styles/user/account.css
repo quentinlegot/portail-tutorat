@@ -5,17 +5,28 @@
     border-top: 1px solid #8492A6;
 }
 
+.side_bar p {
+    padding-left: 10px;
+    padding-top: 10px;
+    height: 60px;
+    border-bottom: 1px solid #D3DCE6;
+    margin-bottom: 0;
+}
+
+.side_bar ul {
+    list-style: none;
+}
+
 .photo {
     display: grid;
     grid-template-columns: 350px 1fr;
-
     border-left: 1px solid #8492A6;
     padding-top: 5%;
     padding-left: 4%;
     text-align: justify;
 }
 
-.infos {
+.coordonnees {
     width: 450px;
 }
 

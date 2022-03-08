@@ -2,9 +2,9 @@
 
 <div class="profil">
 
-    <div>
-        <p>Informations</p>
-            <ul>
+    <div class="side_bar">
+        <p id="menu">Informations <img src="/static/images/arrow.png" width="20" height="20" style="margin-right: 2vw; float: right;"></p>
+            <ul id="sub_menu" style="display: none; background-color: #F9FAFC; border-bottom: 1px solid #D3DCE6; margin: 0px; padding: 2vw;">
                 <li>Profil</li>
                 <li>Adresse</li>
                 <li>Calendrier</li>
@@ -13,7 +13,7 @@
         <p>Tutorats inscrits</p>
     
         <p>Avis postés</p>
-        <p><a href="/disconnect"><li>Se déconnecter</li></a></p>
+        <ul><a href="/disconnect"><li>Se déconnecter</li></a></ul>
     
     </div>
 
@@ -28,7 +28,7 @@
             <h2>Âge</h2>
         </div>
 
-        <div class="infos">
+        <div class="coordonnees">
             <h2>Adresse Email : <%=session.email%></h2>
     
             <h2>Téléphone : 1-800-676-2775</h2>
@@ -45,5 +45,18 @@
     </div>
 
 </div>
+
+<script>
+
+    document.querySelector("#menu").addEventListener('click', (event) => {
+        if(document.querySelector("#sub_menu").style.display === 'none') {
+            document.querySelector("#sub_menu").style.display = "block";
+        } else {
+            document.querySelector("#sub_menu").style.display = "none";
+        }
+        
+    })
+
+</script>
 
 <%- include('../footer') %>
