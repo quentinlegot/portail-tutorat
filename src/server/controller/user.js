@@ -55,7 +55,9 @@ export default class User{
     createTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {
             this.mysql.getTags().then(results => {
-                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: req.session.message, tags: results, previous: (typeof req.session.create_previous !== 'undefined') ? req.session.create_previous : null})
+                const today = new Date()
+                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())} ${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
+                res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: req.session.message, tags: results, previous: (typeof req.session.create_previous !== 'undefined') ? req.session.create_previous : null, startdateMin: startdateMin})
             }).catch(err => {
                 logops(err)
                 res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: "Une erreur inconnue est survenue", tags: {}})
@@ -96,6 +98,7 @@ export default class User{
                     } else {
                         geolocation = `${response[0].lat},${response[0].lon}`
                         let date = `${startdate.getFullYear()}-${TwoDigitDate(startdate.getMonth())}-${TwoDigitDate(startdate.getDay())} ${TwoDigitDate(startdate.getHours())}:${TwoDigitDate(startdate.getMinutes())}`
+                        console.log(date)
                         this.mysql.insertNewTutorat(req, date, duration, geolocation).then(results => {
                             res.redirect(302, `/tutorat/${results.insertId}`)
                         }).catch(err => {
@@ -124,7 +127,15 @@ export default class User{
      */
     modifyTutorat(req ,res) {
         if(typeof req.session.user !== 'undefined') {
-            res.status(200).render('user/tutorat/modify', {session: req.session.user})
+            Promise.all([this.mysql.getTags(), this.mysql.getTutoratToModiy(req)]).then((results) => {
+                const today = new Date()
+                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())} ${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
+                res.status(200).render('user/tutorat/modify', {session: req.session.user, fatal: null, tags: results[0], tutorat: results[1], startdateMin: startdateMin})
+            }).catch(err => {
+                res.status(200).render('user/tutorat/modify', {session: req.session.user, fatal: "Une erreur inconnue est suvenue", tags: [], tutorat: []})
+                logops.error(err)
+                return
+            })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
             res.redirect(302, "/")
