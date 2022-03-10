@@ -56,7 +56,7 @@ export default class User{
         if(typeof req.session.user !== 'undefined') {
             this.mysql.getTags().then(results => {
                 const today = new Date()
-                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())}T${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
+                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth() + 1)}-${TwoDigitDate(today.getDay())}T${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
                 res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: req.session.message, tags: results, previous: (typeof req.session.create_previous !== 'undefined') ? req.session.create_previous : null, startdateMin: startdateMin})
             }).catch(err => {
                 logops(err)
@@ -127,8 +127,15 @@ export default class User{
         if(typeof req.session.user !== 'undefined') {
             Promise.all([this.mysql.getTags(), this.mysql.getTutoratToModiy(req)]).then((results) => {
                 const today = new Date()
-                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())} ${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
-                res.status(200).render('user/tutorat/modify', {session: req.session.user, fatal: null, tags: results[0], tutorat: results[1], startdateMin: startdateMin})
+                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth() + 1)}-${TwoDigitDate(today.getDay())}T${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
+                let tutorat = results[1].length === 0 ? null : results[1][0]
+                let hoursDuration = "00"
+                let minuteDuration = "00"
+                if(tutorat !== null) {
+                    hoursDuration = TwoDigitDate(Math.floor(tutorat.duration / 60))
+                    minuteDuration = TwoDigitDate(tutorat.duration - hoursDuration * 60)
+                }
+                res.status(200).render('user/tutorat/modify', {session: req.session.user, fatal: null, tags: results[0], tutorat: tutorat, startdateMin: startdateMin, hoursDuration: hoursDuration, minuteDuration: minuteDuration})
             }).catch(err => {
                 res.status(200).render('user/tutorat/modify', {session: req.session.user, fatal: "Une erreur inconnue est suvenue", tags: [], tutorat: []})
                 logops.error(err)

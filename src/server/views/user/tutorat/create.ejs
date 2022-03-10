@@ -19,7 +19,7 @@
         <p><input type="datetime-local" name="datetime" id="datetime" value="<%=previous?.datetime%>" min="<%=startdateMin%>" required></p>
         
         <p><label for="duration">Durée du tutorat :</label></p>
-        <p><input type="time" name="duration" id="duration" value="<%=previous?.duration%>" required></p>
+        <p><input type="time" name="duration" min="00:30" max="10:00" id="duration" value="<%=previous?.duration%>" required></p>
 
         <p><label for="price">Prix du tutorat :</label></p>
         <p><input type="number" min="1" step="0.5" name="price" id="price" value="<%=previous?.price%>" required></p>
