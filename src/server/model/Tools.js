@@ -1,3 +1,5 @@
+import fetch from "node-fetch"
+
 /**
 * time given by html time input, converted to duration in minutes
 * return 0 if cannot parse
@@ -54,4 +56,26 @@ export function parseDateTimeFromHTMLInput(datetime) {
  */
 export function exporDateToSQL(datetime) {
     return datetime.getFullYear() + "-" + (datetime.getMonth() + 1) + "-" + datetime.getDate() + " " + datetime.getHours() + ":" + datetime.getMinutes() + ":00"
+}
+
+/**
+ * 
+ * @param {string} place 
+ */
+export function getGeolocalisation(place) {
+    return new Promise((resolve, reject) => {
+        console.log(place)
+        fetch(`https://nominatim.openstreetmap.org/search?q=${place}&format=json&polygon=1&addressdetails=1`)
+        .then(response => response.json().then(response => {
+            if(response.length === 0) {
+                console.log(response)
+                reject("")
+                return
+            }
+            resolve(response[0])
+
+        })).catch(err => {
+            reject(err)
+        })
+    })
 }

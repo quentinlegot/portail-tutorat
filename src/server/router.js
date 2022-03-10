@@ -54,6 +54,9 @@ export default class Router {
         .get('/user/tutorat/modify/:id', (req, res) => {
             this.controller.user.modifyTutorat(req, res)
         })
+        .post('/user/tutorat/modify/:id', (req, res) => {
+            this.controller.user.confirmModification(req, res)
+        })
         .get('/user/tutorat/delete/:id', (req, res) => {
             this.controller.user.deleteTutorat(req, res)
         })

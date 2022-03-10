@@ -1,8 +1,7 @@
 import mysql from 'mysql'
 import logops from 'logops'
 import MySQL from '../model/mysql.js'
-import fetch from 'node-fetch'
-import { parseDateTimeFromHTMLInput, TimeInDuration, TwoDigitDate } from '../model/Tools.js'
+import { getGeolocalisation, parseDateTimeFromHTMLInput, TimeInDuration, TwoDigitDate } from '../model/Tools.js'
 
 export default class User{
 	
@@ -89,28 +88,25 @@ export default class User{
                 }
                 let geolocation = null
                 const place = req.body["place"]
-                fetch(`https://nominatim.openstreetmap.org/search?q=${place}&format=json&polygon=1&addressdetails=1`)
-                .then(response => response.json().then(response => {
-                    if(response.length === 0 ) {
+                getGeolocalisation(place).then(geolocalisation => {
+                    geolocation = `${geolocalisation.lat},${geolocalisation.lon}`
+                    this.mysql.insertNewTutorat(req, startdate, duration, geolocation).then(results => {
+                        res.redirect(302, `/tutorat/${results.insertId}`)
+                    }).catch(err => {
+                        logops.error(err)
                         req.session.create_previous = req.body
-                        req.session.message = "La localisation donnée n'est pas correcte"
+                        req.session.message = "Une erreur inconnue est survenue"
                         res.redirect(302, "/user/tutorat/create")
-                    } else {
-                        geolocation = `${response[0].lat},${response[0].lon}`
-                        this.mysql.insertNewTutorat(req, startdate, duration, geolocation).then(results => {
-                            res.redirect(302, `/tutorat/${results.insertId}`)
-                        }).catch(err => {
-                            logops.error(err)
-                            req.session.create_previous = req.body
-                            req.session.message = "Une erreur inconnue est survenue"
-                            res.redirect(302, "/user/tutorat/create")
-                        })
-                    }
-                }))
+                    })
+                }).catch(() => {
+                    req.session.create_previous = req.body
+                    req.session.message = "La localisation donnée n'est pas correcte"
+                    res.redirect(302, "/user/tutorat/create")
+                })
             } else {
                 req.session.message = "Certains champs n'ont pas été renseignés"
                 req.session.create_previous = req.body
-            res.redirect(302, "/")
+                res.redirect(302, "/")
             }
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
@@ -147,6 +143,54 @@ export default class User{
         }
     }
 
+    confirmModification(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            let hasGivenAllElements = true
+            let elements = ["tags", "description", "datetime", "duration", "price", "place"]
+            for(let el of elements) {
+                if(req.body[el] === undefined) {
+                    hasGivenAllElements = false
+                    break
+                }
+            }
+            if(hasGivenAllElements === true) {
+                this.mysql.getTutoratToModiy(req).then(result => {
+                    if(result.length === 1) {
+                        getGeolocalisation(req.body["place"]).then(geolocalisation => {
+                            const geolocation = `${geolocalisation.lat},${geolocalisation.lon}`
+                            this.mysql.modifyTutorat(req, geolocation).then(() => {
+                                res.redirect(302, `/tutorat/${req.params.id}`)
+                            }).catch(err => {
+                                res.status(200).render('user/tutorat/modify', {tutorats: {}, fatal: "Une erreur interne est survenue", session: req.session.user})
+                                logops.error(err)
+                            })
+                        }).catch((err) => {
+                            let message = err === "" ? "Le lieu du tutorat ne correspond à aucun lieu existant" : "Une erreur inconnue est survenue"
+                            res.status(200).render('user/tutorat/modify', {tutorats: {}, fatal: message, session: req.session.user})
+                            if(err !== "") {
+                                logops.error(err)
+                            }
+                        })
+                    } else {
+                        req.session.message = "Aucun tutorat n'a été trouvé"
+                        res.redirect(302, "/user/tutorat/list")
+                    }
+                }).catch(err => {
+                    req.session.message = "Une erreur interne est survenue lors de la modification du tutorat"
+                    res.redirect(302, "/user/tutorat/modify/" + req.params.id)
+                    logops.error(err)
+                })
+            } else {
+                req.session.message = "Certains champs n'ont pas été renseignés"
+                res.redirect(400, "/user/tutorat/modify/" + req.params.id)
+            }
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+            
+    }
+
     /**
      * page de suppresion d'un  tutorat
      * @param {*} req 
@@ -157,7 +201,7 @@ export default class User{
             this.mysql.getTutoratToDelete(req).then(result => {
                 let message = req.session.message
                 req.session.message = undefined
-                res.status(200).render('user/tutorat/delete', {tutorats: result, fatal: message, session: req.session.user})
+                res.status(200).render('user/tutorat/delete/', {tutorats: result, fatal: message, session: req.session.user})
             }).catch(err => {
                 res.status(200).render('user/tutorat/delete', {tutorats: {}, fatal: "Une erreur interne est survenue", session: req.session.user})
                 logops.error(err)
@@ -188,8 +232,8 @@ export default class User{
                 }
             }).catch(err => {
                 req.session.message = "Une erreur interne est survenue lors de la suppression du tutorat"
-                    res.redirect(302, "/user/tutorat/delete")
-                    logops.error(err)
+                res.redirect(302, "/user/tutorat/delete/" + req.params.id)
+                logops.error(err)
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"

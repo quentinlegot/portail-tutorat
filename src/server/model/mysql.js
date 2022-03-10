@@ -1,5 +1,5 @@
 import mysql from 'mysql'
-import { exporDateToSQL } from './Tools.js'
+import { exporDateToSQL, parseDateTimeFromHTMLInput, TimeInDuration } from './Tools.js'
 
 export default class MySQL {
     
@@ -196,4 +196,22 @@ export default class MySQL {
         })
     }
 
+    /**
+     * @todo
+     * @param {*} req 
+     * @returns 
+     */
+    modifyTutorat(req, geolocation) {
+        return new Promise((resolve, reject) =>  {
+            this.connection.query("UPDATE tutorat SET tags_id=?, description=?, startdate=?, duration=?, price=?, place=?, geolocation=? WHERE id=?",
+            [req.body["tags"], req.body["description"], exporDateToSQL(parseDateTimeFromHTMLInput(req.body["datetime"])), TimeInDuration(req.body["duration"]), req.body["price"], req.body["place"], geolocation, req.params.id], 
+            (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
 }
