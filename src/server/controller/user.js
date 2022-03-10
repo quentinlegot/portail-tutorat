@@ -2,7 +2,7 @@ import mysql from 'mysql'
 import logops from 'logops'
 import MySQL from '../model/mysql.js'
 import fetch from 'node-fetch'
-import { TimeInDuration, TwoDigitDate } from '../model/Tools.js'
+import { parseDateTimeFromHTMLInput, TimeInDuration, TwoDigitDate } from '../model/Tools.js'
 
 export default class User{
 	
@@ -56,7 +56,7 @@ export default class User{
         if(typeof req.session.user !== 'undefined') {
             this.mysql.getTags().then(results => {
                 const today = new Date()
-                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())} ${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
+                const startdateMin = `${today.getFullYear()}-${TwoDigitDate(today.getMonth())}-${TwoDigitDate(today.getDay())}T${TwoDigitDate(today.getHours())}:${TwoDigitDate(today.getMinutes())}`
                 res.status(200).render('user/tutorat/create', {session: req.session.user, fatal: req.session.message, tags: results, previous: (typeof req.session.create_previous !== 'undefined') ? req.session.create_previous : null, startdateMin: startdateMin})
             }).catch(err => {
                 logops(err)
@@ -79,7 +79,7 @@ export default class User{
                 }
             }
             if(hasGivenAllElements === true) {
-                let startdate = new Date(req.body["datetime"])
+                let startdate = parseDateTimeFromHTMLInput(req.body["datetime"])
                 let duration = TimeInDuration(req.body["duration"])
                 if(duration === 0) {
                     req.session.create_previous = req.body
@@ -97,9 +97,7 @@ export default class User{
                         res.redirect(302, "/user/tutorat/create")
                     } else {
                         geolocation = `${response[0].lat},${response[0].lon}`
-                        let date = `${startdate.getFullYear()}-${TwoDigitDate(startdate.getMonth())}-${TwoDigitDate(startdate.getDay())} ${TwoDigitDate(startdate.getHours())}:${TwoDigitDate(startdate.getMinutes())}`
-                        console.log(date)
-                        this.mysql.insertNewTutorat(req, date, duration, geolocation).then(results => {
+                        this.mysql.insertNewTutorat(req, startdate, duration, geolocation).then(results => {
                             res.redirect(302, `/tutorat/${results.insertId}`)
                         }).catch(err => {
                             logops.error(err)

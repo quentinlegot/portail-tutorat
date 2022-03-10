@@ -1,9 +1,10 @@
 import mysql from 'mysql'
+import { exporDateToSQL } from './Tools.js'
 
 export default class MySQL {
     
-    order_filter = { 
-        0: "", 
+    order_filter = {
+        0: "",
         1: "ORDER BY PRICE ASC",
         2: "ORDER BY place",
         3: "ORDER BY DURATION ASC"
@@ -36,7 +37,7 @@ export default class MySQL {
 
     searchList(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags " + 
+            this.connection.query("SELECT tutorat.*, DATE_FORMAT(startdate, \"%Y-%m-%dT%H:%i\") as startdateformat, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags " + 
             "FROM tutorat, account, tags " + 
             "WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + 
             this.categorieFilter(req) + " " + this.orderFilter(req) + ";"+ 
@@ -147,10 +148,18 @@ export default class MySQL {
         })
     }
 
+    /**
+     * 
+     * @param {*} req 
+     * @param {Date} date 
+     * @param {Number} duration 
+     * @param {string} geolocation 
+     * @returns {PromiseConstructor} Promise
+     */
     insertNewTutorat(req, date, duration, geolocation) {
         return new Promise((resolve, reject) => {
             this.connection.query("INSERT INTO tutorat (proposed_by, tags_id, description, customer_id, startdate, duration, price, place, geolocation) VALUE(?, ?, ?, NULL, ?,?, ?, ?, ?)", 
-            [req.session.user.id, req.body["tags"], req.body["description"], date, duration, req.body["price"], req.body["place"], geolocation], (err, results) => {
+            [req.session.user.id, req.body["tags"], req.body["description"], exporDateToSQL(date), duration, req.body["price"], req.body["place"], geolocation], (err, results) => {
                 if(err) {
                     reject(err)
                     return

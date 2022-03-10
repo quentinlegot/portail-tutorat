@@ -2,6 +2,7 @@ import User from './user.js'
 import mysql from '../model/mysql.js'
 import bcrypt from 'bcrypt'
 import logops from 'logops'
+import { parseDateTimeFromHTMLInput } from '../model/Tools.js'
 
 export default class Root {
     
@@ -31,7 +32,7 @@ export default class Root {
      */
     search(req, res) {
         this.connection.searchList(req).then((results) => {
-            res.status(200).render('search', {fatal: false, tutorats: results[0], tags: results[1], 
+            res.status(200).render('search', {fatal: false, parseDateTimeFromHTMLInput: parseDateTimeFromHTMLInput, tutorats: results[0], tags: results[1], 
                 selectedCategorie: req.query.categorie ? parseInt(req.query.categorie) : "", 
                 selectedOrder: req.query.order ? parseInt(req.query.order) : "", session: req.session.user})
                 return

@@ -41,7 +41,8 @@
         <div class="center aucun_tutorat">Aucun tutorat disponible pour vos critères</div>
     <% } %>
     <% for(tutorat of tutorats) {
-        let startdate = new Date(tutorat.startdate) 
+        let startdate = new Date(tutorat.startdate)
+        startdate.setMonth(startdate.getMonth() + 1)
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
         %>
@@ -57,7 +58,7 @@
                 <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
             
                 <h2>Horaires :</h2>
-                <p class="description">Le <%=("0" + startdate.getDay()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
+                <p class="description">Le <%=("0" + startdate.getDate()).slice(-2)%>-<%=("0" + startdate.getMonth()).slice(-2)%>-<%=startdate.getFullYear()%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
         
