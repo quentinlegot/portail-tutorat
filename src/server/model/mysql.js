@@ -214,4 +214,16 @@ export default class MySQL {
             })
         })
     }
+
+    getUserReservation(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT * FROM reservation WHERE customer_id = ?", [req.session.user.id], (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
 }

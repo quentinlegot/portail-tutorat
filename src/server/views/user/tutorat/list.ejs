@@ -28,8 +28,8 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
 %>
-        <div class="tutorat">
-            <div class="tutorat_exemple">
+        <div class="listElement">
+            <div class="tutorat_infos">
                 <h2>Tutorat <%=tutorat.content%></h2>
                 <h3><p>Proposé par <%=tutorat.nom%></p></h3>
                 <h3><p><%=tutorat.place%></p></h3>
@@ -43,7 +43,6 @@
                 <p class="description">Le <%=startdate.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });%> à <%=("0" + startdate.getHours()).slice(-2)%>h<%=("0" + startdate.getMinutes()).slice(-2)%>
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
-			
 			<div class="modif_tutorat">
                 <ul>
 					<li><a class="view" href="/tutorat/<%=tutorat.id%>">Détails</a></li>

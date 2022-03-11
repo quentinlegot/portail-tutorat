@@ -39,6 +39,9 @@ export default class Router {
         .get('/user/account', (req, res) => {
             this.controller.user.account(req, res)
         })
+        .get('/user/reservations', (req, res) => {
+            this.controller.user.reservation(req, res)
+        })
         .get('/user/tutorat', (req, res) => {
             res.redirect(301, '/user/tutorat/list')
         })

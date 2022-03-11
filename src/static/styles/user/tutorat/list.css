@@ -2,28 +2,11 @@ h1,h2,h3 {
     text-align: center;
 }
 
-.tutorat {
-    background-color: #D7D7D7;
-    display: grid;
-    grid-template-columns: 400px 3fr 2fr;
-    gap: 10%;
-    margin-bottom: 2%;
+.tutorat_infos {
+    padding-top: 7%;
 }
 
-ul#nouveau_tutorat {
-    list-style: none;
-    text-align: center;
-    background-color: #47525E;
-    border-radius: 5px;
-    padding: 8px;
-    width: fit-content;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 3%;
-}
-
-#nouveau_tutorat a {
+.tutorat_infos a {
     color: white;
     text-decoration: none;
 }
@@ -81,8 +64,4 @@ select {
     border-radius: 5px;
     width: 185px;
     height: 38px;
-}
-
-.tutorat_exemple {
-    padding-top: 7%;
 }

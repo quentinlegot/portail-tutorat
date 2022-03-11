@@ -1,0 +1,14 @@
+<%- include('../header', {title: "Vos réservations", style: "user/reservations", session}) %>
+
+<% if(fatal) { %>
+    <div class="'error_message"><%=fatal%></div>
+<% } else { %>
+    <% if(message) { %>
+        <div class="'error_message"><%=message%></div>
+    <% } %>
+    <% for(let reservation of reservations) { %>
+
+    <% } %>
+<% } %>
+
+<%- include('../footer') %>

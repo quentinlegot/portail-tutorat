@@ -46,8 +46,8 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
         %>
-        <div id="grid2">
-            <div id="nom">
+        <div class="listElement">
+            <div class="nom">
                 <h2>Tutorat <%=tutorat.tags%></h2>
                 <h3><p>Proposé par <%=tutorat.nom%></p></h3>
                 <h3><p><%=tutorat.email%></p></h3>
@@ -62,9 +62,9 @@
                     pour une durée de <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%> au prix de <%=tutorat.price%>€</p>
             </div>
         
-            <div class="jesaispas">
+            <div class="reservation-container">
                 <ul>
-                    <a href="/tutorat/<%=tutorat.id%>"><li id="inscris">Je m'inscris</li></a>
+                    <a href="/tutorat/<%=tutorat.id%>"><li class="inscris-btn">Je m'inscris</li></a>
                 </ul>
             </div>
         

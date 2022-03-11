@@ -241,5 +241,23 @@ export default class User{
         }
     }
 
+    reservation(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.mysql.getUserReservation(req).then(results => {
+                if(results.length === 0) {
+                    res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: false, message: "Aucun tutorat n'a été trouvé"})
+                } else {
+                    res.status(200).render("user/reservations", {reservations: results, session: req.session.user, fatal: false, message: false})
+                }
+            }).catch((err) => {
+                logops.error(err)
+                res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: "Une erreur interne est survenue"})
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+    }
+
 
 }

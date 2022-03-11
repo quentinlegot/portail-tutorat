@@ -14,3 +14,7 @@ function hideFullscreen() {
 }
 
 fullscreenCloseButton.addEventListener("click", hideFullscreen);
+
+function displayLogin() {
+    displayFullscreen("/signin")
+}
