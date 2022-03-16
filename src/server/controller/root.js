@@ -63,6 +63,26 @@ export default class Root {
         
     }
 
+    bookTutorat(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.connection.showTutoratDetail(req).then(result => {
+                let tutorat
+                if(result.length === 0) {
+                    tutorat = result[0]
+                } else {
+                    tutorat = null
+                }
+                res.status(200).render('tutorat/book', {fatal: false, tutorat: tutorat, session: req.session.user})
+            }).catch(err => {
+                res.status(200).render('tutorat/book', {fatal: "Une erreur inconnue est survenue", tutorat: null, session: req.session.user})
+                logops.error(err)
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+    }
+
     /**
      * page d'inscription
      * @param {*} req 

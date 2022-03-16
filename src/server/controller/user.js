@@ -21,7 +21,13 @@ export default class User{
      * @param {*} res 
      */
     account(req, res) {
-        res.status(200).render('user/account', {session: req.session.user})
+        if(typeof req.session.user !== 'undefined') {
+            res.status(200).render('user/account', {session: req.session.user})
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+        
     }
 
     /**
@@ -201,7 +207,7 @@ export default class User{
             this.mysql.getTutoratToDelete(req).then(result => {
                 let message = req.session.message
                 req.session.message = undefined
-                res.status(200).render('user/tutorat/delete/', {tutorats: result, fatal: message, session: req.session.user})
+                res.status(200).render('user/tutorat/delete', {tutorats: result, fatal: message, session: req.session.user})
             }).catch(err => {
                 res.status(200).render('user/tutorat/delete', {tutorats: {}, fatal: "Une erreur interne est survenue", session: req.session.user})
                 logops.error(err)
@@ -245,7 +251,7 @@ export default class User{
         if(typeof req.session.user !== 'undefined') {
             this.mysql.getUserReservation(req).then(results => {
                 if(results.length === 0) {
-                    res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: false, message: "Aucun tutorat n'a été trouvé"})
+                    res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: false, message: "Aucune réservation n'a été trouvé"})
                 } else {
                     res.status(200).render("user/reservations", {reservations: results, session: req.session.user, fatal: false, message: false})
                 }

@@ -28,12 +28,12 @@ if(tutorats.length === 0 ) {
     
     <% if(session.id === tutorat.proposed_by) { %>
         <ul id="button">
-            <li>Modifier</li>
-            <li>Supprimer</li>
+            <a href="/user/tutorat/modify/<%=tutorat.id%>"><li>Modifier</li></a>
+            <a href="/user/tutorat/delete/<%=tutorat.id%>"><li>Supprimer</li></a>
         </ul>
     <% } else { %>
         <ul id="button">
-            <li>Je réserve</li>
+            <a href="/tutorat/<%=tutorat.id%>/book"><li>Je réserve</li></a>
         </ul>
     <% } %>
     </div>

@@ -33,6 +33,9 @@ export default class Router {
         .get('/tutorat/:id', (req, res) => {
             this.controller.showTutoraDetail(req, res)
         })
+        .get('/tutorat/:id/book', (req, res) => {
+            this.controller.bookTutorat(req, res)
+        })
         .get('/user', (req, res) => {
             res.redirect(301, '/user/account')
         })

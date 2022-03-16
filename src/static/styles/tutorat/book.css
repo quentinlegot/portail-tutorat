@@ -1,0 +1,15 @@
+#content {
+    margin-left: 2em;
+    margin-right: 2em;
+    border-radius: 5px;
+    background-color: #dedcd7;
+}
+
+#create-tutorat-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    margin: 5vw;
+    padding: 5px;
+    justify-content: center;
+}
