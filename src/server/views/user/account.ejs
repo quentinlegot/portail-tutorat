@@ -3,7 +3,7 @@
 <div class="profil">
 
     <div class="side_bar">
-        <p id="menu">Informations <img src="/static/images/arrow.png" width="20" height="20" style="margin-right: 2vw; float: right;"></p>
+        <p id="menu">Informations <img id="arrow" src="/static/images/arrow.png" width="20" height="20" style="margin-right: 2vw; float: right;transform: rotate(180deg);"></p>
             <ul id="sub_menu" style="display: none; background-color: #F9FAFC; border-bottom: 1px solid #D3DCE6; margin: 0px; padding: 2vw;">
                 <li>Profil</li>
                 <li>Adresse</li>
@@ -51,8 +51,10 @@
     document.querySelector("#menu").addEventListener('click', (event) => {
         if(document.querySelector("#sub_menu").style.display === 'none') {
             document.querySelector("#sub_menu").style.display = "block";
+            document.querySelector('#arrow').style.transform =  'rotate(0deg)';
         } else {
             document.querySelector("#sub_menu").style.display = "none";
+            document.querySelector('#arrow').style.transform =  'rotate(180deg)';
         }
         
     })
