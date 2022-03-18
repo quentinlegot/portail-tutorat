@@ -36,6 +36,9 @@ export default class Router {
         .get('/tutorat/:id/book', (req, res) => {
             this.controller.bookTutorat(req, res)
         })
+        .post('/tutorat/:id/book', (req, res) => {
+            this.controller.confirmBookTutorat(req, res)
+        })
         .get('/user', (req, res) => {
             res.redirect(301, '/user/account')
         })
