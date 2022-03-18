@@ -68,9 +68,9 @@ export default class Root {
             this.connection.showTutoratDetail(req).then(result => {
                 let tutorat
                 if(result.length === 0) {
-                    tutorat = result[0]
-                } else {
                     tutorat = null
+                } else {
+                    tutorat = result[0]
                 }
                 res.status(200).render('tutorat/book', {fatal: false, tutorat: tutorat, session: req.session.user})
             }).catch(err => {

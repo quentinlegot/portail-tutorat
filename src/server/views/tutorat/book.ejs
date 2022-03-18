@@ -1,9 +1,20 @@
-<%- include('../header', {title: "Réserver ce tutorat", style: "tutorat/book", session}) %>
+<% let title
+if(tutorat === null) {
+    title = "Tutorat introuvable"
+} else {
+    title = "Réserver ce tutorat"
+} %>
+
+<%- include('../header', {title: title, style: "tutorat/book", session}) %>
 
 <% if(fatal) { %>
     <div class="error_message"><%=fatal%></div>
+    <div id="content">
 <% } else { %>
     <div id="content">
+    <% if(tutorat === null) { %>
+        <div style="text-align: center;min-height: 20vh;line-height: 20vh;font-size:2.5em">Le tutorat demandé n'existe pas ou n'est plus disponible</div>
+    <% } else { %>
         <form method="post" id="create-tutorat-grid">
             <p><label for="description">Laisser un message au tuteur:</label></p>
             <p><textarea style="width: calc(100% - 1em);min-width: 300px;height:300px;" name="description" id="description" placeholder="Montrez votre intérêt pour cette offre..." required>Bonjour,
@@ -13,6 +24,7 @@ Passez une bonne journée,
 Cordialement.</textarea></p>
             <p><button type="submit">Réserver</button></p>
         </form>
+    <% } %>
     </div>
 <% } %>
 
