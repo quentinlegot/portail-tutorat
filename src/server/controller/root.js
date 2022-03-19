@@ -2,7 +2,7 @@ import User from './user.js'
 import mysql from '../model/mysql.js'
 import bcrypt from 'bcrypt'
 import logops from 'logops'
-import { parseDateTimeFromHTMLInput } from '../model/Tools.js'
+import { isAllElementInBody, parseDateTimeFromHTMLInput } from '../model/Tools.js'
 
 export default class Root {
     
@@ -83,6 +83,26 @@ export default class Root {
         }
     }
 
+    confirmBookTutorat(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            if(isAllElementInBody(req, ["description"])) {
+                this.connection.insertNewReservation(req).then(() => {
+                    res.redirect(302, '/user/reservations')
+                }).catch(err => {
+                    logops.error(err)
+                    res.session.message = "Une erreur interne est survenue"
+                    res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
+                })
+            } else {
+                res.session.message = "Vous n'avez pas saisis tout les champs requis"
+                res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
+            }
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+    }
+
     /**
      * page d'inscription
      * @param {*} req 
@@ -95,15 +115,7 @@ export default class Root {
     }
 
     signupForm(req, res) {
-        let hasGivenAllElements = true
-        let elements = ["email", "confirmEmail", "firstName", "lastName", "password", "confirmPassword"]
-        for(let el of elements) {
-            if(req.body[el] === undefined) {
-                hasGivenAllElements = false
-                break
-            }
-        }
-        if(hasGivenAllElements === true) {
+        if(isAllElementInBody(req, ["email", "confirmEmail", "firstName", "lastName", "password", "confirmPassword"]) === true) {
             if(req.body.email === req.body.confirmEmail) {
                 if(req.body.password === req.body.confirmPassword) {
                     if(req.body.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {

@@ -4,7 +4,7 @@ import { exporDateToSQL, parseDateTimeFromHTMLInput, TimeInDuration } from './To
 export default class MySQL {
     
     order_filter = {
-        0: "",
+        0: "ORDER BY id DESC",
         1: "ORDER BY PRICE ASC",
         2: "ORDER BY place",
         3: "ORDER BY DURATION ASC"
@@ -69,9 +69,9 @@ export default class MySQL {
             if(!Number.isNaN(id) && id in this.order_filter) {
                 return this.order_filter[id]
             }
-            return ""
+            return this.order_filter[0]
         }
-        return ""
+        return this.order_filter[0]
     }
 
     showTutoratDetail(req) {
@@ -217,12 +217,25 @@ export default class MySQL {
 
     getUserReservation(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT * FROM reservation WHERE customer_id = ?", [req.session.user.id], (err, results) => {
+            this.connection.query("SELECT * FROM reservation WHERE customer_id = ? ORDER BY id DESC", [req.session.user.id], (err, results) => {
                 if(err) {
                     reject(err)
                     return
                 }
                 resolve(results)
+            })
+        })
+    }
+
+    insertNewReservation(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("INSERT INTO reservation(description, tutorat_id, customer_id) VALUE(?, ?, ?)",
+            [req.body["description"], req.params["id"], req.session.user.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
             })
         })
     }

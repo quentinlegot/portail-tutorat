@@ -1,7 +1,7 @@
 import mysql from 'mysql'
 import logops from 'logops'
 import MySQL from '../model/mysql.js'
-import { getGeolocalisation, parseDateTimeFromHTMLInput, TimeInDuration, TwoDigitDate } from '../model/Tools.js'
+import { getGeolocalisation, isAllElementInBody, parseDateTimeFromHTMLInput, TimeInDuration, TwoDigitDate } from '../model/Tools.js'
 
 export default class User{
 	
@@ -75,15 +75,7 @@ export default class User{
 
     confirmCreation(req, res) {
         if(typeof req.session.user !== 'undefined') {
-            let hasGivenAllElements = true
-            let elements = ["tags", "description", "datetime", "duration", "price", "place"]
-            for(let el of elements) {
-                if(req.body[el] === undefined) {
-                    hasGivenAllElements = false
-                    break
-                }
-            }
-            if(hasGivenAllElements === true) {
+            if(isAllElementInBody(req, ["tags", "description", "datetime", "duration", "price", "place"]) === true) {
                 let startdate = parseDateTimeFromHTMLInput(req.body["datetime"])
                 let duration = TimeInDuration(req.body["duration"])
                 if(duration === 0) {
@@ -151,15 +143,7 @@ export default class User{
 
     confirmModification(req, res) {
         if(typeof req.session.user !== 'undefined') {
-            let hasGivenAllElements = true
-            let elements = ["tags", "description", "datetime", "duration", "price", "place"]
-            for(let el of elements) {
-                if(req.body[el] === undefined) {
-                    hasGivenAllElements = false
-                    break
-                }
-            }
-            if(hasGivenAllElements === true) {
+            if(isAllElementInBody(req, ["tags", "description", "datetime", "duration", "price", "place"]) === true) {
                 this.mysql.getTutoratToModiy(req).then(result => {
                     if(result.length === 1) {
                         getGeolocalisation(req.body["place"]).then(geolocalisation => {

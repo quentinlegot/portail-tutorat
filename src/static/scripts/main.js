@@ -18,3 +18,9 @@ fullscreenCloseButton.addEventListener("click", hideFullscreen);
 function displayLogin() {
     displayFullscreen("/signin")
 }
+
+window.addEventListener("message", (e) => {
+    if (e.data === "connected") {
+        window.location.href = window.location.href;
+    }
+})

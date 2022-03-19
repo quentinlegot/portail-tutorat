@@ -79,3 +79,19 @@ export function getGeolocalisation(place) {
         })
     })
 }
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} elements 
+ */
+export function isAllElementInBody(req, elements) {
+    let hasGivenAllElements = true
+    for(let el of elements) {
+        if(req.body[el] === undefined) {
+            hasGivenAllElements = false
+            break
+        }
+    }
+    return hasGivenAllElements
+}
