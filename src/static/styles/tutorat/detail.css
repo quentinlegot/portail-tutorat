@@ -5,12 +5,15 @@
     padding-bottom: 2vw;
     border-radius: 5px;
     background-color: #ededed;
-    ;
 }
 
 h1 {
     padding-top: 1vw;
     text-decoration: underline;
+}
+
+#button a {
+    text-decoration: none;
 }
 
 #button li {
@@ -22,4 +25,19 @@ h1 {
     padding-left: 25px;
     padding-right: 25px;
     color: white;
+}
+
+#button {
+    padding-left: 0;
+}
+
+#reservations .listElement {
+    grid-template-columns: 1fr 2fr;
+}
+
+#reservations #button li {
+    display: block;
+    text-align: center;
+    width:50%;
+    margin-bottom: 5px;
 }

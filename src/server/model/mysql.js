@@ -75,7 +75,7 @@ export default class MySQL {
 
     showTutoratDetail(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tags.id = tutorat.tags_id WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = ? OR proposed_by = ?) AND tutorat.id = ?;",
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, CONCAT(a2.prenom, \" \", a2.nom) AS customer_nom, a2.email AS customer_email, tags.content as tags FROM account JOIN tutorat ON account.id = tutorat.proposed_by LEFT JOIN account a2 ON tutorat.customer_id = a2.id JOIN tags ON tags.id = tutorat.tags_id WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = ? OR proposed_by = ?) AND tutorat.id = ?;",
             [req.session.user.id, req.session.user.id, req.params.id], (err, results) => {
                 if(err) {
                     reject(err)
@@ -124,7 +124,7 @@ export default class MySQL {
         return new Promise((resolve, reject) => {
             this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, tags.content as tags "+
             "FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tutorat.tags_id = tags.id "+
-            "WHERE proposed_by = 1 ORDER BY tutorat.startdate DESC;", [req.session.user.id],
+            "WHERE proposed_by = ? ORDER BY tutorat.startdate DESC;", [req.session.user.id],
             (err, results) => {
                 if(err) {
                     reject(err)
@@ -242,7 +242,7 @@ export default class MySQL {
 
     getReservationByTutoratId(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT * FROM reservation WHERE tutorat_id = ? ORDER BY id DESC", [req.params.id], (err, results) => {
+            this.connection.query("SELECT reservation.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email FROM reservation JOIN account ON account.id = reservation.customer_id WHERE tutorat_id = ? ORDER BY id DESC", [req.params.id], (err, results) => {
                 if(err) {
                     reject(err)
                     return

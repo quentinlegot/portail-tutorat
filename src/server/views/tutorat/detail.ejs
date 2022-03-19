@@ -31,12 +31,27 @@ if(tutorats.length === 0 ) {
             <a href="/user/tutorat/modify/<%=tutorat.id%>"><li>Modifier</li></a>
             <a href="/user/tutorat/delete/<%=tutorat.id%>"><li>Supprimer</li></a>
         </ul>
-        <% if(reservations.length === 0) { %>
-            Personne n'a encore réserver
-        <% } else { %>
-            Vous avez des réservations
-            <% for(reservation of reservations) {%>
-                <div class="listElement"><%=JSON.stringify(reservation)%></div>
+        <% if(tutorat.customer_id !== null) { %>
+            Vous avez accepter de prendre <%=tutorat.customer_nom%>&lt;<%=customer.customer_email%>&gt;
+        <% } else {
+            if(reservations.length === 0) { %>
+                Personne n'a encore réserver
+            <% } else { %>
+                Vous avez des réservations
+                <div id="reservations">
+                <% for(reservation of reservations) {%>
+                    <div class="listElement">
+                        <div><p><%=reservation.nom%></p><p><a href="mailto:<%=reservation.email%>"><%=reservation.email%></a></p>
+                            <ul id="button">
+                                <a href="mailto:<%=reservation.email%>"><li>Contacter par email</li></a>
+                                <li>Accepter</li>
+                                <li>Refuser</li>
+                            </ul>
+                            </div>
+                        <div style="white-space: pre-wrap;"><%=reservation.description%></div>
+                    </div>
+                <% } %>
+            </div>
             <% }
         } %>
         
