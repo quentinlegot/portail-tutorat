@@ -3,7 +3,7 @@ h1,h2,h3 {
 }
 
 .tutorat_infos {
-    padding-top: 7%;
+    padding-top: 6%;
 }
 
 .tutorat_infos a {
@@ -48,15 +48,27 @@ li#modifier {
 
 .tutorat_enregistre {
     display: grid;
-    grid-template-columns: 25vw 45vw;
+    grid-template-columns: 25vw 47vw;
     border-top: 1px solid #8492A6;
-    padding-bottom: 2%;
 }
 
 ul.formu {
     list-style: none;
     text-align: center;
-    padding-top: 2%;
+}
+
+#nouveau_tutorat li {
+    list-style: none;
+    background-color: #47525E;
+    border-radius: 5px;
+    padding: 8px;
+    width: 8.5em;
+    margin: 2px;
+}
+
+#nouveau_tutorat a {
+    color: white;
+    text-decoration: none;
 }
 
 select {
@@ -64,4 +76,8 @@ select {
     border-radius: 5px;
     width: 185px;
     height: 38px;
+}
+
+.listElement {
+    background-color: #ededed;
 }
