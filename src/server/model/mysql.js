@@ -75,9 +75,7 @@ export default class MySQL {
 
     showTutoratDetail(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags "+
-            "FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tags.id = tutorat.tags_id "+
-            "WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = ? OR proposed_by = ?) AND tutorat.id= ?;"
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tags.id = tutorat.tags_id WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = ? OR proposed_by = ?) AND tutorat.id = ?;",
             [req.session.user.id, req.session.user.id, req.params.id], (err, results) => {
                 if(err) {
                     reject(err)
@@ -221,6 +219,18 @@ export default class MySQL {
     getUserReservation(req) {
         return new Promise((resolve, reject) => {
             this.connection.query("SELECT * FROM reservation WHERE customer_id = ? ORDER BY id DESC", [req.session.user.id], (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
+
+    getUserReservationByTutoratId(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT * FROM reservation WHERE customer_id = ? AND tutorat_id = ? ORDER BY id DESC", [req.session.user.id, req.params.id], (err, results) => {
                 if(err) {
                     reject(err)
                     return

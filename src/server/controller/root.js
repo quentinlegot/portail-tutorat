@@ -54,7 +54,7 @@ export default class Root {
                 res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
             }).catch((err) => {
                 logops.error(err)
-                res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorat: {}})
+                res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: []})
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"
@@ -72,7 +72,9 @@ export default class Root {
                 } else {
                     tutorat = result[0]
                 }
-                res.status(200).render('tutorat/book', {fatal: false, tutorat: tutorat, session: req.session.user})
+                let message = req.session.message
+                req.session.message = undefined
+                res.status(200).render('tutorat/book', {fatal: false, tutorat: tutorat, session: req.session.user, message: message})
             }).catch(err => {
                 res.status(200).render('tutorat/book', {fatal: "Une erreur inconnue est survenue", tutorat: null, session: req.session.user})
                 logops.error(err)
@@ -86,15 +88,26 @@ export default class Root {
     confirmBookTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {
             if(isAllElementInBody(req, ["description"])) {
-                this.connection.insertNewReservation(req).then(() => {
-                    res.redirect(302, '/user/reservations')
+                this.connection.getUserReservationByTutoratId(req).then(result => {
+                    if(result.length === 0) {
+                        this.connection.insertNewReservation(req).then(() => {
+                            res.redirect(302, '/user/reservations')
+                        }).catch(err => {
+                            logops.error(err)
+                            req.session.message = "Une erreur interne est survenue"
+                            res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
+                        })
+                    } else {
+                        req.session.message = "Vous avez déjà réserver ce tutorat"
+                        res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
+                    }
                 }).catch(err => {
                     logops.error(err)
-                    res.session.message = "Une erreur interne est survenue"
+                    req.session.message = "Une erreur interne est survenue"
                     res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
                 })
             } else {
-                res.session.message = "Vous n'avez pas saisis tout les champs requis"
+                req .session.message = "Vous n'avez pas saisis tout les champs requis"
                 res.redirect(302, '/tutorat/' + req.params['id'] + '/book')
             }
         } else {

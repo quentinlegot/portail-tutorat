@@ -4,7 +4,6 @@ if(tutorat === null) {
 } else {
     title = "Réserver ce tutorat"
 } %>
-
 <%- include('../header', {title: title, style: "tutorat/book", session}) %>
 
 <% if(fatal) { %>
@@ -12,6 +11,9 @@ if(tutorat === null) {
     <div id="content">
 <% } else { %>
     <div id="content">
+        <% if(message) {%>
+            <div class="error_message"><%=message%></div>
+        <% } %>
     <% if(tutorat === null) { %>
         <div style="text-align: center;min-height: 20vh;line-height: 20vh;font-size:2.5em">Le tutorat demandé n'existe pas ou n'est plus disponible</div>
     <% } else { %>
