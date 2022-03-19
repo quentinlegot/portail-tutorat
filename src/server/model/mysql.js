@@ -240,6 +240,18 @@ export default class MySQL {
         })
     }
 
+    getReservationByTutoratId(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT * FROM reservation WHERE tutorat_id = ? ORDER BY id DESC", [req.params.id], (err, results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(results)
+            })
+        })
+    }
+
     insertNewReservation(req) {
         return new Promise((resolve, reject) => {
             this.connection.query("INSERT INTO reservation(description, tutorat_id, customer_id) VALUE(?, ?, ?)",

@@ -31,6 +31,15 @@ if(tutorats.length === 0 ) {
             <a href="/user/tutorat/modify/<%=tutorat.id%>"><li>Modifier</li></a>
             <a href="/user/tutorat/delete/<%=tutorat.id%>"><li>Supprimer</li></a>
         </ul>
+        <% if(reservations.length === 0) { %>
+            Personne n'a encore réserver
+        <% } else { %>
+            Vous avez des réservations
+            <% for(reservation of reservations) {%>
+                <div class="listElement"><%=JSON.stringify(reservation)%></div>
+            <% }
+        } %>
+        
     <% } else { %>
         <ul id="button">
             <a href="/tutorat/<%=tutorat.id%>/book"><li>Je réserve</li></a>

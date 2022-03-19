@@ -51,7 +51,12 @@ export default class Root {
     showTutoraDetail(req, res) {
         if(typeof req.session.user !== 'undefined') {
             this.connection.showTutoratDetail(req).then((results) => {
-                res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user})
+                this.connection.getReservationByTutoratId(req).then(v => {
+                    res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user, reservations: v})
+                }).catch(err => {
+                    logops.error(err)
+                    res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: []})
+                })
             }).catch((err) => {
                 logops.error(err)
                 res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: []})

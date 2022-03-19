@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot'),(4,'quentin@example.com','$2b$10$x0FjifvZBCSI20/qW/CYUu6y4U/e23EcTbfDgGlRE7OdLQu99cv7O','Quentin','Legot'),(5,'quentin2@example.com','$2b$10$KCuBaYInkUxAcH1315IxHuIL83IeGKnS8vfpghkN5kSq4wg7Olkpy','Quentin','Legot'),(6,'quentin3@example.com','$2b$10$YGUi8AVJQe93NxERv8xHhecyAM51Zxw0NTSS0LInqZ6qoG4U8RZO.','Quentin','Legot'),(7,'','$2b$10$ALRzbwzbpTcwoW29A9D8DO0emM4sHX9nPbm49q1hSc3DO5uu8tQh6','','');
+INSERT INTO `account` VALUES (1,'qlegot@gmail.com','$2b$10$NXAiGQQcvav6QfAK6urPmO01kW4yVXtRTbLMKFLwr1..R4f/8gKDW','Quentin','Legot'),(4,'quentin@example.com','$2b$10$x0FjifvZBCSI20/qW/CYUu6y4U/e23EcTbfDgGlRE7OdLQu99cv7O','Quentin','Legot'),(5,'quentin2@example.com','$2b$10$KCuBaYInkUxAcH1315IxHuIL83IeGKnS8vfpghkN5kSq4wg7Olkpy','Quentin','Legot'),(6,'quentin3@example.com','$2b$10$YGUi8AVJQe93NxERv8xHhecyAM51Zxw0NTSS0LInqZ6qoG4U8RZO.','Quentin','Legot');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,11 +56,11 @@ CREATE TABLE `reservation` (
   `tutorat_id` int(11) DEFAULT NULL,
   `customer_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK__tutorat` (`tutorat_id`),
   KEY `FK__account` (`customer_id`),
-  CONSTRAINT `FK__account` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK__tutorat` FOREIGN KEY (`tutorat_id`) REFERENCES `tutorat` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  KEY `FK__tutorat` (`tutorat_id`),
+  CONSTRAINT `FK__account` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK__tutorat` FOREIGN KEY (`tutorat_id`) REFERENCES `tutorat` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+INSERT INTO `reservation` VALUES (1,'Bonjour,\r\nJe suis intéressé par l\'offre que vous avez déposé et j\'aimerais que effectué le tutorat à la date et à l\'horaire indiqué.\r\n                \r\nPassez une bonne journée,\r\nCordialement.',3,1);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,9 +120,9 @@ CREATE TABLE `tutorat` (
   KEY `proposed_by` (`proposed_by`) USING HASH,
   KEY `tags_id` (`tags_id`) USING HASH,
   KEY `startdate` (`startdate`) USING BTREE,
-  CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`),
-  CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`),
-  CONSTRAINT `tutorat_ibfk_3` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`)
+  CONSTRAINT `tutorat_ibfk_1` FOREIGN KEY (`proposed_by`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tutorat_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `account` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `tutorat_ibfk_3` FOREIGN KEY (`tags_id`) REFERENCES `tags` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -144,4 +145,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-11 22:06:24
+-- Dump completed on 2022-03-19 18:32:25
