@@ -1,10 +1,10 @@
-<%- include('../header', {title: "Vos réservations", style: "user/reservations", session}) %>
+<%- include('../header', {title: "Vos réservations", style: "user/reservation", session}) %>
 
 <% if(fatal) { %>
-    <div class="'error_message"><%=fatal%></div>
+    <div class="error_message"><%=fatal%></div>
 <% } else { %>
     <% if(message) { %>
-        <div class="'error_message"><%=message%></div>
+        <div class="error_message"><%=message%></div>
     <% } %>
     <% for(let reservation of reservations) { %>
         <div class="listElement"><%=JSON.stringify(reservation)%></div>
