@@ -37,10 +37,9 @@ export default class MySQL {
 
     searchList(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*, DATE_FORMAT(startdate, \"%Y-%m-%dT%H:%i\") as startdateformat, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags " + 
-            "FROM tutorat, account, tags " + 
-            "WHERE customer_id IS NULL AND account.id=tutorat.proposed_by AND startdate > DATE(NOW()) AND tutorat.tags_id=tags.id " + 
-            this.categorieFilter(req) + " " + this.orderFilter(req) + ";"+ 
+            this.connection.query("SELECT tutorat.*, DATE_FORMAT(startdate, \"%Y-%m-%dT%H:%i\") as startdateformat, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags "+
+            "FROM account JOIN tutorat ON tutorat.proposed_by = account.id JOIN tags ON tags.id = tutorat.tags_id "+
+            "WHERE customer_id IS NULL AND startdate > DATE(NOW())" + this.categorieFilter(req) + " " + this.orderFilter(req) + ";"+ 
             "SELECT * FROM tags;",
              (err, results) => {
                 if(err) {
@@ -76,9 +75,10 @@ export default class MySQL {
 
     showTutoratDetail(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags FROM tutorat, account, tags "+
-            "WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = " + mysql.escape(req.session.user.id) + " OR proposed_by = " + mysql.escape(req.session.user.id) + ") AND account.id=tutorat.proposed_by AND tutorat.tags_id=tags.id AND tutorat.id=" + mysql.escape(req.params.id) +";", 
-            (err, results) => {
+            this.connection.query("SELECT tutorat.*,  CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content as tags "+
+            "FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tags.id = tutorat.tags_id "+
+            "WHERE ((customer_id IS NULL AND startdate > DATE(NOW())) OR customer_id = ? OR proposed_by = ?) AND tutorat.id= ?;"
+            [req.session.user.id, req.session.user.id, req.params.id], (err, results) => {
                 if(err) {
                     reject(err)
                     return
@@ -124,7 +124,9 @@ export default class MySQL {
 
     showUserTutorats(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, tags.content as tags FROM account, tutorat, tags WHERE proposed_by = account.id AND proposed_by = ? AND tags.id = tags_id ORDER BY tutorat.startdate DESC;", [req.session.user.id],
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, tags.content as tags "+
+            "FROM account JOIN tutorat ON account.id = tutorat.proposed_by JOIN tags ON tutorat.tags_id = tags.id "+
+            "WHERE proposed_by = 1 ORDER BY tutorat.startdate DESC;", [req.session.user.id],
             (err, results) => {
                 if(err) {
                     reject(err)
@@ -171,9 +173,10 @@ export default class MySQL {
 
     getTutoratToDelete(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference FROM tutorat, account, tags "+
-            "WHERE tutorat.proposed_by = account.id AND proposed_by = " + mysql.escape(req.session.user.id) + " AND tags.id = tags_id AND tutorat.id = " + mysql.escape(req.params.id) + " AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;",
-            (err, result) => {
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference "+
+            "FROM account JOIN tutorat ON tutorat.proposed_by = account.id JOIN tags ON tags.id = tutorat.tags_id "+
+            "WHERE proposed_by = ? AND tutorat.id = ? AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;"
+            [req.session.user.id, req.params.id], (err, result) => {
                 if(err) {
                     reject(err)
                     return
