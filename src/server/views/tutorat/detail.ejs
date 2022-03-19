@@ -20,7 +20,7 @@ if(tutorats.length === 0 ) {
     <h1>Tutorat <%=tutorat.tags%></h1>
     <h3>Proposé par <%=tutorat.nom%><small>&lt<%=tutorat.email%>&gt</small></h3>
     <p><%=tutorat.description%></p>
-    <p><h4 style="display: inline;">Horaire :</h4><%=startdate.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });%></p>
+    <p><h4 style="display: inline;">Horaire :</h4> <%=startdate.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });%></p>
     <p><h4 style="display: inline;">Durée :</h4>  <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%></p>
     <p><h4 style="display: inline;">Prix :</h4> <%=tutorat.price%>€</p>
     <p><h4 style="display: inline;">Lieu :</h4> <%=tutorat.place%></p>
