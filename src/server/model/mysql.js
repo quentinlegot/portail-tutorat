@@ -228,6 +228,31 @@ export default class MySQL {
         })
     }
 
+    getReservationById(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT reservation.* FROM reservation JOIN tutorat ON tutorat.id = reservation.tutorat_id WHERE (tutorat.proposed_by = ? OR reservation.customer_id = ?) AND reservation.id = ?;", 
+            [req.session.user.id, req.session.user.id, req.params.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    deleteReservationById(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("DELETE FROM reservation WHERE id = ?", [req.params.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
     getUserReservationByTutoratId(req) {
         return new Promise((resolve, reject) => {
             this.connection.query("SELECT * FROM reservation WHERE customer_id = ? AND tutorat_id = ? ORDER BY id DESC", [req.session.user.id, req.params.id], (err, results) => {
@@ -256,6 +281,18 @@ export default class MySQL {
         return new Promise((resolve, reject) => {
             this.connection.query("INSERT INTO reservation(description, tutorat_id, customer_id) VALUE(?, ?, ?)",
             [req.body["description"], req.params["id"], req.session.user.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    deleteReservation(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("DELETE FROM reservation WHERE id = ?", [req.params.id], (err, result) => {
                 if(err) {
                     reject(err)
                     return

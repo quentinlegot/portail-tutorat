@@ -45,7 +45,7 @@ if(tutorats.length === 0 ) {
                             <ul id="button">
                                 <a href="mailto:<%=reservation.email%>"><li>Contacter par email</li></a>
                                 <li>Accepter</li>
-                                <li>Refuser</li>
+                                <a href="/user/reservations/delete/<%=reservation.id%>"><li>Refuser</li></a>
                             </ul>
                             </div>
                         <div style="white-space: pre-wrap;"><%=reservation.description%></div>

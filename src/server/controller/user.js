@@ -234,14 +234,58 @@ export default class User{
     reservation(req, res) {
         if(typeof req.session.user !== 'undefined') {
             this.mysql.getUserReservation(req).then(results => {
+                let message = req.session.message
+                req.session.message = undefined
                 if(results.length === 0) {
-                    res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: false, message: "Aucune réservation n'a été trouvé"})
+                    res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: false, message: "Aucune réservation n'a été trouvé", message})
                 } else {
-                    res.status(200).render("user/reservations", {reservations: results, session: req.session.user, fatal: false, message: false})
+                    res.status(200).render("user/reservations", {reservations: results, session: req.session.user, fatal: false, message})
                 }
             }).catch((err) => {
                 logops.error(err)
                 res.status(200).render("user/reservations", {reservations: [], session: req.session.user, fatal: "Une erreur interne est survenue"})
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+    }
+
+    deleteReservation(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.mysql.getReservationById(req).then(result => {
+                let message = req.session.message
+                req.session.message = undefined
+                let reservation = null
+                if(result.length !== 0) {
+                    reservation = result[0]
+                }
+                res.status(200).render('user/reservations/delete', {fatal: false, reservation: reservation, session: req.session.user, message})
+            }).catch(err => {
+                res.status(200).render('user/reservations/delete', {fatal: false, reservation: [], session: req.session.user, message})
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+
+    }
+
+    confirmDeleteReservation(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.mysql.getReservationById(req).then(result => {
+                if(result.length !== 0) {
+                    this.mysql.deleteReservationById(req).then(() => {
+                        req.session.message = "Suppression réussi avec succès"
+                        res.redirect(302, '/user/reservations')
+                    }).catch(err => {
+                        req.session.message = "Une erreur interne est survenue"
+                        res.redirect(302, '/user/reservations/delete')
+                    })
+                } else {
+                    req.session.message = "Tutorat introuvable"
+                    res.redirect(302, '/user/reservations')
+                }
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"

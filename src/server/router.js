@@ -48,6 +48,12 @@ export default class Router {
         .get('/user/reservations', (req, res) => {
             this.controller.user.reservation(req, res)
         })
+        .get('/user/reservations/delete/:id', (req, res) => {
+            this.controller.user.deleteReservation(req, res)
+        })
+        .get('/user/reservations/confirm/delete/:id', (req, res) => {
+            this.controller.user.confirmDeleteReservation(req, res)
+        })
         .get('/user/tutorat', (req, res) => {
             res.redirect(301, '/user/tutorat/list')
         })
