@@ -171,9 +171,9 @@ export default class MySQL {
 
     getTutoratToDelete(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) as nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference "+
-            "FROM account JOIN tutorat ON tutorat.proposed_by = account.id JOIN tags ON tags.id = tutorat.tags_id "+
-            "WHERE proposed_by = ? AND tutorat.id = ? AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;"
+            this.connection.query("SELECT tutorat.*, CONCAT(account.prenom, \" \", account.nom) AS nom, account.email, tags.content AS tags, TIMESTAMPDIFF(MINUTE, NOW(), startdate) AS timedifference " +
+            "FROM account JOIN tutorat ON tutorat.proposed_by = account.id JOIN tags ON tags.id = tutorat.tags_id " +
+            "WHERE proposed_by = ? AND tutorat.id = ? AND (TIMESTAMPDIFF(MINUTE, NOW(), startdate) > 0 AND (customer_id IS NULL OR TIMESTAMPDIFF(MINUTE, NOW(), startdate) < 60)) LIMIT 1;",
             [req.session.user.id, req.params.id], (err, result) => {
                 if(err) {
                     reject(err)
