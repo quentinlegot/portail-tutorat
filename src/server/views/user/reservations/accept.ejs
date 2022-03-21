@@ -1,0 +1,20 @@
+<%- include('../../header', {title: "Accepter une réservations", style: "user/reservations/delete", session}) %>
+
+<% if(fatal) { %>
+    <div class="error_message"><%=fatal%></div>
+<% } else {%>
+    <% if(message) { %>
+        <div class="error_message"><%=message%></div>
+    <% } %>
+    <h1>Êtes vous sur de vouloir accepter cette réservation ?</h1>
+
+    <p><%=reservation.nom%><small>&lt;<%=reservation.email%>&gt;</small></p>
+    <div style="white-space: pre-wrap;"><%=reservation.description%></div>
+
+    <ul class="button">
+        <a href="/user/reservations/confirm/accept/<%=reservation.id%>"><li>Confirmer</li></a>
+        <a href="" onclick="window.history.back();"><li>Annuler</li></a>
+    </ul>
+<% } %>
+
+<%- include('../../footer') %>

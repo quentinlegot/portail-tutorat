@@ -291,6 +291,56 @@ export default class User{
                     req.session.message = "Tutorat introuvable"
                     res.redirect(302, '/user/reservations')
                 }
+            }).catch(err => {
+                req.session.message = "Une erreur inconnue est survenue"
+                res.redirect(302, '/user/reservations')
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+    }
+
+    acceptReservation(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.mysql.getReservationByIdTutoratOwnerOnly(req).then(result => {
+                let message = req.session.message
+                req.session.message = undefined
+                let reservation = null
+                if(result.length !== 0) {
+                    reservation = result[0]
+                }
+                res.status(200).render('user/reservations/accept', {fatal: false, reservation: reservation, session: req.session.user, message})
+            }).catch(err => {
+                logops.error(err)
+                res.status(200).render('user/reservations/accept', {fatal: "Une erreur inconnue est survenue", reservation: [], session: req.session.user})
+            })
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+
+    }
+
+    confirmAcceptReservation(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            this.mysql.getReservationByIdTutoratOwnerOnly(req).then(result => {
+                if(result.length !== 0) {
+                    Promise.all([this.mysql.deleteAllReservationFromTutoratId(result[0].tutorat_id), this.mysql.acceptReservation(result[0].customer_id, result[0].tutorat_id)]).then(() => {
+                        res.redirect(302, '/tutorat/' + result[0].tutorat_id)
+                    }).catch(err => {
+                        logops.error(err)
+                        req.session.message = "Une erreur inconnue est survenue"
+                        res.redirect(302, '/user/reservations')
+                    })
+                } else {
+                    req.session.message = "Tutorat introuvable"
+                    res.redirect(302, '/user/reservations')
+                }
+            }).catch(err => {
+                logops.error(err)
+                req.session.message = "Une erreur inconnue est survenue"
+                res.redirect(302, '/user/reservations')
             })
         } else {
             req.session.message = "Vous devez être connecté pour accéder à cette section du site"

@@ -1,4 +1,4 @@
-<%- include('../../header', {title: "Vos réservations", style: "user/reservations/delete", session}) %>
+<%- include('../../header', {title: "Supprimer une réservation", style: "user/reservations/delete", session}) %>
 
 <% if(fatal) {%>
     <div class="error_message"></div>
@@ -7,8 +7,8 @@
         <div class="error_message"><%=message%></div>
     <% } %>
     <h1>Êtes vous sur de vouloir annuler cette réservation ?</h1>
-
-    <%=JSON.stringify(reservation)%>
+        <p><%=reservation.nom%><small>&lt;<%=reservation.email%>&gt;</small></p>
+    <div style="white-space: pre-wrap;"><%=reservation.description%></div>
 
     <ul class="button">
         <a href="/user/reservations/confirm/delete/<%=reservation.id%>"><li>Confirmer</li></a>
