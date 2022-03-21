@@ -1,3 +1,10 @@
+h1 {
+    text-align: center;
+    text-decoration: underline;
+    padding-top: 1vw;
+    padding-bottom: 2vw;
+}
+
 .error_message {
     padding-top: 2%;
     text-align: center;
@@ -7,10 +14,16 @@
 .listElement {
     padding: 5px;
     grid-template-columns: 2fr 1fr;
+    background-color: #ededed;
 }
 
 .description {
+    padding: 1vw;
     white-space: pre-wrap;
+}
+
+.button {
+    padding-top: 1.5vw;
 }
 
 .button a {
