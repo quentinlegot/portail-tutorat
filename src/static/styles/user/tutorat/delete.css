@@ -1,10 +1,40 @@
+h1 {
+    padding-top: 1vw;
+    text-decoration: underline;
+}
+
+h2 {
+    padding-top: 1vw;
+}
+
+#detail {
+    margin-left: 2vw;
+    margin-right: 2vw;
+    padding-left: 2vw;
+    padding-bottom: 2vw;
+    border-radius: 5px;
+    background-color: #ededed;
+}
+
+
+.tutorat_suppr {
+    padding-right: 1vw;
+    padding-bottom: 1vw;
+    padding-left: 1vw;
+    margin-right: 2vw;
+    margin-bottom: 1vw;
+    background-color: #d6d6d6;
+}
+
 .delete-btn {
     background-color: red;
     list-style: none;
     display: inline-block;
     border-radius: 5px;
+    border: 1px solid black;
     padding: 8px;
     padding-left: 25px;
     padding-right: 25px;
     color: white;
+    cursor: pointer;
 }

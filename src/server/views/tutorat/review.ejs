@@ -1,23 +1,19 @@
-<%- include('../header', {title: "Laisser un avis", style: "review"}) %>
+<%- include('../header', {title: "Laisser un avis", style: "tutorat/review"}) %>
 
-<div class="tutorat">
+<div class="detail">
     <h1>Laisser un avis...</h1>
-</div>
+
 
 <% if (fatal) { %>
  <div class="error_message"><%=fatal%></div>
 <% } else { %>
 
 		 <ul id="button">
-            <a href="/tutorat/<%=tutoratId%>/review/pos"><li>Positif</li></a>
+            <a href="/tutorat/<%=tutoratId%>/review/pos"><li><img src="/static/images/thumb_up.png" width="20" height="20"> Positif</li></a>
+            <a href="/tutorat/<%=tutoratId%>/review/neg"><li><img src="/static/images/thumb_down.png" width="20" height="20"> Négatif</li></a>	
         </ul>
 		
-		 <ul id="button">
-            <a href="/tutorat/<%=tutoratId%>/review/neg"><li>Négatif</li></a>
-			
-        </ul>
-		
-
+</div>
 
 <% } %>
 <script src="/static/scripts/review.js"></script>

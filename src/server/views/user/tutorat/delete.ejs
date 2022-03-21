@@ -1,5 +1,7 @@
 <%- include('../../header', {title: "Supprimer un tutorat", style: "user/tutorat/delete", session}) %>
-<h1>Suppression du tutorat</h1>
+
+<div id="detail">
+    <h1>Suppression du tutorat</h1>
 <% if(fatal) { %>
     <div class="error_message"><%=fatal%></div>
 <% } else if (tutorats.length === 0){ %>
@@ -15,20 +17,23 @@
         let hoursDuration = Math.floor(tutorat.duration / 60)
         let minuteDuration = tutorat.duration - hoursDuration * 60
 %>
-    <p>Êtes-vous sur de vouloir supprimer le tutorat pour toujours ? (Très long !)</p>
+    <p>Êtes-vous sur de vouloir supprimer le tutorat pour toujours ? <span style="font-style: italic">(Très long !)</span></p>
 
-    <h2>Le tutorat que vous allez supprimer:</h2>
+    <h2>Le tutorat que vous allez supprimer :</h2>
 
-    <div id="detail">
-        <h1>Tutorat <%=tutorat.tags%></h1>
+        <div class="tutorat_suppr">
+        <h2>Tutorat <%=tutorat.tags%></h2>
         <h3>Proposé par <%=tutorat.nom%><small>&lt<%=tutorat.email%>&gt</small></h3>
         <p><%=tutorat.description%></p>
         <p><h4 style="display: inline;">Horaire :</h4> <%=startdate.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });%>
         <p><h4 style="display: inline;">Durée :</h4> <%=hoursDuration%>h<%=("0" + minuteDuration).slice(-2)%></p>
         <p><h4 style="display: inline;">Prix :</h4> <%=tutorat.price%>€</p>
         <p><h4 style="display: inline;">Lieu :</h4> <%=tutorat.place%></p>
-    </div>
+        </div>
+    
     <form method="post" action="/user/tutorat/confirm/delete/<%=tutorat.id%>"><button type="submit" class="delete-btn">Supprimer</button></form>
+
+</div>
 <% } %> 
 
 

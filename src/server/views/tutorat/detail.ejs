@@ -35,7 +35,7 @@ if(tutorats.length === 0 ) {
             Vous avez accepter de prendre <%=tutorat.customer_nom%>&lt;<%=customer.customer_email%>&gt;
         <% } else {
             if(reservations.length === 0) { %>
-                Personne n'a encore réserver
+                Personne n'a encore réservé
             <% } else { %>
                 Vous avez des réservations
                 <div id="reservations">
@@ -64,12 +64,12 @@ if(tutorats.length === 0 ) {
         </ul>
 		
 		<div class="posReviews">
-			Avis positifs: <%=posReviews%>
+			Avis positifs : <%=posReviews%>
 		</div>
 		
 		
 		<div class="negReviews">
-			Avis négatifs: <%=negReviews%>
+			Avis négatifs : <%=negReviews%>
 		</div>
     <% } %>
     </div>
