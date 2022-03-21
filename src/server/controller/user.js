@@ -141,6 +141,11 @@ export default class User{
         }
     }
 
+	leaveReview(req,res) {
+		res.status(200).render('/tutorat/review', {fatal: false, tutorat: tutorat, session: req.session.user, message: message})
+	}
+
+
     confirmModification(req, res) {
         if(typeof req.session.user !== 'undefined') {
             if(isAllElementInBody(req, ["tags", "description", "datetime", "duration", "price", "place"]) === true) {

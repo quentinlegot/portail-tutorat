@@ -1,0 +1,17 @@
+<%- include('../header', {title: "Avis", style: "review"}) %>
+
+<div class="tutorat">
+    <h1>Avis négatif.</h1>
+</div>
+
+<% if (fatal) { %>
+ <div class="error_message"><%=fatal%></div>
+<% } else { %>
+
+		<h1>Avis négatif ajouté.</h1>
+		
+		<a href="/tutorat/<%=tutoratId%>"><li>Retourner au page du tutorat</li></a>
+
+<% } %>
+<script src="/static/scripts/review.js"></script>
+<%- include('../footer')%>

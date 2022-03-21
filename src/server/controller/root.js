@@ -51,8 +51,15 @@ export default class Root {
     showTutoraDetail(req, res) {
         if(typeof req.session.user !== 'undefined') {
             this.connection.showTutoratDetail(req).then((results) => {
+				console.log("Loading reservation details")
                 this.connection.getReservationByTutoratId(req).then(v => {
-                    res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user, reservations: v})
+					console.log("Loading positive reviews")
+						this.connection.getPositiveReviews(req.params['id']).then(pReviews => {
+							this.connection.getNegativeReviews(req.params['id']).then(nReviews => {
+							res.status(200).render('tutorat/detail', {fatal: false, tutorats: results, session: req.session.user, reservations: v,posReviews: pReviews[0]['COUNT(review)'],negReviews: nReviews[0]['COUNT(review)']})
+							})
+						})
+						
                 }).catch(err => {
                     logops.error(err)
                     res.status(500).render('tutorat/detail', {fatal: "Une erreur critique est survenue, impossible d'afficher le contenu souhaité", tutorats: []})
@@ -89,6 +96,20 @@ export default class Root {
             res.redirect(302, "/")
         }
     }
+	
+	leaveReview(req,res) {
+		res.status(200).render('tutorat/review', {fatal: false, tutoratId: req.params['id']})
+	}
+	
+	addPositiveReview(req,res) {
+		this.connection.leavePositiveReview(req.params['id'],req.session.user.id)
+		res.status(200).render('tutorat/pos', {fatal: false, tutoratId: req.params['id']})
+	}
+	
+	addNegativeReview(req,res) {
+		this.connection.leaveNegativeReview(req.params['id'],req.session.user.id)
+		res.status(200).render('tutorat/neg', {fatal: false, tutoratId: req.params['id']})
+	}
 
     confirmBookTutorat(req, res) {
         if(typeof req.session.user !== 'undefined') {

@@ -39,6 +39,19 @@ export default class Router {
         .post('/tutorat/:id/book', (req, res) => {
             this.controller.confirmBookTutorat(req, res)
         })
+		.get('/tutorat/:id/review', (req, res) => {
+            this.controller.leaveReview(req, res)
+        })
+		
+		.get('/tutorat/:id/review/pos', (req, res) => {
+            this.controller.addPositiveReview(req, res)
+        })
+		
+		.get('/tutorat/:id/review/neg', (req, res) => {
+            this.controller.addNegativeReview(req, res)
+        })
+		
+		
         .get('/user', (req, res) => {
             res.redirect(301, '/user/account')
         })
@@ -69,6 +82,7 @@ export default class Router {
         .get('/user/tutorat/modify/:id', (req, res) => {
             this.controller.user.modifyTutorat(req, res)
         })
+
         .post('/user/tutorat/modify/:id', (req, res) => {
             this.controller.user.confirmModification(req, res)
         })

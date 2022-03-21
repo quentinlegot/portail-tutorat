@@ -104,7 +104,7 @@ export default class MySQL {
 
     createAccount(req, hash) {
         return new Promise((resolve, reject) => {
-            this.connection.query("INSERT INTO account (email, password, prenom, nom) VALUE (?, ?, ?, ?)", [req.body.email, hash, req.body.firstName, req.body.lastName], (err, results) => {
+            this.connection.query("INSERT INTO account (, password, prenom, nom) VALUE (?, ?, ?, ?)", [req.body.email, hash, req.body.firstName, req.body.lastName], (err, results) => {
                 if(err) {
                     reject(err)
                     return
@@ -119,6 +119,56 @@ export default class MySQL {
             })
         })
     }
+	
+	getPositiveReviews(tutorId)
+	{
+		return new Promise((resolve, reject) => {
+			this.connection.query("SELECT COUNT(review) FROM avis WHERE review=1 and tutorId = ?", [tutorId], (err,results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+				resolve(results)
+			})
+		})
+	}
+	
+	getNegativeReviews(tutorId)
+		{
+		return new Promise((resolve, reject) => {
+			this.connection.query("SELECT COUNT(review) FROM avis WHERE review=0 and tutorId = ?", [tutorId], (err,results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+				resolve(results)
+			})
+		})
+	}
+	
+	leavePositiveReview(req,userId) {
+		return new Promise((resolve, reject) => {
+			this.connection.query("INSERT INTO avis (tutorId, reviewerId, review) VALUE (?,?,1)", [req,userId], (err,results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+				resolve(results)
+			})
+		})
+	}
+	
+	leaveNegativeReview(req,userId) {
+		return new Promise((resolve, reject) => {
+			this.connection.query("INSERT INTO avis (tutorId, reviewerId, review) VALUE (?,?,0)", [req,userId], (err,results) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+				resolve(results)
+			})
+		})
+	}
 
     showUserTutorats(req) {
         return new Promise((resolve, reject) => {
