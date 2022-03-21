@@ -280,8 +280,33 @@ export default class MySQL {
 
     getReservationById(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT reservation.* FROM reservation JOIN tutorat ON tutorat.id = reservation.tutorat_id WHERE (tutorat.proposed_by = ? OR reservation.customer_id = ?) AND reservation.id = ?;", 
+            this.connection.query("SELECT reservation.*, CONCAT(account.prenom, \" \", account.nom) AS nom, account.email FROM reservation JOIN tutorat ON tutorat.id = reservation.tutorat_id JOIN account ON account.id = reservation.customer_id WHERE (tutorat.proposed_by = ? OR reservation.customer_id = ?) AND reservation.id = ?;", 
             [req.session.user.id, req.session.user.id, req.params.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    getReservationByIdTutoratOwnerOnly(req) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("SELECT reservation.*, CONCAT(account.prenom, \" \", account.nom) AS nom, account.email FROM reservation JOIN tutorat ON tutorat.id = reservation.tutorat_id JOIN account ON account.id = reservation.customer_id WHERE tutorat.proposed_by = ? AND reservation.id = ?;",
+            [req.session.user.id, req.params.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    acceptReservation(customer, tutoratId) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("UPDATE tutorat SET customer_id = ? WHERE id = ?", [customer, tutoratId], (err, result) => {
                 if(err) {
                     reject(err)
                     return
@@ -294,6 +319,18 @@ export default class MySQL {
     deleteReservationById(req) {
         return new Promise((resolve, reject) => {
             this.connection.query("DELETE FROM reservation WHERE id = ?", [req.params.id], (err, result) => {
+                if(err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    deleteAllReservationFromTutoratId(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("DELETE FROM reservation WHERE tutorat_id = ?", [id], (err, result) => {
                 if(err) {
                     reject(err)
                     return

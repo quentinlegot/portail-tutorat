@@ -42,16 +42,12 @@ export default class Router {
 		.get('/tutorat/:id/review', (req, res) => {
             this.controller.leaveReview(req, res)
         })
-		
 		.get('/tutorat/:id/review/pos', (req, res) => {
             this.controller.addPositiveReview(req, res)
         })
-		
 		.get('/tutorat/:id/review/neg', (req, res) => {
             this.controller.addNegativeReview(req, res)
         })
-		
-		
         .get('/user', (req, res) => {
             res.redirect(301, '/user/account')
         })
@@ -60,6 +56,12 @@ export default class Router {
         })
         .get('/user/reservations', (req, res) => {
             this.controller.user.reservation(req, res)
+        })
+        .get('/user/reservations/accept/:id', (req, res) => {
+            this.controller.user.acceptReservation(req, res)
+        })
+        .get('/user/reservations/confirm/accept/:id', (req, res) => {
+            this.controller.user.confirmAcceptReservation(req, res)
         })
         .get('/user/reservations/delete/:id', (req, res) => {
             this.controller.user.deleteReservation(req, res)

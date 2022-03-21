@@ -32,7 +32,7 @@ if(tutorats.length === 0 ) {
             <a href="/user/tutorat/delete/<%=tutorat.id%>"><li>Supprimer</li></a>
         </ul>
         <% if(tutorat.customer_id !== null) { %>
-            Vous avez accepter de prendre <%=tutorat.customer_nom%>&lt;<%=customer.customer_email%>&gt;
+            Vous avez accepter de prendre <%=tutorat.customer_nom%>&lt;<%=tutorat.customer_email%>&gt; pour ce tutorat
         <% } else {
             if(reservations.length === 0) { %>
                 Personne n'a encore réserver
@@ -44,7 +44,7 @@ if(tutorats.length === 0 ) {
                         <div><p><%=reservation.nom%></p><p><a href="mailto:<%=reservation.email%>"><%=reservation.email%></a></p>
                             <ul id="button">
                                 <a href="mailto:<%=reservation.email%>"><li>Contacter par email</li></a>
-                                <li>Accepter</li>
+                                <a href="/user/reservations/accept/<%=reservation.id%>"><li>Accepter</li></a>
                                 <a href="/user/reservations/delete/<%=reservation.id%>"><li>Refuser</li></a>
                             </ul>
                             </div>
@@ -56,6 +56,9 @@ if(tutorats.length === 0 ) {
         } %>
         
     <% } else { %>
+        <% if(tutorat.customer_id === session.id) { %>
+            Vous avez été accepter pour participer à ce tutorat
+        <% } %>
         <ul id="button">
             <a href="/tutorat/<%=tutorat.id%>/book"><li>Je réserve</li></a>
         </ul>
