@@ -29,7 +29,29 @@ export default class User{
         }
         
     }
-
+    /**
+     * page de modification de compte
+     * @param {*} req 
+     * @param {*} res 
+     */
+     account_edit(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            res.status(200).render('user/account_edit', {session: req.session.user})
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+        
+    }
+    account_editConfirm(req, res) {
+        if(typeof req.session.user !== 'undefined') {
+            res.status(200).render('user/account', {session: req.session.user})
+        } else {
+            req.session.message = "Vous devez être connecté pour accéder à cette section du site"
+            res.redirect(302, "/")
+        }
+        
+    }
     /**
      * page vos tutorats
      * @param {*} req 

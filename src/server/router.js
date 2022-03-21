@@ -45,6 +45,12 @@ export default class Router {
         .get('/user/account', (req, res) => {
             this.controller.user.account(req, res)
         })
+        .get('/user/account_edit', (req, res) => {
+            this.controller.user.account_edit(req, res)
+        })
+        .post('/user/account_edit', (req, res) => {
+            this.controller.user.account_editConfirm(req, res)
+        })
         .get('/user/reservations', (req, res) => {
             this.controller.user.reservation(req, res)
         })

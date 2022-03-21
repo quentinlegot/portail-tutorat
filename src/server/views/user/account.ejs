@@ -22,20 +22,24 @@
         <div>
             <h2>Nom: <%=session.nom%></h2>
             <h2>Prénom: <%=session.prenom%></h2> 
-            <h2>Diplôme<h2>
-            <h2>Âge</h2>
+            <h2>Diplôme: <%=session.diploma%><h2>
+            <h2>Âge: <%=session.age%></h2>
         </div>
 
         <div class="coordonnees">
             <h2>Adresse Email : <%=session.email%></h2>
     
-            <h2>Téléphone : 1-800-676-2775</h2>
+            <h2>Téléphone : <%=session.number%></h2>
         
             <h2>Présentation :</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt congue ligula in rutrum. Morbi nec lacus condimentum, hendrerit mi eu, feugiat.</p>
+            <p><%=session.presentaion%></p>
         
             <ul id="modifier">
-                <li>Modifier le profil</li>
+                <a href="./account_edit">
+                    <button>
+                        Modifier le profil
+                    </button>
+                </a>
             </ul>
     
         </div>
