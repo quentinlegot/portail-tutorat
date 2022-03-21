@@ -108,6 +108,19 @@ INSERT INTO `tags` VALUES (1,'Mathématique'),(2,'Langues'),(3,'Informatique'),(
 UNLOCK TABLES;
 
 --
+-- Table structure for table `avis`
+--
+DROP TABLE IF EXISTS `tutorat`;
+CREATE TABLE `avis` (
+`id` NOT NULL AUTO_INCREMENT,
+`tutorId` int NOT NULL,
+`reviewerId` int NOT NULL,
+`review` int NOT NULL,
+PRIMARY KEY (`id`);
+
+);
+
+--
 -- Table structure for table `tutorat`
 --
 

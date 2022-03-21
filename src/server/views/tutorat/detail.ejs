@@ -59,6 +59,18 @@ if(tutorats.length === 0 ) {
         <ul id="button">
             <a href="/tutorat/<%=tutorat.id%>/book"><li>Je réserve</li></a>
         </ul>
+		 <ul id="button">
+            <a href="/tutorat/<%=tutorat.id%>/review"><li>Laisser un avis</li></a>
+        </ul>
+		
+		<div class="posReviews">
+			Avis positifs: <%=posReviews%>
+		</div>
+		
+		
+		<div class="negReviews">
+			Avis négatifs: <%=negReviews%>
+		</div>
     <% } %>
     </div>
 
