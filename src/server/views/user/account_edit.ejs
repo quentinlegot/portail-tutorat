@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%- include('../header', {title: "Modification du profil", style: "user/account_edit"}) %>
 
 
@@ -43,4 +44,51 @@
       <input type="submit" value="Confirmer">
     </form>
   </div>
+=======
+<%- include('../header', {title: "Modification du profil", style: "user/account_edit"}) %>
+
+
+<div>
+    <form name="form" action="./account" method="post">
+      <h1>Edit Profile</h1>
+      <div>
+        <label for="age">Age: </label>
+        <input
+          type="text"
+          name="age"
+          placeholder="Ecrivez votre age..."
+          value=""
+        >
+      </div>
+      <div>
+        <label for="diplome">Dîplome: </label>
+        <input
+          type="text"
+          name="diplome"
+          placeholder="Entrez votre dîplome..."
+          value=""
+        >
+      </div>
+      <div>
+        <label for="numero">Numéro: </label>
+        <input
+          type="text"
+          name="numero"
+          placeholder="Entrez votre numéro..."
+          value=""
+        >
+      </div>
+      <div>
+        <label for="presentation">Présentation: </label>
+        <input
+          type="text"
+          name="presentation"
+          placeholder="Présentez vous en quelques lignes..."
+          value=""
+        >
+      </div>
+      <input type="submit" value="Confirmer">
+    </form>
+  </div>
+>>>>>>> ddebae171a00dbf8b30cf7c3603f5f4661c19c88
 </div>
