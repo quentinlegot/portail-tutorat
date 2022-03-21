@@ -6,8 +6,17 @@
     <% if(message) { %>
         <div class="error_message"><%=message%></div>
     <% } %>
+    <h1>Vos réservations</h1>
+    <% if(reservations.length ===0) { %>
+        <div class="error_message">Vous n'avez pas encore fait de réservations</div>
+    <% } %>
     <% for(let reservation of reservations) { %>
-        <div class="listElement"><%=JSON.stringify(reservation)%></div>
+        <div class="listElement">
+            <div class="description"><%=reservation.description%></div>
+            <ul class="button">
+                <a href="/tutorat/<%=reservation.tutorat_id%>"><li>Voir le tutorat</li></a>
+            </ul>
+        </div>
     <% } %>
 <% } %>
 

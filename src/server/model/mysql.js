@@ -268,7 +268,7 @@ export default class MySQL {
 
     getUserReservation(req) {
         return new Promise((resolve, reject) => {
-            this.connection.query("SELECT * FROM reservation WHERE customer_id = ? ORDER BY id DESC", [req.session.user.id], (err, results) => {
+            this.connection.query("SELECT reservation.description, reservation.tutorat_id, FROM reservation WHERE customer_id = ? ORDER BY id DESC", [req.session.user.id], (err, results) => {
                 if(err) {
                     reject(err)
                     return
