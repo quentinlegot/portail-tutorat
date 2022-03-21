@@ -1,55 +1,8 @@
-<<<<<<< HEAD
 <%- include('../header', {title: "Modification du profil", style: "user/account_edit"}) %>
 
 
 <div>
     <form name="form" action="./account_edit" method="post">
-      <h1>Edit Profile</h1>
-      <div>
-        <label for="age">Age: </label>
-        <input
-          type="text"
-          name="age"
-          placeholder="Ecrivez votre age..."
-          value="<%=session.age%>"
-        >
-      </div>
-      <div>
-        <label for="diploma">Dîplome: </label>
-        <input
-          type="text"
-          name="diploma"
-          placeholder="Entrez votre dîplome..."
-          value="<%=session.diploma%>"
-        >
-      </div>
-      <div>
-        <label for="number">Numéro: </label>
-        <input
-          type="text"
-          name="number"
-          placeholder="Entrez votre numéro..."
-          value="<%=session.number%>"
-        >
-      </div>
-      <div>
-        <label for="presentation">Présentation: </label>
-        <input
-          type="text"
-          name="presentation"
-          placeholder="Présentez vous en quelques lignes..."
-          value="<%=session.presentation%>"
-        >
-      </div>
-      <input type="submit" value="Confirmer">
-    </form>
-  </div>
-=======
-<%- include('../header', {title: "Modification du profil", style: "user/account_edit"}) %>
-
-
-<div>
-    <form name="form" action="./account" method="post">
       <h1>Edit Profile</h1>
       <div>
         <label for="age">Age: </label>
@@ -80,15 +33,12 @@
       </div>
       <div>
         <label for="presentation">Présentation: </label>
-        <input
-          type="text"
+        <textarea
           name="presentation"
           placeholder="Présentez vous en quelques lignes..."
-          value=""
-        >
+        ></textarea>
       </div>
       <input type="submit" value="Confirmer">
     </form>
   </div>
->>>>>>> ddebae171a00dbf8b30cf7c3603f5f4661c19c88
 </div>
